@@ -1,45 +1,36 @@
+#buzzer qui bip une fois
 import RPi.GPIO as GPIO
 import time
 
-LED = 17
 BUZZER = 18
-PIR = 23
 
 GPIO.setmode(GPIO.BCM)
-
-GPIO.setup(LED, GPIO.OUT)
 GPIO.setup(BUZZER, GPIO.OUT)
-GPIO.setup(PIR, GPIO.IN)
 
-print("TEST LED")
-GPIO.output(LED, True)
+GPIO.output(BUZZER, 1)
 time.sleep(0.5)
-GPIO.output(LED, False)
-time.sleep(0.5)
+GPIO.output(BUZZER, 0)
 
-print("TEST BUZZER ")
-GPIO.output(BUZZER, True)
-time.sleep(0.3)
-GPIO.output(BUZZER, False)
-time.sleep(0.3)
+GPIO.cleanup()
 
-print("TEST PIR ")
-print("En attente d'un mouvement")
+#pir qui met en enchainé "detection mouvement" quand quelqu'un est la et si personne est la break du code
+import time
+from grovepi import motion
+# Port digital où le PIR est connecté
+pir_sensor = 2  # D2 sur Grove Hat
+while True:
+    try:
+        # Lire l'état du capteur
+        pir_val = motion.read(pir_sensor)
+        if pir_val:
+            print("Mouvement détecté !")
+        else:
+            print("Rien...")
+        time.sleep(0.5)
+    except KeyboardInterrupt:
+        print("Programme arrêté")
+        break
+    except IOError:
+        print("Erreur capteur")
 
-try:
-    while True:
-        mouvement = GPIO.input(PIR)
-        if mouvement == 1:
-            print("mouvement détecté !")
-            GPIO.output(LED, True)
-            GPIO.output(BUZZER, True)
-            time.sleep(1)
-            GPIO.output(LED, False)
-            GPIO.output(BUZZER, False)
-        time.sleep(0.1)
 
-except KeyboardInterrupt:
-    pass
-
-finally:
-    GPIO.cleanup()

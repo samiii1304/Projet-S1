@@ -6,7 +6,7 @@ def init_database():
     conn = sqlite3.connect('studybuddy.db')
     cursor = conn.cursor()
     
-    # Table
+    # Table utilisateurs
     cursor.execute('''
         CREATE TABLE IF NOT EXISTS utilisateurs (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -24,6 +24,21 @@ def init_database():
             duree_session INTEGER NOT NULL,
             duree_pause INTEGER NOT NULL,
             description TEXT
+        )
+    ''')
+    
+    # Table sessions
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS sessions (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            utilisateur_id INTEGER NOT NULL,
+            methode_id INTEGER NOT NULL,
+            date_debut DATETIME,
+            date_fin DATETIME,
+            duree_reelle INTEGER,
+            statut TEXT DEFAULT 'en_cours',
+            FOREIGN KEY (utilisateur_id) REFERENCES utilisateurs(id),
+            FOREIGN KEY (methode_id) REFERENCES methodes_travail(id)
         )
     ''')
     

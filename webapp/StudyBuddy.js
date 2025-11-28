@@ -1,3 +1,5 @@
+// TRANSITION DU HEADEEEEEERR : START
+
 let ticking = false;
 
 function updateHeader() {
@@ -21,3 +23,5 @@ function onScroll() {
 }
 
 window.addEventListener('scroll', onScroll, { passive: true });
+
+// TRANSITION DU HEADEEEEEERR : END

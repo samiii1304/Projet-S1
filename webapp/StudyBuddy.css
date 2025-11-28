@@ -36,7 +36,7 @@ header.scrolled {
 }
 
 .logo {
-    height: 100px;
+    height: 60px;
     transition: all 0.3s ease;
 }
 
@@ -117,6 +117,8 @@ h1 {
 
 
 
+
+
 /* ça c'est tout ce qui concerne le dashboard, le tableau de bord */
 
 
@@ -132,7 +134,56 @@ h1 {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
+.dashboard-layout {
+    display: grid;
+    grid-template-columns: 1fr 2fr 1fr;
+    gap: 20px;
+    margin-top: 30px;
+}
 
+.left-column, .center-column, .right-column {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.card {
+    background-color: #2d2d2d;
+    border-radius: 15px;
+    padding: 20px;
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    font-weight: bold;
+}
+
+.card.x-large {
+    min-height: 500px;
+    font-size: 1.2em;
+}
+
+.card.large {
+    min-height: 200px;
+}
+
+.card.medium {
+    min-height: 150px;
+}
+
+.card.small {
+    min-height: 100px;
+    font-size: 0.9em;
+}
+
+.realtime-stats { background-color: #3a3a3a; }
+.history { background-color: #454545; }
+.controls { background-color: #505050; }
+.graph { background-color: #3a3a3a; }
+.environment { background-color: #454545; }
+.advice { background-color: #505050; }
+.notifications { background-color: #5a5a5a; }
 
 
 
@@ -150,7 +201,7 @@ h1 {
 /* ça c'est tout ce qui concerne le footer, le bas de la page en gros */
 /* Gros brouillon, pas sûr de l'utiliser */
 footer {
-    background-color: #2d2d2d;
+    background-color: #c15454;
     color: #e0e0e0;
     padding: 40px 0 20px;
     margin-top: auto; 
@@ -162,55 +213,6 @@ footer {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
-    padding: 0 30px;
-}
-
-.footer-section {
-    flex: 1;
-    min-width: 250px;
-    margin-bottom: 30px;
-    padding: 0 15px;
-}
-
-.footer-logo {
-    height: 100px;
-    margin-bottom: 15px;
-}
-
-.footer-section p {
-    line-height: 1.6;
-    margin-bottom: 20px;
-    color: #b0b0b0;
-}
-
-.footer-section h3 {
-    color: #d7cc00;
-    margin-bottom: 20px;
-    font-size: 18px;
-}
-
-.footer-links li {
-    margin-bottom: 10px;
-    list-style: none;
-}
-
-.footer-links a {
-    color: #b0b0b0;
-    text-decoration: none;
-    transition: color 0.3s;
-}
-
-.footer-links a:hover {
-    color: #d7cc00;
-}
-
-
-.footer-bottom {
-    text-align: center;
-    padding-top: 20px;
-    border-top: 1px solid #3d3d3d;
-    margin-top: 30px;
-    color: #b0b0b0;
-    font-size: 14px;
+    padding: 200px 30px;
 }
 

@@ -27,7 +27,7 @@ header {
 }
 
 header.scrolled {
-    background-color: #f5f1e8;
+    background-color: #e4e0dd;
     width: 100%;
     border-radius: 0;
     top: 0;
@@ -81,8 +81,19 @@ header.scrolled .bar {
     background-color: #333;
 }
 
+
+
+.séparationBannerBody {
+    background-color: #e4e0dd;
+    height: 150px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 100;
+    box-shadow: 0 15px 15px rgba(0, 0, 0, 0.4);
+}
+
 body {
-    background-color: #f5f1e8;
+    background-color: #2d2d2d;
     color: #333;
     line-height: 1.6;
     min-height: 100vh;
@@ -99,6 +110,7 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
+    z-index: 90;
 }
 
 h1 {
@@ -123,15 +135,26 @@ h1 {
 
 
 .dashboard-section {
-    padding: 40px 20px;
+    padding: 10px 75px;
     text-align: left;
 }
 
+
+
 .dashboard-section h2 {
-    color: #333;
-    font-size: 32px;
+    font-size: 60px;
     margin-bottom: 30px;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: 'Inter', sans-serif; /* POlice provisoire hein, parce que là c'est déguelasse */
+    font-weight: 300;
+    letter-spacing: 0.5px;
+}
+
+.dashboard-section h2 span.tableau {
+    color: #c15454; 
+}
+
+.dashboard-section h2 span.de-bord {
+    color: #e4e0dd; 
 }
 
 .dashboard-layout {

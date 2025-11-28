@@ -1,0 +1,216 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+header {
+    background-color: rgba(61, 61, 61, 0.1);
+    backdrop-filter: blur(20px);
+    padding: 8px 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 80px; /* espace entre le bord haut et le header */
+    width: calc(100% - 150px); /* espace entre le bord des côtés et le header */
+    border-radius: 10px; /* bel arrondi sympatoch */
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 3141;
+    transition: 
+        background-color 0.3s ease,
+        border-radius 0.3s ease,
+        top 0.3s ease;
+}
+
+header.scrolled {
+    background-color: #f5f1e8;
+    width: 100%;
+    border-radius: 0;
+    top: 0;
+    left: 0;
+    transform: none;
+}
+
+.logo {
+    height: 100px;
+    transition: all 0.3s ease;
+}
+
+header.scrolled .logo {
+    content: url('LOGO-SB-TEST2.png');
+}
+
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.round-icon {
+    width: 40px;
+    height: 40px;
+    background-color: #ffffff;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+}
+
+header.scrolled .round-icon {
+    background-color: #333;
+}
+
+.menu-bars {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    cursor: pointer;
+}
+
+.bar {
+    width: 25px;
+    height: 3px;
+    background-color: #ffffff;
+    border-radius: 2px;
+    transition: all 0.3s ease;
+}
+
+header.scrolled .bar {
+    background-color: #333;
+}
+
+body {
+    background-color: #f5f1e8;
+    color: #333;
+    line-height: 1.6;
+    min-height: 100vh;
+    padding-top: 120px;
+}
+
+.banner {
+    width: 100%;
+    height: 500px;
+    background-image: url('image-test.jpeg');
+    background-size: cover;
+    background-position: center;
+    margin-top: -120px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+h1 {
+    color: #ffffff;
+    text-align: center;
+    font-size: 48px;
+    margin-top: 0;
+    font-family: 'Caveat', cursive;
+    letter-spacing: 1px;
+}
+
+
+
+
+
+
+
+
+/* ça c'est tout ce qui concerne le dashboard, le tableau de bord */
+
+
+.dashboard-section {
+    padding: 40px 20px;
+    text-align: left;
+}
+
+.dashboard-section h2 {
+    color: #333;
+    font-size: 32px;
+    margin-bottom: 30px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* ça c'est tout ce qui concerne le footer, le bas de la page en gros */
+/* Gros brouillon, pas sûr de l'utiliser */
+footer {
+    background-color: #2d2d2d;
+    color: #e0e0e0;
+    padding: 40px 0 20px;
+    margin-top: auto; 
+}
+
+.footer-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    padding: 0 30px;
+}
+
+.footer-section {
+    flex: 1;
+    min-width: 250px;
+    margin-bottom: 30px;
+    padding: 0 15px;
+}
+
+.footer-logo {
+    height: 100px;
+    margin-bottom: 15px;
+}
+
+.footer-section p {
+    line-height: 1.6;
+    margin-bottom: 20px;
+    color: #b0b0b0;
+}
+
+.footer-section h3 {
+    color: #d7cc00;
+    margin-bottom: 20px;
+    font-size: 18px;
+}
+
+.footer-links li {
+    margin-bottom: 10px;
+    list-style: none;
+}
+
+.footer-links a {
+    color: #b0b0b0;
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.footer-links a:hover {
+    color: #d7cc00;
+}
+
+
+.footer-bottom {
+    text-align: center;
+    padding-top: 20px;
+    border-top: 1px solid #3d3d3d;
+    margin-top: 30px;
+    color: #b0b0b0;
+    font-size: 14px;
+}
+

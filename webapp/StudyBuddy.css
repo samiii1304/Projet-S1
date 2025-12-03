@@ -1,3 +1,4 @@
+
 * {
     margin: 0;
     padding: 0;
@@ -222,20 +223,38 @@ h1 {
 
 
 /* ça c'est tout ce qui concerne le footer, le bas de la page en gros */
-/* Gros brouillon, pas sûr de l'utiliser */
 footer {
     background-color: #c15454;
-    color: #e0e0e0;
-    padding: 40px 0 20px;
-    margin-top: auto; 
+    padding: 80px 150px 60px;
 }
 
-.footer-content {
-    max-width: 1200px;
-    margin: 0 auto;
+.footer-card {
+    background-color: #ffffff;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
     display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    padding: 200px 30px;
+    align-items: center;
+    justify-content: center;
 }
 
+.footer-simple {
+    text-align: center;
+    padding: 40px;
+}
+
+.footer-logo {
+    height: 60px;
+    margin-bottom: 15px;
+}
+
+.footer-tagline {
+    color: #666;
+    font-style: italic;
+    margin-bottom: 10px;
+    font-size: 16px;
+}
+
+.footer-copyright {
+    color: #999;
+    font-size: 14px;
+}

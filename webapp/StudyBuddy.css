@@ -1,4 +1,3 @@
-
 * {
     margin: 0;
     padding: 0;
@@ -140,8 +139,6 @@ h1 {
     text-align: left;
 }
 
-
-
 .dashboard-section h2 {
     font-size: 60px;
     margin-bottom: 30px;
@@ -158,60 +155,172 @@ h1 {
     color: #e4e0dd; 
 }
 
-.dashboard-layout {
+/* Grille pour le dashboard */
+.dashboard-grid {
     display: grid;
-    grid-template-columns: 1fr 2fr 1fr;
-    gap: 20px;
-    margin-top: 30px;
+    grid-template-columns: 1.25fr 1fr;
+    gap: 30px;
+    margin-top: 20px;
 }
 
-.left-column, .center-column, .right-column {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-}
-
-.card {
-    background-color: #2d2d2d;
+/* Styles pour les rectangles */
+.rectangle-beige-large {
+    background-color: #e4e0dd;
     border-radius: 15px;
-    padding: 20px;
-    color: #ffffff;
+    padding: 40px;
+    color: #333;
     display: flex;
     align-items: center;
     justify-content: center;
     text-align: center;
     font-weight: bold;
+    font-size: 24px;
+    min-height: 400px;
 }
 
-.card.x-large {
-    min-height: 500px;
-    font-size: 1.2em;
+.rectangle-beige {
+    background-color: #e4e0dd;
+    border-radius: 15px;
+    padding: 30px;
+    color: #333;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    font-weight: bold;
+    font-size: 20px;
+    min-height: 180px;
 }
 
-.card.large {
-    min-height: 200px;
+.rectangle-rouge {
+    background-color: #c15454;
+    border-radius: 15px;
+    padding: 30px;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    font-weight: bold;
+    font-size: 20px;
+    min-height: 180px;
 }
 
-.card.medium {
-    min-height: 150px;
+.dashboard-right {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
 }
 
-.card.small {
-    min-height: 100px;
-    font-size: 0.9em;
+
+
+
+
+
+
+
+
+
+
+/* ça c'est tout ce qui concerne les statistiques */
+
+
+.Statistics-section {
+    padding: 10px 75px;
+    text-align: left;
 }
 
-.realtime-stats { background-color: #3a3a3a; }
-.history { background-color: #454545; }
-.controls { background-color: #505050; }
-.graph { background-color: #3a3a3a; }
-.environment { background-color: #454545; }
-.advice { background-color: #505050; }
-.notifications { background-color: #5a5a5a; }
+.Statistics-section h2 {
+    font-size: 60px;
+    margin-bottom: 30px;
+    font-family: 'Inter', sans-serif;
+    font-weight: 300;
+    letter-spacing: 0.5px;
+}
+
+.Statistics-section h2 span.Stats {
+    color: #c15454; 
+}
+
+.Statistics-section h2 span.Gen {
+    color: #e4e0dd; 
+}
+
+/* Grille pour les statistiques */
+.statistics-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 30px;
+    margin-top: 20px;
+}
+
+.statistics-right {
+    display: grid;
+    grid-template-rows: repeat(4, 1fr);
+    gap: 20px;
+}
 
 
 
 
+
+
+
+
+
+
+/* ça c'est tout ce qui concerne l'agenda et calendrier */
+
+
+.Agenda-section {
+    padding: 10px 75px;
+    text-align: left;
+    margin-bottom: 50px;
+}
+
+.Agenda-section h2 {
+    font-size: 60px;
+    margin-bottom: 30px;
+    font-family: 'Inter', sans-serif;
+    font-weight: 300;
+    letter-spacing: 0.5px;
+}
+
+.Agenda-section h2 span.Stats {
+    color: #c15454; 
+}
+
+.Agenda-section h2 span.Gen {
+    color: #e4e0dd; 
+}
+
+/* Grille pour l'agenda */
+.agenda-grid {
+    display: grid;
+    grid-template-columns: 3fr 1fr;
+    gap: 30px;
+    margin-top: 20px;
+}
+
+.rectangle-rouge-small {
+    background-color: #c15454;
+    border-radius: 15px;
+    padding: 20px;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    font-weight: bold;
+    font-size: 18px;
+    min-height: 120px;
+}
+
+.agenda-left {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
 
 
 

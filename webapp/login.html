@@ -1,44 +1,196 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="utf-8" />
+    <meta charset="utf-8">
     <title>StudyBuddy+ — Connexion</title>
-    <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <link rel="stylesheet" href="StudyBuddy.css">
-</head>
-<body class="login-body">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<main class="login-card">
-    <img src="LOGO-SB-TEST2.png" alt="StudyBuddy+ Logo" class="login-logo">
+    <style>
+        :root {
+            --orange1: #d67a54; /* orange du logo */
+            --orange2: #c15454; /* légèrement plus foncé */
+            --beige: #e4e0dd;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+
+        body {
+            height: 100vh;
+            overflow: hidden; /* pas de scroll */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, var(--orange1), var(--orange2));
+        }
+
+        .login-card {
+            background: var(--beige);
+            padding: 40px 45px;
+            border-radius: 20px;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.35);
+            width: 380px;
+            text-align: center;
+        }
+
+        .login-logo {
+            height: 60px;
+            margin-bottom: 15px;
+        }
+
+        h1 {
+            font-size: 26px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: #111;
+        }
+
+        .login-form {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            text-align: left;
+        }
+
+        label {
+            font-size: 14px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        input {
+            padding: 12px;
+            font-size: 15px;
+            border: none;
+            border-radius: 10px;
+            background: #fff;
+            box-shadow: inset 0 2px 5px rgba(0,0,0,0.15);
+        }
+
+        .login-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-top: 15px;
+        }
+
+        button {
+            padding: 12px;
+            border-radius: 10px;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            width: 100%;
+        }
+
+        .btn-primary {
+            background: var(--orange1);
+            color: white;
+        }
+
+        .btn-secondary {
+            background: #fff;
+            color: #333;
+            border: 2px solid var(--orange1);
+        }
+
+    </style>
+</head>
+
+<body>
+
+<div class="login-card">
+    <img src="LOGO-SB-TEST2.png" class="login-logo" alt="Logo StudyBuddy+">
+
     <h1>Bienvenue sur StudyBuddy+</h1>
 
-    <form id="loginForm" class="login-form" onsubmit="return false;">
-        <label for="pseudo">Pseudo</label>
-        <input id="pseudo" type="text" placeholder="Ton pseudo" required>
+    <form id="loginForm" onsubmit="return false;">
+        <div class="login-form">
+            <div>
+                <label for="pseudo">Pseudo</label>
+                <input id="pseudo" type="text" placeholder="Ton pseudo" required>
+            </div>
 
-        <label for="password">Mot de passe</label>
-        <input id="password" type="password" placeholder="Mot de passe (ex: 1234)" required>
+            <div>
+                <label for="password">Mot de passe</label>
+                <input id="password" type="password" placeholder="••••••••" required>
+            </div>
+        </div>
 
         <div class="login-actions">
-            <button id="loginBtn" class="btn-primary" type="submit">Se connecter</button>
-            <button id="guestBtn" class="btn-secondary" type="button">Se connecter en invité</button>
+            <button class="btn-primary" id="loginBtn">Se connecter</button>
+            <button class="btn-secondary" id="guestBtn">Continuer sans compte</button>
         </div>
     </form>
-
-    <p class="login-note">Ceci est un faux login pour la démo : le compte est stocké localement.</p>
-</main>
+</div>
 
 <script>
-    // faux login : sauvegarde pseudo en localStorage et redirige
-    document.getElementById('loginBtn').addEventListener('click', () => {
-        const pseudo = document.getElementById('pseudo').value.trim();
-        if (!pseudo) return alert('Choisis un pseudo.');
-        localStorage.setItem('sby_user', JSON.stringify({ pseudo }));
-        window.location.href = 'StudyBuddy.html';
+    function loadUsers() {
+        return JSON.parse(localStorage.getItem("sby_users") || "[]");
+    }
+
+    function saveUsers(u) {
+        localStorage.setItem("sby_users", JSON.stringify(u));
+    }
+
+    function login(pseudo, password) {
+        const users = loadUsers();
+        const existing = users.find(u => u.pseudo.toLowerCase() === pseudo.toLowerCase());
+
+        if (!existing) return null;
+        if (existing.password !== password) return false;
+
+        return existing;
+    }
+
+    function createAccount(pseudo, password) {
+        const users = loadUsers();
+
+        if (users.some(u => u.pseudo.toLowerCase() === pseudo.toLowerCase())) {
+            alert("Ce pseudo est déjà utilisé, choisis-en un autre !");
+            return false;
+        }
+
+        const newUser = { pseudo, password };
+        users.push(newUser);
+        saveUsers(users);
+        return newUser;
+    }
+
+    // bouton connexion
+    document.getElementById("loginBtn").addEventListener("click", () => {
+        const pseudo = document.getElementById("pseudo").value.trim();
+        const pwd = document.getElementById("password").value;
+
+        if (!pseudo || !pwd) {
+            alert("Entre ton pseudo et ton mot de passe.");
+            return;
+        }
+
+        let result = login(pseudo, pwd);
+
+        if (result === null) {
+            // le compte n'existe pas → on le crée
+            result = createAccount(pseudo, pwd);
+        } else if (result === false) {
+            alert("Mot de passe incorrect.");
+            return;
+        }
+
+        // on sauvegarde l'utilisateur connecté
+        localStorage.setItem("sby_user", JSON.stringify(result));
+
+        window.location.href = "StudyBuddy.html";
     });
-    document.getElementById('guestBtn').addEventListener('click', () => {
-        localStorage.setItem('sby_user', JSON.stringify({ pseudo: 'Invité' }));
-        window.location.href = 'StudyBuddy.html';
+
+    // continuer sans compte → pseudo invité = pseudo entré
+    document.getElementById("guestBtn").addEventListener("click", () => {
+        const pseudo = document.getElementById("pseudo").value.trim();
+        if (!pseudo) return alert("Entre un pseudo avant de continuer.");
+
+        const tempUser = { pseudo };
+        localStorage.setItem("sby_user", JSON.stringify(tempUser));
+        window.location.href = "StudyBuddy.html";
     });
 </script>
 

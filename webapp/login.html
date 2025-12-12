@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="utf-8" />
+    <title>StudyBuddy+ — Connexion</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <link rel="stylesheet" href="StudyBuddy.css">
+</head>
+<body class="login-body">
+
+<main class="login-card">
+    <img src="LOGO-SB-TEST2.png" alt="StudyBuddy+ Logo" class="login-logo">
+    <h1>Bienvenue sur StudyBuddy+</h1>
+
+    <form id="loginForm" class="login-form" onsubmit="return false;">
+        <label for="pseudo">Pseudo</label>
+        <input id="pseudo" type="text" placeholder="Ton pseudo" required>
+
+        <label for="password">Mot de passe</label>
+        <input id="password" type="password" placeholder="Mot de passe (ex: 1234)" required>
+
+        <div class="login-actions">
+            <button id="loginBtn" class="btn-primary" type="submit">Se connecter</button>
+            <button id="guestBtn" class="btn-secondary" type="button">Se connecter en invité</button>
+        </div>
+    </form>
+
+    <p class="login-note">Ceci est un faux login pour la démo : le compte est stocké localement.</p>
+</main>
+
+<script>
+    // faux login : sauvegarde pseudo en localStorage et redirige
+    document.getElementById('loginBtn').addEventListener('click', () => {
+        const pseudo = document.getElementById('pseudo').value.trim();
+        if (!pseudo) return alert('Choisis un pseudo.');
+        localStorage.setItem('sby_user', JSON.stringify({ pseudo }));
+        window.location.href = 'StudyBuddy.html';
+    });
+    document.getElementById('guestBtn').addEventListener('click', () => {
+        localStorage.setItem('sby_user', JSON.stringify({ pseudo: 'Invité' }));
+        window.location.href = 'StudyBuddy.html';
+    });
+</script>
+
+</body>
+</html>

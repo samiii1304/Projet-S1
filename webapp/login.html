@@ -7,8 +7,8 @@
 
     <style>
         :root {
-            --orange1: #d67a54; /* couleur du logo */
-            --orange2: #c15454; /* orange foncé du logo */
+            --orange-main: #c15454; /* couleur exacte du logo */
+            --orange-light: #e38c64; /* variante claire pour dégradé */
             --beige: #e4e0dd;
         }
 
@@ -27,8 +27,8 @@
             align-items: center;
             justify-content: center;
 
-            /* Dégradé inspiré du logo */
-            background: linear-gradient(145deg, var(--orange1), var(--orange2));
+            /* Dégradé EXACT du site */
+            background: linear-gradient(135deg, var(--orange-main), var(--orange-light));
         }
 
         /* CARTE DE CONNEXION */
@@ -59,15 +59,21 @@
         .login-form {
             display: flex;
             flex-direction: column;
-            gap: 18px;
+            gap: 22px;
             text-align: left;
+        }
+
+        .form-block {
+            display: flex;
+            flex-direction: column;
         }
 
         label {
             font-size: 14px;
             font-weight: 600;
             color: #333;
-            margin-bottom: 5px;
+            margin-bottom: 6px;
+            display: block;
         }
 
         /* CHAMPS DE TEXTE */
@@ -78,6 +84,8 @@
             border-radius: 10px;
             background: #fff;
             box-shadow: inset 0 2px 5px rgba(0,0,0,0.15);
+            width: 100%;
+            display: block;
         }
 
         /* BOUTONS */
@@ -99,14 +107,24 @@
         }
 
         .btn-primary {
-            background: var(--orange1);
+            background: var(--orange-light);
             color: white;
+            transition: 0.2s ease;
+        }
+
+        .btn-primary:hover {
+            background: var(--orange-main);
         }
 
         .btn-secondary {
             background: #fff;
             color: #333;
-            border: 2px solid var(--orange1);
+            border: 2px solid var(--orange-light);
+            transition: 0.2s ease;
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--orange-main);
         }
 
     </style>
@@ -196,7 +214,7 @@
         window.location.href = "StudyBuddy.html";
     });
 
-    // Invité → pseudo utilisé quand même
+    // Connexion invité
     document.getElementById("guestBtn").addEventListener("click", () => {
         const pseudo = document.getElementById("pseudo").value.trim();
         if (!pseudo) return alert("Entre un pseudo avant de continuer.");

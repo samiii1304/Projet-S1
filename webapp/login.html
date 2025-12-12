@@ -7,22 +7,31 @@
 
     <style>
         :root {
-            --orange1: #d67a54; /* orange du logo */
-            --orange2: #c15454; /* légèrement plus foncé */
+            --orange1: #d67a54; /* couleur du logo */
+            --orange2: #c15454; /* orange foncé du logo */
             --beige: #e4e0dd;
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
 
+        /* PAGE SANS SCROLL */
         body {
             height: 100vh;
-            overflow: hidden; /* pas de scroll */
+            overflow: hidden;
             display: flex;
             align-items: center;
             justify-content: center;
-            background: linear-gradient(135deg, var(--orange1), var(--orange2));
+
+            /* Dégradé inspiré du logo */
+            background: linear-gradient(145deg, var(--orange1), var(--orange2));
         }
 
+        /* CARTE DE CONNEXION */
         .login-card {
             background: var(--beige);
             padding: 40px 45px;
@@ -37,17 +46,20 @@
             margin-bottom: 15px;
         }
 
+        /* TITRE */
         h1 {
-            font-size: 26px;
+            font-size: 24px;
             font-weight: 600;
-            margin-bottom: 20px;
+            margin-bottom: 25px;
             color: #111;
+            text-align: center;
         }
 
+        /* FORMULAIRE */
         .login-form {
             display: flex;
             flex-direction: column;
-            gap: 14px;
+            gap: 18px;
             text-align: left;
         }
 
@@ -55,8 +67,10 @@
             font-size: 14px;
             font-weight: 600;
             color: #333;
+            margin-bottom: 5px;
         }
 
+        /* CHAMPS DE TEXTE */
         input {
             padding: 12px;
             font-size: 15px;
@@ -66,11 +80,12 @@
             box-shadow: inset 0 2px 5px rgba(0,0,0,0.15);
         }
 
+        /* BOUTONS */
         .login-actions {
             display: flex;
             flex-direction: column;
             gap: 12px;
-            margin-top: 15px;
+            margin-top: 18px;
         }
 
         button {
@@ -106,15 +121,17 @@
 
     <form id="loginForm" onsubmit="return false;">
         <div class="login-form">
-            <div>
+
+            <div class="form-block">
                 <label for="pseudo">Pseudo</label>
                 <input id="pseudo" type="text" placeholder="Ton pseudo" required>
             </div>
 
-            <div>
+            <div class="form-block">
                 <label for="password">Mot de passe</label>
                 <input id="password" type="password" placeholder="••••••••" required>
             </div>
+
         </div>
 
         <div class="login-actions">
@@ -135,7 +152,9 @@
 
     function login(pseudo, password) {
         const users = loadUsers();
-        const existing = users.find(u => u.pseudo.toLowerCase() === pseudo.toLowerCase());
+        const existing = users.find(
+            u => u.pseudo.toLowerCase() === pseudo.toLowerCase()
+        );
 
         if (!existing) return null;
         if (existing.password !== password) return false;
@@ -147,7 +166,7 @@
         const users = loadUsers();
 
         if (users.some(u => u.pseudo.toLowerCase() === pseudo.toLowerCase())) {
-            alert("Ce pseudo est déjà utilisé, choisis-en un autre !");
+            alert("Ce pseudo est déjà utilisé !");
             return false;
         }
 
@@ -157,39 +176,32 @@
         return newUser;
     }
 
-    // bouton connexion
+    // Connexion bouton
     document.getElementById("loginBtn").addEventListener("click", () => {
         const pseudo = document.getElementById("pseudo").value.trim();
         const pwd = document.getElementById("password").value;
 
-        if (!pseudo || !pwd) {
-            alert("Entre ton pseudo et ton mot de passe.");
-            return;
-        }
+        if (!pseudo || !pwd) return alert("Complète tous les champs.");
 
         let result = login(pseudo, pwd);
 
         if (result === null) {
-            // le compte n'existe pas → on le crée
             result = createAccount(pseudo, pwd);
         } else if (result === false) {
             alert("Mot de passe incorrect.");
             return;
         }
 
-        // on sauvegarde l'utilisateur connecté
         localStorage.setItem("sby_user", JSON.stringify(result));
-
         window.location.href = "StudyBuddy.html";
     });
 
-    // continuer sans compte → pseudo invité = pseudo entré
+    // Invité → pseudo utilisé quand même
     document.getElementById("guestBtn").addEventListener("click", () => {
         const pseudo = document.getElementById("pseudo").value.trim();
         if (!pseudo) return alert("Entre un pseudo avant de continuer.");
 
-        const tempUser = { pseudo };
-        localStorage.setItem("sby_user", JSON.stringify(tempUser));
+        localStorage.setItem("sby_user", JSON.stringify({ pseudo }));
         window.location.href = "StudyBuddy.html";
     });
 </script>

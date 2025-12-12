@@ -7,7 +7,7 @@
 
 header {
     background-color: rgba(61, 61, 61, 0.1);
-    backdrop-filter: blur(20px);
+    backdrop-filter: blur(40px);
     padding: 8px 30px;
     display: flex;
     justify-content: space-between;
@@ -53,7 +53,7 @@ header.scrolled .logo {
 .round-icon {
     width: 40px;
     height: 40px;
-    background-color: #ffffff;
+    background-color: #c15454;
     border-radius: 50%;
     transition: all 0.3s ease;
 }
@@ -81,8 +81,6 @@ header.scrolled .bar {
     background-color: #333;
 }
 
-
-
 .séparationBannerBody {
     background-color: #e4e0dd;
     height: 150px;
@@ -103,23 +101,78 @@ body {
 .banner {
     width: 100%;
     height: 500px;
-    background-image: url('image-test.jpeg');
-    background-size: cover;
-    background-position: center;
     margin-top: -120px;
     display: flex;
     align-items: center;
     justify-content: center;
     z-index: 90;
+    position: relative;
+    overflow: hidden;
 }
 
-h1 {
+.carousel-slide {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    opacity: 0;
+    transition: opacity 1.5s ease-in-out;
+}
+
+.carousel-slide::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(
+        rgba(30, 30, 46, 0.7),
+        rgba(40, 40, 60, 0.5)
+    );
+    mix-blend-mode: multiply;
+}
+
+.carousel-slide.active {
+    opacity: 1;
+    z-index: 1;
+}
+
+.slide-1 {
+    background-image: url('Image-Header-1.jpeg');
+}
+
+.slide-2 {
+    background-image: url('Image-Header-2.webp');
+}
+
+.slide-3 {
+    background-image: url('Image-Header-3.webp');
+}
+
+.slide-4 {
+    background-image: url('Image-Header-4.webp');
+}
+
+.banner h1 {
     color: #ffffff;
     text-align: center;
-    font-size: 48px;
+    font-size: 55px;
     margin-top: 0;
-    font-family: 'Caveat', cursive;
+    font-family: 'Zen Old Mincho', serif;
     letter-spacing: 1px;
+    position: relative;
+    z-index: 2;
+}
+
+h3 {
+    color: #333;
+    text-align: center;
+    font-size: 25px;
+    font-family: 'Zen Old Mincho', serif;
 }
 
 
@@ -131,18 +184,26 @@ h1 {
 
 
 
-/* ça c'est tout ce qui concerne le dashboard, le tableau de bord */
 
+
+
+
+
+
+
+/* çLe tableau de bprd**/
 
 .dashboard-section {
     padding: 10px 75px;
     text-align: left;
+    position: relative;
+    overflow: hidden;
 }
 
 .dashboard-section h2 {
     font-size: 60px;
     margin-bottom: 30px;
-    font-family: 'Inter', sans-serif; /* POlice provisoire hein, parce que là c'est déguelasse */
+    font-family: 'Inter', sans-serif;/* POlice provisoire hein, parce que là c'est déguelasse */
     font-weight: 300;
     letter-spacing: 0.5px;
 }
@@ -155,16 +216,15 @@ h1 {
     color: #e4e0dd; 
 }
 
-/* Grille pour le dashboard */
 .dashboard-grid {
     display: grid;
     grid-template-columns: 1.25fr 1fr;
     gap: 30px;
     margin-top: 20px;
+    position: relative;
 }
 
-/* Styles pour les rectangles */
-.rectangle-beige-large {
+.session-status-block {
     background-color: #e4e0dd;
     border-radius: 15px;
     padding: 40px;
@@ -176,25 +236,19 @@ h1 {
     font-weight: bold;
     font-size: 24px;
     min-height: 400px;
+    margin-top: 40px;
+    transition: all 0.3s ease;
+    cursor: pointer;
 }
 
-.rectangle-beige {
-    background-color: #e4e0dd;
-    border-radius: 15px;
-    padding: 30px;
-    color: #333;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    font-weight: bold;
-    font-size: 20px;
-    min-height: 180px;
+.session-status-block:hover {
+    transform: scale(1.02);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
 }
 
-.rectangle-rouge {
+.lofi-music-block {
     background-color: #c15454;
-    border-radius: 15px;
+    border-radius: 3px; 
     padding: 30px;
     color: white;
     display: flex;
@@ -203,13 +257,45 @@ h1 {
     text-align: center;
     font-weight: bold;
     font-size: 20px;
-    min-height: 180px;
+    min-height: 100px;
+    top: 0;
+    box-sizing: border-box;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.lofi-music-block:hover {
+    transform: scale(1.02);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+.work-environment-block {
+    background-color: #e4e0dd;
+    border-radius: 3px;
+    padding: 30px;
+    color: #333;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    font-weight: bold;
+    font-size: 20px;
+    min-height: 400px;
+    margin-top: 20px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.work-environment-block:hover {
+    transform: scale(1.02);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
 }
 
 .dashboard-right {
     display: flex;
     flex-direction: column;
     gap: 30px;
+    position: relative;
 }
 
 
@@ -222,15 +308,31 @@ h1 {
 
 
 
-/* ça c'est tout ce qui concerne les statistiques */
 
 
-.Statistics-section {
+
+
+
+
+
+
+
+
+
+
+
+/* ça c'est les staaats
+*/
+
+
+
+.statistics-section {
     padding: 10px 75px;
     text-align: left;
+    background-color: #e4e0dd;
 }
 
-.Statistics-section h2 {
+.statistics-section h2 {
     font-size: 60px;
     margin-bottom: 30px;
     font-family: 'Inter', sans-serif;
@@ -238,26 +340,147 @@ h1 {
     letter-spacing: 0.5px;
 }
 
-.Statistics-section h2 span.Stats {
+.statistics-section h2 span.stats {
     color: #c15454; 
 }
 
-.Statistics-section h2 span.Gen {
-    color: #e4e0dd; 
+.statistics-section h2 span.gen {
+    color: #2d2d2d; 
 }
 
-/* Grille pour les statistiques */
-.statistics-grid {
+.statistics-top-row {
     display: grid;
-    grid-template-columns: 2fr 1fr;
-    gap: 30px;
-    margin-top: 20px;
+    grid-template-columns: repeat(3, 1fr);
+    height: 400px;
+    gap: 40px;
+    margin-bottom: 50px;
+    margin-top: 100px;
+    width: 80%;
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
-.statistics-right {
-    display: grid;
-    grid-template-rows: repeat(4, 1fr);
-    gap: 20px;
+.focus-row {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 150px;
+    margin-top: 150px;
+}
+
+.avg-focus-block {
+    background-color: #c15454;
+    border-radius: 3px;
+    padding: 25px;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    font-weight: bold;
+    font-size: 20px;
+    min-height: 80px;
+    width: 60%;
+    margin: 0 auto;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.avg-focus-block:hover {
+    transform: scale(1.02);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+.statistics-bottom {
+    margin-top: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.graph-block {
+    background-color: #2d2d2d;
+    border-radius: 20px;
+    padding: 40px;
+    color: #e4e0dd;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    font-weight: bold;
+    font-size: 24px;
+    min-height: 500px;
+    width: 1000px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.graph-block:hover {
+    transform: scale(1.01);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+.today-sessions-block {
+    background-color: #c15454;
+    border-radius: 3px;
+    padding: 30px;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    font-weight: bold;
+    font-size: 18px;
+    min-height: 150px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.today-sessions-block:hover {
+    transform: scale(1.02);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+.study-time-block {
+    background-color: #c15454;
+    border-radius: 3px;
+    padding: 30px;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    font-weight: bold;
+    font-size: 18px;
+    min-height: 150px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.study-time-block:hover {
+    transform: scale(1.02);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+.consecutive-days-block {
+    background-color: #c15454;
+    border-radius: 3px;
+    padding: 30px;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    font-weight: bold;
+    font-size: 18px;
+    min-height: 150px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.consecutive-days-block:hover {
+    transform: scale(1.02);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
 }
 
 
@@ -269,16 +492,15 @@ h1 {
 
 
 
-/* ça c'est tout ce qui concerne l'agenda et calendrier */
+/* ça c'est l'agenda et le calendrier */
 
-
-.Agenda-section {
+.agenda-section {
     padding: 10px 75px;
     text-align: left;
     margin-bottom: 50px;
 }
 
-.Agenda-section h2 {
+.agenda-section h2 {
     font-size: 60px;
     margin-bottom: 30px;
     font-family: 'Inter', sans-serif;
@@ -286,23 +508,43 @@ h1 {
     letter-spacing: 0.5px;
 }
 
-.Agenda-section h2 span.Stats {
+.agenda-section h2 span.agenda {
     color: #c15454; 
 }
 
-.Agenda-section h2 span.Gen {
+.agenda-section h2 span.calendar {
     color: #e4e0dd; 
 }
 
-/* Grille pour l'agenda */
 .agenda-grid {
     display: grid;
-    grid-template-columns: 3fr 1fr;
+    grid-template-columns: 1fr 3fr; 
     gap: 30px;
     margin-top: 20px;
 }
 
-.rectangle-rouge-small {
+.calendar-block {
+    background-color: #e4e0dd;
+    border-radius: 15px;
+    padding: 40px;
+    color: #333;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    font-weight: bold;
+    font-size: 24px;
+    min-height: 400px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.calendar-block:hover {
+    transform: scale(1.01);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+.add-homework-block {
     background-color: #c15454;
     border-radius: 15px;
     padding: 20px;
@@ -314,6 +556,55 @@ h1 {
     font-weight: bold;
     font-size: 18px;
     min-height: 120px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.add-homework-block:hover {
+    transform: scale(1.02);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+.add-exam-block {
+    background-color: #c15454;
+    border-radius: 15px;
+    padding: 20px;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    font-weight: bold;
+    font-size: 18px;
+    min-height: 120px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.add-exam-block:hover {
+    transform: scale(1.02);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+.upcoming-tasks-block {
+    background-color: #c15454;
+    border-radius: 15px;
+    padding: 20px;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    font-weight: bold;
+    font-size: 18px;
+    min-height: 120px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.upcoming-tasks-block:hover {
+    transform: scale(1.02);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
 }
 
 .agenda-left {
@@ -321,6 +612,23 @@ h1 {
     flex-direction: column;
     gap: 20px;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

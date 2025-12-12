@@ -7,6 +7,8 @@
     <link rel="stylesheet" href="StudyBuddy.css">
     <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Zen+Old+Mincho:wght@400;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
 
 <body>
@@ -24,11 +26,19 @@
 </header>
 
 <div class="banner">
-    <h1>Bienvenue *Insert Pseudo*</h1>
+    <!-- Slides qui défilent -->
+    <div class="carousel-slide slide-1 active"></div>
+    <div class="carousel-slide slide-2"></div>
+    <div class="carousel-slide slide-3"></div>
+    <div class="carousel-slide slide-4"></div>
+    
+    <h1><i>Bienvenue *Insert Pseudo*</i></h1>
 </div>
 
 
 <div class="séparationBannerBody">
+    <br><br>
+    <h3><i>StudyBuddy+, votre compagnon d'étude intelligent.</i></h3>
 </div>
 
 
@@ -44,20 +54,22 @@
     <h2><i><span class="tableau">Tableau</span> <span class="de-bord">de bord</span></i></h2>
     
     <div class="dashboard-grid">
-        <!-- Gros rectangle beige à gauche - État de Session -->
+        <!-- État de Session -->
         <div class="dashboard-left">
-            <div class="rectangle-beige-large EtatSession">État de Session</div>
+            <div class="session-status-block">État de Session</div>
         </div>
         
         <!-- Rectangles à droite -->
         <div class="dashboard-right">
-            <!-- Rectangle rouge - Musique LOFI -->
-            <div class="rectangle-rouge MusiqueLOFI">Musique LOFI</div>
+            <!-- Musique LOFI -->
+            <div class="lofi-music-block">Musique LOFI</div>
             
-            <!-- Rectangle beige en dessous de la musique mais séparé - Environnement -->
-            <div class="rectangle-beige Environnement">Environnement de Travail</div>
+            <!-- Environnement de Travail -->
+            <div class="work-environment-block">Environnement de Travail</div>
         </div>
     </div>
+
+    <br><br><br><br>
 </div>
 
 
@@ -67,24 +79,31 @@
 
 
 
-<div class="Statistics-section">
-    <h2><i><span class="Stats">Statistiques</span> <span class="Gen">Générales</span></i></h2>
+<div class="statistics-section">
+    <br><br><br>
     
-    <div class="statistics-grid">
-        <!-- Gros rectangle beige - Graphique -->
-        <div class="rectangle-beige-large Graphique">Graphique</div>
+    <h2><i><span class="stats">Statistiques</span> <span class="gen">Générales</span></i></h2>
+    
+    <!-- 3 rectangles alignés en ligne -->
+    <div class="statistics-top-row">
+        <div class="today-sessions-block">Nombre de Session Aujourd'hui</div>
         
-        <!-- Quatre rectangles rouges à droite dans les stats -->
-        <div class="statistics-right">
-            <div class="rectangle-rouge NbrSessAjd">Nombre de Session Aujourd'hui</div>
-            
-            <div class="rectangle-rouge TpsEtude">Temps d'Étude</div>
-            
-            <div class="rectangle-rouge JoursConsecutifs">Jours Consécutifs</div>
-            
-            <div class="rectangle-rouge FocMoy">Focus Moyen</div>
-        </div>
+        <div class="study-time-block">Temps d'Étude</div>
+        
+        <div class="consecutive-days-block">Jours Consécutifs</div>
     </div>
+    
+    <!-- Rectangle Focus Moyen qui sera une barre à la fin-->
+    <div class="focus-row">
+        <div class="avg-focus-block">Focus Moyen</div>
+    </div>
+    
+    <!-- Graphique en gros juste en dessous -->
+    <div class="statistics-bottom">
+        <div class="graph-block">Graphique</div>
+    </div>
+
+    <br><br><br><br>
 </div>
 
 
@@ -94,22 +113,22 @@
 
 
 
-<div class="Agenda-section">
-    <h2><i><span class="Stats">Agenda &</span> <span class="Gen">Calendrier</span></i></h2>
+<div class="agenda-section">
+    <h2><i><span class="agenda">Agenda &</span> <span class="calendar">Calendrier</span></i></h2>
     
     <div class="agenda-grid">
-        <!-- Gros rectangle beige à droite pour le calendrier -->
-        <div class="agenda-right">
-            <div class="rectangle-beige-large Calendrier">Calendrier</div>
+        <!-- Lpetits blocs à gauche -->
+        <div class="agenda-left">
+            <div class="add-homework-block">Ajouter un Devoir</div>
+            
+            <div class="add-exam-block">Ajouter une Date d'Examen</div>
+            
+            <div class="upcoming-tasks-block">Tâches à Venir</div>
         </div>
         
-        <!-- Petits rectangles rouges à gauche -->
-        <div class="agenda-left">
-            <div class="rectangle-rouge-small AddDevoir">Ajouter un Devoir</div>
-            
-            <div class="rectangle-rouge-small AddExam">Ajouter une Date d'Examen</div>
-            
-            <div class="rectangle-rouge-small UpcomingTasks">Tâches à Venir</div>
+        <!-- Calendrier à droite -->
+        <div class="agenda-right">
+            <div class="calendar-block">Calendrier</div>
         </div>
     </div>
 </div>

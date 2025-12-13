@@ -47,3 +47,51 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 // SLIDE HEADER AUTOMATIQUE  : END
+
+
+
+// ANIMATION SCROLL POUR LES BLOCS : START
+
+document.addEventListener('DOMContentLoaded', function() {
+    const blocksToReveal = document.querySelectorAll('.session-status-block, .lofi-music-block, .work-environment-block, .today-sessions-block, .study-time-block, .consecutive-days-block, .avg-focus-block, .graph-block, .add-homework-block, .add-exam-block, .upcoming-tasks-block, .calendar-block');
+    
+    // On vérifie si le bloc est sur l'écran
+    function isElementInViewport(el) {
+        const rect = el.getBoundingClientRect();
+        return (
+            rect.top <= (window.innerHeight || document.documentElement.clientHeight) * 0.85 &&
+            rect.bottom >= 0
+        );
+    }
+    
+    function revealVisibleBlocks() {
+        blocksToReveal.forEach(block => {
+            if (isElementInViewport(block)) {
+                block.classList.add('visible');
+                block.classList.remove('hidden');
+            }
+        });
+    }
+    
+    // revael du bloc
+    revealVisibleBlocks();
+    let scrollTicking = false;
+    
+    function onScrollReveal() {
+        if (!scrollTicking) {
+            requestAnimationFrame(() => {
+                revealVisibleBlocks();
+                scrollTicking = false;
+            });
+            scrollTicking = true;
+        }
+    }
+    
+    // Écouter l'événement scroll
+    window.addEventListener('scroll', onScrollReveal, { passive: true });
+    
+    // Écouter l'événement resize au cas où
+    window.addEventListener('resize', revealVisibleBlocks, { passive: true });
+});
+
+// ANIMATIO SCROLL POUR LES BLOCS : END

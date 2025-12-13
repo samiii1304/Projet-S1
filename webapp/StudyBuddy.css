@@ -226,7 +226,7 @@ h3 {
 
 .session-status-block {
     background-color: #e4e0dd;
-    border-radius: 15px;
+    border-radius: 3px;
     padding: 40px;
     color: #333;
     display: flex;
@@ -239,17 +239,24 @@ h3 {
     margin-top: 40px;
     transition: all 0.3s ease;
     cursor: pointer;
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.6s ease, transform 0.6s ease, box-shadow 0.3s ease;
+}
+
+.session-status-block.visible {
+    opacity: 1;
+    transform: translateY(0);
 }
 
 .session-status-block:hover {
-    transform: scale(1.02);
+    transform: scale(1.02) translateY(0);
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
 }
 
 .lofi-music-block {
     background-color: #c15454;
     border-radius: 3px; 
-    padding: 30px;
     color: white;
     display: flex;
     align-items: center;
@@ -262,10 +269,18 @@ h3 {
     box-sizing: border-box;
     transition: all 0.3s ease;
     cursor: pointer;
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.6s ease, transform 0.6s ease, box-shadow 0.3s ease;
+}
+
+.lofi-music-block.visible {
+    opacity: 1;
+    transform: translateY(0);
 }
 
 .lofi-music-block:hover {
-    transform: scale(1.02);
+    transform: scale(1.02) translateY(0);
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
 }
 
@@ -281,13 +296,21 @@ h3 {
     font-weight: bold;
     font-size: 20px;
     min-height: 400px;
-    margin-top: 20px;
+    margin-top: 1px;
     transition: all 0.3s ease;
     cursor: pointer;
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.6s ease, transform 0.6s ease, box-shadow 0.3s ease;
+}
+
+.work-environment-block.visible {
+    opacity: 1;
+    transform: translateY(0);
 }
 
 .work-environment-block:hover {
-    transform: scale(1.02);
+    transform: scale(1.02) translateY(0);
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
 }
 
@@ -384,10 +407,18 @@ h3 {
     margin: 0 auto;
     transition: all 0.3s ease;
     cursor: pointer;
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.6s ease, transform 0.6s ease, box-shadow 0.3s ease;
+}
+
+.avg-focus-block.visible {
+    opacity: 1;
+    transform: translateY(0);
 }
 
 .avg-focus-block:hover {
-    transform: scale(1.02);
+    transform: scale(1.02) translateY(0);
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
 }
 
@@ -413,10 +444,18 @@ h3 {
     width: 1000px;
     transition: all 0.3s ease;
     cursor: pointer;
+    opacity: 0;
+    transform: translateY(50px);
+    transition: opacity 0.8s ease, transform 0.8s ease, box-shadow 0.3s ease;
+}
+
+.graph-block.visible {
+    opacity: 1;
+    transform: translateY(0);
 }
 
 .graph-block:hover {
-    transform: scale(1.01);
+    transform: scale(1.01) translateY(0);
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
 }
 
@@ -434,10 +473,18 @@ h3 {
     min-height: 150px;
     transition: all 0.3s ease;
     cursor: pointer;
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.6s ease 0.1s, transform 0.6s ease 0.1s, box-shadow 0.3s ease;
+}
+
+.today-sessions-block.visible {
+    opacity: 1;
+    transform: translateY(0);
 }
 
 .today-sessions-block:hover {
-    transform: scale(1.02);
+    transform: scale(1.02) translateY(0);
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
 }
 
@@ -455,10 +502,18 @@ h3 {
     min-height: 150px;
     transition: all 0.3s ease;
     cursor: pointer;
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.6s ease 0.2s, transform 0.6s ease 0.2s, box-shadow 0.3s ease;
+}
+
+.study-time-block.visible {
+    opacity: 1;
+    transform: translateY(0);
 }
 
 .study-time-block:hover {
-    transform: scale(1.02);
+    transform: scale(1.02) translateY(0);
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
 }
 
@@ -476,10 +531,18 @@ h3 {
     min-height: 150px;
     transition: all 0.3s ease;
     cursor: pointer;
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.6s ease 0.3s, transform 0.6s ease 0.3s, box-shadow 0.3s ease;
+}
+
+.consecutive-days-block.visible {
+    opacity: 1;
+    transform: translateY(0);
 }
 
 .consecutive-days-block:hover {
-    transform: scale(1.02);
+    transform: scale(1.02) translateY(0);
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
 }
 
@@ -537,10 +600,18 @@ h3 {
     min-height: 400px;
     transition: all 0.3s ease;
     cursor: pointer;
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.7s ease, transform 0.7s ease, box-shadow 0.3s ease;
+}
+
+.calendar-block.visible {
+    opacity: 1;
+    transform: translateY(0);
 }
 
 .calendar-block:hover {
-    transform: scale(1.01);
+    transform: scale(1.01) translateY(0);
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
 }
 
@@ -558,10 +629,18 @@ h3 {
     min-height: 120px;
     transition: all 0.3s ease;
     cursor: pointer;
+    opacity: 0;
+    transform: translateX(-30px);
+    transition: opacity 0.6s ease, transform 0.6s ease, box-shadow 0.3s ease;
+}
+
+.add-homework-block.visible {
+    opacity: 1;
+    transform: translateX(0);
 }
 
 .add-homework-block:hover {
-    transform: scale(1.02);
+    transform: scale(1.02) translateX(0);
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
 }
 
@@ -579,10 +658,18 @@ h3 {
     min-height: 120px;
     transition: all 0.3s ease;
     cursor: pointer;
+    opacity: 0;
+    transform: translateX(-30px);
+    transition: opacity 0.6s ease 0.1s, transform 0.6s ease 0.1s, box-shadow 0.3s ease;
+}
+
+.add-exam-block.visible {
+    opacity: 1;
+    transform: translateX(0);
 }
 
 .add-exam-block:hover {
-    transform: scale(1.02);
+    transform: scale(1.02) translateX(0);
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
 }
 
@@ -600,10 +687,18 @@ h3 {
     min-height: 120px;
     transition: all 0.3s ease;
     cursor: pointer;
+    opacity: 0;
+    transform: translateX(-30px);
+    transition: opacity 0.6s ease 0.2s, transform 0.6s ease 0.2s, box-shadow 0.3s ease;
+}
+
+.upcoming-tasks-block.visible {
+    opacity: 1;
+    transform: translateX(0);
 }
 
 .upcoming-tasks-block:hover {
-    transform: scale(1.02);
+    transform: scale(1.02) translateX(0);
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
 }
 
@@ -611,6 +706,11 @@ h3 {
     display: flex;
     flex-direction: column;
     gap: 20px;
+}
+
+.hidden {
+    opacity: 0;
+    transform: translateY(30px);
 }
 
 

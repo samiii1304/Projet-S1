@@ -284,39 +284,14 @@ h3 {
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
 }
 
-.work-environment-block {
-    background-color: #e4e0dd;
-    border-radius: 3px;
-    padding: 30px;
-    color: #333;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    font-weight: bold;
-    font-size: 20px;
-    min-height: 400px;
-    margin-top: 1px;
-    transition: all 0.3s ease;
-    cursor: pointer;
-    opacity: 0;
-    transform: translateY(30px);
-    transition: opacity 0.6s ease, transform 0.6s ease, box-shadow 0.3s ease;
-}
-
-.work-environment-block.visible {
-    opacity: 1;
-    transform: translateY(0);
-}
-
 
 
 
 .work-environment-block {
-    background-color: #ffe8d6;
+    background-color: #f5f1ee;
     border-radius: 3px;
     padding: 25px;
-    color: #333;
+    color: #1a1a1a;
     display: block; /* Changé de flex à block */
     text-align: left; /* Pas centré */
     font-weight: normal; /* Pas bold */
@@ -329,6 +304,11 @@ h3 {
     transition: opacity 0.6s ease, transform 0.6s ease;
     font-family: 'Inter', sans-serif;
     line-height: 1.5;
+}
+
+.work-environment-block.visible {
+    opacity: 1;
+    transform: translateY(0);
 }
 
 .work-environment-block:hover {
@@ -353,7 +333,7 @@ h3 {
 
 /* Sous-titre "Luminosité :" */
 .environment-metric h4 {
-    color: #6b705c;
+    color: #5a5248;
     font-size: 18px;
     font-weight: 600;
     margin-bottom: 8px;
@@ -385,14 +365,14 @@ h3 {
 .environment-metric hr {
     border: none;
     height: 1px;
-    background-color: #ddbea9;
+    background-color: #b0a8a0;
     margin: 20px 0;
     width: 100%;
 }
 
 /* Sous-titre "Qualité de l'air" */
 .environment-metric h5 {
-    color: #6b705c;
+    color: #5a5248;
     font-size: 18px;
     font-weight: 600;
     margin-bottom: 10px;
@@ -402,7 +382,7 @@ h3 {
 /* Statut "Bonne" */
 .metric-status {
     display: block;
-    color: #a5a58d;
+    color: #6b705c;
     font-size: 22px;
     font-weight: 700;
     margin-top: 5px;
@@ -425,7 +405,7 @@ h3 {
 
 .environment-metric li:before {
     content: "•";
-    color: #cb997e;
+    color: #8a7f72;
     font-size: 20px;
     position: absolute;
     left: 0;
@@ -434,7 +414,7 @@ h3 {
 
 /* Texte en gras dans la liste */
 .environment-metric strong {
-    color: #6b705c;
+    color: #5a5248;
     font-weight: 600;
     font-size: 17px;
 }
@@ -451,25 +431,24 @@ h3 {
 
 .metric-fill {
     height: 100%;
-    background-color: #a5a58d; /* Simple couleur, pas de gradient */
     border-radius: 4px;
     transition: width 1s ease;
     width: 0%; /* Sera mis à jour par JS */
 }
 
 /* Pour la luminosité */
-#light-bar {
-    background-color: #6b705c;
+#light-bar .metric-fill{
+    background-color: #2d2d2d;
 }
 
 /* Pour la qualité d'air */
-#air-bar {
-    background-color: #a5a58d;
+#air-bar .metric-fill{
+    background-color: #6b705c;
 }
 
 /* Pour le niveau sonore */
-#sound-bar {
-    background-color: #cb997e;
+#sound-bar .metric-fill{
+    background-color: #8a7f72;
 }
 .dashboard-right {
     display: flex;
@@ -932,4 +911,5 @@ footer {
     color: #999;
     font-size: 14px;
 }
+
 

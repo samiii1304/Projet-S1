@@ -100,14 +100,23 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // 1. Récupérer les données de la BDD
 async function getEnvData() {
-    try {
-        const response = await fetch('get_environment.php');
-        const data = await response.json();
-        updateEnv(data);
-    } catch {
-        // Si erreur, données par défaut
-        updateEnv({luminosite:408, qualite_air:"Bonne", niveau_sonore:31});
-    }
+    // DONNÉES FIXES pour GitHub Pages
+    const data = {
+        luminosite: 408,
+        qualite_air: "Bonne",
+        niveau_sonore: 31
+    };
+    
+    updateEnv(data);
+    
+    // Option : pour faire semblant que ça change
+    setTimeout(() => {
+        updateEnv({
+            luminosite: 450,
+            qualite_air: "Bonne",
+            niveau_sonore: 28
+        });
+    }, 3000);
 }
 
 // 2. Mettre à jour l'affichage
@@ -136,3 +145,4 @@ setTimeout(() => {
     getEnvData();
     setInterval(getEnvData, 5000);
 }, 2000);
+

@@ -288,17 +288,17 @@ h3 {
 
 
 .work-environment-block {
-    background-color: #f5f1ee;
+    background-color: #ffffff;
     border-radius: 3px;
     padding: 25px;
     color: #1a1a1a;
-    display: block; /* Changé de flex à block */
-    text-align: left; /* Pas centré */
-    font-weight: normal; /* Pas bold */
-    font-size: 16px; /* Plus petit */
-    min-height: 320px; /* Plus court */
+    display: block; 
+    text-align: left; 
+    font-weight: normal; 
+    font-size: 16px; 
+    min-height: 320px; 
     transition: all 0.3s ease;
-    cursor: default; /* Pas pointer */
+    cursor: default; 
     opacity: 0;
     transform: translateY(30px);
     transition: opacity 0.6s ease, transform 0.6s ease;
@@ -318,7 +318,7 @@ h3 {
 
 /* Titre principal */
 .environment-title {
-    color: #2d2d2d;
+    color: ##000000;
     font-size: 24px;
     font-weight: 700;
     margin-bottom: 25px;
@@ -333,7 +333,7 @@ h3 {
 
 /* Sous-titre "Luminosité :" */
 .environment-metric h4 {
-    color: #5a5248;
+    color: #000000;
     font-size: 18px;
     font-weight: 600;
     margin-bottom: 8px;
@@ -343,7 +343,7 @@ h3 {
 /* Valeur numérique (408) */
 .metric-value {
     display: block;
-    color: #2d2d2d;
+    color: #e53e3e;
     font-size: 32px;
     font-weight: 700;
     margin-top: 5px;
@@ -354,7 +354,7 @@ h3 {
 /* Unité (lux) */
 .metric-unit {
     display: inline-block;
-    color: #8a7f72;
+    color: #e53e3e;
     font-size: 16px;
     font-weight: 400;
     margin-left: 5px;
@@ -913,6 +913,7 @@ footer {
     color: #999;
     font-size: 14px;
 }
+
 
 
 

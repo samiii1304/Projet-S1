@@ -95,3 +95,44 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 // ANIMATIO SCROLL POUR LES BLOCS : END
+
+// ===== ENVIRONNEMENT DE TRAVAIL =====
+
+// 1. Récupérer les données de la BDD
+async function getEnvData() {
+    try {
+        const response = await fetch('get_environment.php');
+        const data = await response.json();
+        updateEnv(data);
+    } catch {
+        // Si erreur, données par défaut
+        updateEnv({luminosite:408, qualite_air:"Bonne", niveau_sonore:31});
+    }
+}
+
+// 2. Mettre à jour l'affichage
+function updateEnv(data) {
+    // Luminosité
+    if (document.getElementById('light-value')) {
+        document.getElementById('light-value').textContent = data.luminosite;
+        document.getElementById('light-bar').style.width = (data.luminosite/10) + '%';
+    }
+    
+    // Qualité air
+    if (document.getElementById('air-quality')) {
+        document.getElementById('air-quality').textContent = data.qualite_air;
+        document.getElementById('air-bar').style.width = 
+            data.qualite_air === "Bonne" ? "75%" : "50%";
+    }
+
+    // Niveau sonore
+    if (document.getElementById('sound-value')) {
+        document.getElementById('sound-value').textContent = data.niveau_sonore;
+        document.getElementById('sound-bar').style.width = data.niveau_sonore + '%';
+    }
+}
+// Lance au bout de 2 secondes
+setTimeout(() => {
+    getEnvData();
+    setInterval(getEnvData, 5000);
+}, 2000);

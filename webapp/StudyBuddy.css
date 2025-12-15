@@ -294,13 +294,20 @@ h3 {
 
 
 
+
+
+
+
+
+
+
 /* enviroooooonement
 */
 
 
 
 .work-environment-block {
-    background-color: #ffffff;
+    background-color: #e4e0dd;
     border-radius: 3px;
     padding: 25px;
     color: #1a1a1a;
@@ -926,6 +933,7 @@ footer {
     color: #999;
     font-size: 14px;
 }
+
 
 
 

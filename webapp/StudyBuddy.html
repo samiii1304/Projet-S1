@@ -69,27 +69,44 @@
     <h3 class="environment-title">ENVIRONNEMENT DE TRAVAIL</h3>
     
     <div class="environment-metric">
-        <h4>Luminosité :</h4>
-        <div class="metric-value" id="light-value">408</div>
-        <span class="metric-unit">lux</span>
-        <div class="metric-bar">
-            <div class="metric-fill" id="light-bar"></div>
+        <!-- Luminosité -->
+        <div class="metric-group">
+            <div class="metric-header">
+                <h4>Luminosité :</h4>
+                <div class="value-unit-container">
+                    <div class="metric-value" id="light-value">408</div>
+                    <span class="metric-unit">lux</span>
+                </div>
+            </div>
+            <div class="metric-bar">
+                <div class="metric-fill" id="light-bar"></div>
+            </div>
         </div>
         
         <hr>
         
-        <h5>Qualité de l'air</h5>
-        <div class="metric-status" id="air-quality">Bonne</div>
-        <div class="metric-bar">
-            <div class="metric-fill" id="air-bar"></div>
+        <!-- Qualité de l'air -->
+        <div class="metric-group">
+            <div class="metric-header">
+                <h5>Qualité de l'air</h5>
+                <div class="metric-status" id="air-quality">Bonne</div>
+            </div>
+            <div class="metric-bar">
+                <div class="metric-fill" id="air-bar"></div>
+            </div>
         </div>
-        
+
+        <!-- Niveau Sonore -->
         <ul>
-            <li><strong>Niveau Sonore</strong><br>
-                <span class="metric-value" id="sound-value">31</span>
-                <span class="metric-unit">db</span>
-                <div class="metric-bar">
-                    <div class="metric-fill" id="sound-bar"></div>
+            <h6>Niveau Sonore</h6>
+                <<div class="metric-bar-container">
+                    <div class="metric-bar">
+                        <div class="metric-fill" id="sound-bar"></div>
+                    </div>
+                    <div class="value-unit-container">
+                        <span class="metric-value" id="sound-value">31</span>
+                        <span class="metric-unit">db</span>
+                    </div>
                 </div>
             </li>
         </ul>
@@ -191,4 +208,5 @@
 </body>
 
 </html>
+
 

@@ -350,6 +350,17 @@ h3 {
     border-bottom: 2px solid #404036;
 }
 
+/* "ENVIRONNEMENT" en rouge */
+.environnement-rouge {
+    color: #e53e3e;
+}
+
+/* "DE TRAVAIL" en noir */
+.travail-noir {
+    color: #000000;
+}
+
+
 /* Container pour toutes les métriques */
 .environment-metric {
     display: flex;
@@ -933,6 +944,7 @@ footer {
     color: #999;
     font-size: 14px;
 }
+
 
 
 

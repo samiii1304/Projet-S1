@@ -318,11 +318,11 @@
 
 
 <!-- agenda -->
-<div class="agenda-section-new">
+<div class="agenda-section">
     
     
     <div class="agenda-header">
-        <h2><span class="agenda">Agenda</span> <span class="calendar">& Calendrier</span></h2>
+        <h2><span class="agenda">Agenda</span></h2>
         <p class="agenda-subtitle">Organisez votre temps et gérez vos échéances</p>
     </div>
     
@@ -357,9 +357,11 @@
                     </button>
                 </div>
             </div>
-            
-            <!-- Tâches à Venir -->
-            <div class="agenda-card upcoming-tasks hidden">
+        </div>
+        
+        <!-- Tâches à Venir à droite -->
+        <div class="agenda-tasks-container">
+            <div class="agenda-card upcoming-tasks visible">
                 <div class="agenda-card-icon">
                     <i class="fas fa-tasks"></i>
                 </div>
@@ -381,92 +383,25 @@
                             <span class="task-text">Présentation Anglais</span>
                             <span class="task-date">5 jours</span>
                         </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-        <!-- Calendrier à droite -->
-        <div class="agenda-calendar-container">
-            <div class="calendar-main hidden">
-                <div class="calendar-header">
-                    <h3>Calendrier</h3>
-                    <div class="calendar-nav">
-                        <button class="nav-btn"><i class="fas fa-chevron-left"></i></button>
-                        <span class="current-month">Mars 2024</span>
-                        <button class="nav-btn"><i class="fas fa-chevron-right"></i></button>
-                    </div>
-                </div>
-                
-                <!-- Jours de la semaine -->
-                <div class="calendar-weekdays">
-                    <div class="weekday">Lun</div>
-                    <div class="weekday">Mar</div>
-                    <div class="weekday">Mer</div>
-                    <div class="weekday">Jeu</div>
-                    <div class="weekday">Ven</div>
-                    <div class="weekday">Sam</div>
-                    <div class="weekday">Dim</div>
-                </div>
-                
-                <!-- Jours du mois -->
-                <div class="calendar-days">
-                    <!-- Ces divs seront générés dynamiquement en JS -->
-                    <div class="day other-month">28</div>
-                    <div class="day other-month">29</div>
-                    <div class="day">1</div>
-                    <div class="day">2</div>
-                    <div class="day today">3</div>
-                    <div class="day">4</div>
-                    <div class="day">5</div>
-                    <div class="day">6</div>
-                    <div class="day">7</div>
-                    <div class="day">8</div>
-                    <div class="day">9</div>
-                    <div class="day">10</div>
-                    <div class="day">11</div>
-                    <div class="day">12</div>
-                    <div class="day">13</div>
-                    <div class="day">14</div>
-                    <div class="day">15</div>
-                    <div class="day">16</div>
-                    <div class="day">17</div>
-                    <div class="day">18</div>
-                    <div class="day">19</div>
-                    <div class="day">20</div>
-                    <div class="day">21</div>
-                    <div class="day">22</div>
-                    <div class="day">23</div>
-                    <div class="day">24</div>
-                    <div class="day">25</div>
-                    <div class="day">26</div>
-                    <div class="day">27</div>
-                    <div class="day">28</div>
-                    <div class="day">29</div>
-                    <div class="day">30</div>
-                    <div class="day">31</div>
-                    <div class="day other-month">1</div>
-                </div>
-                
-                <!-- Événements du jour -->
-                <div class="calendar-events">
-                    <h4>Événements du jour</h4>
-                    <div class="events-list">
-                        <div class="event-item">
-                            <div class="event-time">09:00</div>
-                            <div class="event-details">
-                                <div class="event-title">Session StudyBuddy</div>
-                                <div class="event-desc">Pomodoro × 4</div>
-                            </div>
+                        <div class="task-item">
+                            <div class="task-dot" style="background-color: #ddbea9"></div>
+                            <span class="task-text">Révision Physique</span>
+                            <span class="task-date">7 jours</span>
                         </div>
-                        <div class="event-item">
-                            <div class="event-time">14:00</div>
-                            <div class="event-details">
-                                <div class="event-title">Devoir Math</div>
-                                <div class="event-desc">Exercices 1-10</div>
-                            </div>
+                        <div class="task-item">
+                            <div class="task-dot" style="background-color: #a5a58d"></div>
+                            <span class="task-text">Projet Informatique</span>
+                            <span class="task-date">10 jours</span>
+                        </div>
+                        <div class="task-item">
+                            <div class="task-dot" style="background-color: #cb997e"></div>
+                            <span class="task-text">Examen Chimie</span>
+                            <span class="task-date">14 jours</span>
                         </div>
                     </div>
+                    <button class="agenda-action-btn view-all-btn">
+                        <i class="fas fa-list"></i> Voir toutes les tâches
+                    </button>
                 </div>
             </div>
         </div>
@@ -475,7 +410,6 @@
     <br><br>
 </div>
 <br>
-
 
 
 <footer>
@@ -493,3 +427,4 @@
 </body>
 
 </html>
+

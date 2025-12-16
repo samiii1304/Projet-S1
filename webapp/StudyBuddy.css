@@ -347,29 +347,10 @@ h3 {
 
 
 
+/* enviroooooonement
+*/
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/* Enviroooooooonement */
 
 .work-environment-block {
     background-color: #e4e0dd;
@@ -457,7 +438,7 @@ h3 {
     line-height: 1;
 }
 
-/* Unité ET statut "Bonne" */
+/* Unité ET statut "Bonne" - TOUS en rouge */
 .metric-unit,
 .air-status {
     color: #e53e3e !important; /* Force la couleur rouge */
@@ -488,7 +469,7 @@ h3 {
     transition: width 1s ease;
 }
 
-/* Largeurs sp茅cifiques pour chaque barre */
+/* Largeurs spécifiques pour chaque barre */
 #light-bar {
     background-color: #e53e3e;
     width: 40.8%;
@@ -545,7 +526,6 @@ h3 {
         font-size: 12px;
     }
 }
-
 
 
 
@@ -1602,4 +1582,3 @@ footer {
     opacity: 1;
     transform: translateY(0);
 }
-

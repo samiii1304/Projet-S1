@@ -1,27 +1,15 @@
-import spidev
+from grove.adc import ADC
 import time
 
-# Configuration SPI pour MCP3008
-spi = spidev.SpiDev()
-spi.open(0, 0)
-spi.max_speed_hz = 1350000
+adc = ADC()
 
-SOUND_CHANNEL = 0  # Canal du capteur sonore
-THRESHOLD = 400    # Seuil à ajuster selon ton environnement
+# D18 correspond au canal 2 sur le Grove Base HAT
+CHANNEL = 2
 
-def read_channel(channel):
-    adc = spi.xfer2([1, (8+channel)<<4, 0])
-    data = ((adc[1]&3) << 8) + adc[2]
-    return data
+print("Test du Grove Sound Sensor (Ctrl+C pour arrêter)")
 
-try:
-    while True:
-        sound_value = read_channel(SOUND_CHANNEL)
-        print("Niveau sonore :", sound_value)
+while True:
+    value = adc.read(CHANNEL)
+    print("Niveau sonore :", value)
+    time.sleep(0.5)
 
-        if sound_value > THRESHOLD:
-            print("Attention : bruit trop élevé !")
-        time.sleep(1)
-except KeyboardInterrupt:
-    spi.close()
-    print("Programme arrêté")

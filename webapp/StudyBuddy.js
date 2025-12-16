@@ -376,8 +376,16 @@ function initializePomodoroTimer() {
     updateTimerDisplay();
 }
 
+
+
+
+
+
+
+
+
 // GESTIONNAIRE DES BOUTONS D'ACTION DE L'AGENDA
-document.addEventListener('DOMContentLoaded', function() {
+function initializeAgendaButtons() {
     const agendaActionButtons = document.querySelectorAll('.agenda-action-btn');
     
     agendaActionButtons.forEach(button => {
@@ -390,16 +398,24 @@ document.addEventListener('DOMContentLoaded', function() {
             alert(`Ajout d'un ${cardType} - Cette fonctionnalité sera implémentée prochainement !`);
             
             // Animation de confirmation
+            const originalHTML = this.innerHTML;
+            const originalBgColor = this.style.backgroundColor;
+            
             this.innerHTML = '<i class="fas fa-check"></i> Ajouté !';
             this.style.backgroundColor = '#6b705c';
             
             setTimeout(() => {
-                this.innerHTML = '<i class="fas fa-plus"></i> Ajouter';
-                this.style.backgroundColor = '#a5a58d';
+                this.innerHTML = originalHTML;
+                this.style.backgroundColor = originalBgColor || '';
             }, 2000);
         });
     });
-});
+}
+
+
+
+
+
 
 // ===== ENVIRONNEMENT DE TRAVAIL =====
 
@@ -499,3 +515,4 @@ function initializeEnvironment() {
         setInterval(getEnvData, 3000);
     }, 2000);
 }
+

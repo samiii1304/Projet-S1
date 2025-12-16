@@ -1,4 +1,3 @@
-/* Reset et base */
 * {
     margin: 0;
     padding: 0;
@@ -30,7 +29,17 @@ header {
     left: 50%;
     transform: translateX(-50%);
     z-index: 1000;
-    transition: all 0.3s ease;
+    transition: background-color 0.3s ease, border-radius 0.3s ease, top 0.3s ease;
+}
+
+
+header.scrolled {
+    background-color: #2d2d2d;
+    width: 100%;
+    border-radius: 0;
+    top: 0;
+    left: 0;
+    transform: none;
 }
 
 .logo-header {
@@ -118,6 +127,12 @@ header {
     gap: 25px;
     justify-content: center;
     margin-top: 20px;
+}
+
+.boutons-appel {
+    display: flex;
+    justify-content: center;
+    margin-top: 40px;
 }
 
 .bouton {
@@ -313,6 +328,11 @@ header {
         align-items: center;
     }
     
+    .boutons-appel {
+        flex-direction: column;
+        align-items: center;
+    }
+    
     .section-fonctionnalites, .section-appel {
         padding: 60px 30px;
     }
@@ -328,14 +348,8 @@ header {
     header {
         width: calc(100% - 40px);
     }
-}
-/* ===== HEADER SCROLL STATE (IDENTIQUE À L'AUTRE PAGE) ===== */
-
-header.scrolled {
-    background-color: #2d2d2d;
-    width: 100%;
-    border-radius: 0;
-    top: 0;
-    left: 0;
-    transform: none;
+    
+    header.scrolled {
+        width: 100%;
+    }
 }

@@ -1075,7 +1075,7 @@ h3 {
 /* SECTION AGENDA : AGENDA - DDD */
 
 /* ça c'est l'agenda et le calendrier avec nouvelle DA */
-.agenda-section-new {
+.agenda-section{
     padding: 10px 75px;
     border-radius: 20px;
     margin: 40px auto;
@@ -1113,10 +1113,6 @@ h3 {
     color: #6b705c; 
 }
 
-.agenda-header h2 span.calendar {
-    color: #cb997e; 
-}
-
 .agenda-subtitle {
     color: #8a7f72;
     font-size: 18px;
@@ -1128,7 +1124,7 @@ h3 {
 /* Container principal de l'agenda */
 .agenda-main-container {
     display: grid;
-    grid-template-columns: 1fr 2fr;
+    grid-template-columns: 1fr 1.5fr;
     gap: 30px;
 }
 
@@ -1220,16 +1216,28 @@ h3 {
     transform: translateY(-2px);
 }
 
-/* Liste des tâches */
+/* Tâches à venir (droite) */
+.agenda-tasks-container {
+    position: relative;
+}
+
+.agenda-card.upcoming-tasks {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
 .tasks-list {
+    flex: 1;
     margin-top: 15px;
+    margin-bottom: 20px;
 }
 
 .task-item {
     display: flex;
     align-items: center;
     gap: 12px;
-    padding: 10px 0;
+    padding: 12px 0;
     border-bottom: 1px solid rgba(165, 165, 141, 0.2);
 }
 
@@ -1246,193 +1254,25 @@ h3 {
 .task-text {
     flex: 1;
     color: #4a4a4a;
-    font-size: 14px;
+    font-size: 15px;
+    font-weight: 500;
 }
 
 .task-date {
     color: #cb997e;
-    font-size: 13px;
-    font-weight: 600;
-}
-
-/* Calendrier (droite) */
-.agenda-calendar-container {
-    position: relative;
-}
-
-.calendar-main {
-    background: #2d2d2d;
-    border-radius: 15px;
-    padding: 25px;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
-    opacity: 0;
-    transform: translateY(40px);
-    transition: opacity 0.8s ease, transform 0.8s ease;
-}
-
-.calendar-main.visible {
-    opacity: 1;
-    transform: translateY(0);
-}
-
-.calendar-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 25px;
-}
-
-.calendar-header h3 {
-    color: #4a4a4a;
-    font-size: 24px;
-    font-family: 'Inter', sans-serif;
-    font-weight: 600;
-}
-
-.calendar-nav {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-}
-
-.nav-btn {
-    background-color: rgba(165, 165, 141, 0.1);
-    border: none;
-    width: 35px;
-    height: 35px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #6b705c;
-    cursor: pointer;
-    transition: all 0.3s ease;
-}
-
-.nav-btn:hover {
-    background-color: rgba(165, 165, 141, 0.2);
-}
-
-.current-month {
-    color: #4a4a4a;
-    font-size: 16px;
-    font-weight: 600;
-    min-width: 120px;
-    text-align: center;
-}
-
-/* Jours de la semaine */
-.calendar-weekdays {
-    display: grid;
-    grid-template-columns: repeat(7, 1fr);
-    gap: 5px;
-    margin-bottom: 10px;
-    text-align: center;
-}
-
-.weekday {
-    color: #6b705c;
-    font-weight: 600;
     font-size: 14px;
-    padding: 10px 0;
-}
-
-/* Jours du mois */
-.calendar-days {
-    display: grid;
-    grid-template-columns: repeat(7, 1fr);
-    gap: 5px;
-    margin-bottom: 25px;
-}
-
-.day {
-    height: 45px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 8px;
-    color: #4a4a4a;
-    font-weight: 500;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    position: relative;
-}
-
-.day:hover:not(.other-month) {
-    background-color: rgba(165, 165, 141, 0.1);
-}
-
-.day.today {
-    background-color: #a5a58d;
-    color: white;
     font-weight: 600;
+    min-width: 70px;
+    text-align: right;
 }
 
-.day.other-month {
-    color: #b8b8b8;
-}
-
-.day.has-event::after {
-    content: '';
-    position: absolute;
-    bottom: 5px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 5px;
-    height: 5px;
+.view-all-btn {
     background-color: #cb997e;
-    border-radius: 50%;
+    margin-top: auto;
 }
 
-/* Événements du jour */
-.calendar-events {
-    border-top: 1px solid rgba(165, 165, 141, 0.2);
-    padding-top: 20px;
-}
-
-.calendar-events h4 {
-    color: #4a4a4a;
-    font-size: 18px;
-    margin-bottom: 15px;
-    font-family: 'Inter', sans-serif;
-}
-
-.events-list {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-}
-
-.event-item {
-    display: flex;
-    gap: 15px;
-    padding: 12px;
-    background-color: rgba(203, 153, 126, 0.1);
-    border-radius: 8px;
-    border-left: 3px solid #cb997e;
-}
-
-.event-time {
-    color: #6b705c;
-    font-weight: 600;
-    font-size: 14px;
-    min-width: 50px;
-}
-
-.event-details {
-    flex: 1;
-}
-
-.event-title {
-    color: #4a4a4a;
-    font-weight: 600;
-    font-size: 15px;
-    margin-bottom: 3px;
-}
-
-.event-desc {
-    color: #8a7f72;
-    font-size: 13px;
+.view-all-btn:hover {
+    background-color: #b5836e;
 }
 
 /* Responsive pour l'agenda */
@@ -1457,15 +1297,6 @@ h3 {
     
     .agenda-header h2 {
         font-size: 40px;
-    }
-    
-    .calendar-weekdays, .calendar-days {
-        gap: 2px;
-    }
-    
-    .day {
-        height: 35px;
-        font-size: 14px;
     }
 }
 
@@ -1582,3 +1413,4 @@ footer {
     opacity: 1;
     transform: translateY(0);
 }
+

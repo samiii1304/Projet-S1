@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <title>StudyBuddy+</title>
+    <meta charset="utf-8">
+    <script src="StudyBuddy.js" defer></script>
+    <link rel="stylesheet" href="StudyBuddy.css">
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Zen+Old+Mincho:wght@400;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Libre+Caslon+Display&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Metal&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+
+<header>
+    <img src="LOGO-SB-TEST3.png" alt="StudyBuddy+ Logo" class="logo">
+    <div class="header-right">
+        <div class="round-icon"></div>
+        <div class="menu-bars">
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+        </div>
+    </div>
+</header>
+
+<div class="banner">
+    <!-- Slides qui défilent -->
+    <div class="carousel-slide slide-1 active"></div>
+    <div class="carousel-slide slide-2"></div>
+    <div class="carousel-slide slide-3"></div>
+    <div class="carousel-slide slide-4"></div>
+    
+    <h1>Bienvenue *Insert Pseudo*</h1>
+</div>
+
+
+<div class="séparationBannerBody">
+    <h3><span class="sep">StudyBuddy+</span>, votre compagnon d'étude intelligent.</h3>
+</div>
+<br><br><br><br>
+
+
+
+<div class="dashboard-section">
+    <h2><span class="tableau">Tableau</span> <span class="de-bord">de bord</span></h2>
+    
+    <p class="dashboard-subtitle"><i>Suivez votre productivité en temps réel</i></p>
+
+    <div class="dashboard-grid">
+        <!-- État de Session -->
+        <div class="dashboard-left">
+            <div class="session-status-block hidden">
+                <!-- Pomodoro Timer -->
+                <div class="pomodoro-container">
+                    <!-- Sélecteur de mode Pomodoro -->
+                    <div class="pomodoro-mode-selector">
+                        <button class="mode-btn active" data-mode="classic">
+                            Pomodoro Classique
+                        </button>
+                        <button class="mode-btn" data-mode="long">
+                            Pomodoro Long
+                        </button>
+                    </div>
+                    
+                    <!-- Affichage du timer -->
+                    <div class="timer-display">
+                        <div class="timer-time" id="timer">25:00</div>
+                        <div class="timer-phase" id="phase">TRAVAIL</div>
+                    </div>
+                    
+                    <!-- Contrôles du timer -->
+                    <div class="timer-controls">
+                        <button class="control-btn" id="toggleBtn">
+                            <span class="btn-icon">▶</span>
+                            <span class="btn-text">Démarrer</span>
+                        </button>
+                        <button class="control-btn" id="resetBtn">
+                            <span class="btn-icon">↻</span>
+                            <span class="btn-text">Réinitialiser</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Rectangles à droite -->
+       <div class="dashboard-right">
+    <!-- Musique LOFI (version simple comme au début) -->
+           <div class="lofi-music-block hidden">
+    <div class="lofi-card">
+        <div class="lofi-header">
+            <div class="lofi-icon">
+                <i class="fas fa-music"></i>
+            </div>
+            <div class="lofi-title">
+                <h4>LOFI Focus</h4>
+                <span id="lofi-status">OFF</span>
+            </div>
+        </div>
+
+        <div class="lofi-visual">
+            <div class="wave"></div>
+            <div class="wave"></div>
+            <div class="wave"></div>
+        </div>
+            
+
+  <div class="lofi-controls">
+    <div class="lofi-controls-wrapper">
+        <button class="lofi-btn">
+            <i class="fas fa-backward"></i>
+        </button>
+
+        <button class="lofi-btn play" id="lofiToggle">
+            <i class="fas fa-play"></i>
+        </button>
+
+        <button class="lofi-btn">
+            <i class="fas fa-forward"></i>
+        </button>
+    </div>
+</div>
+
+
+        <div class="lofi-volume">
+            <i class="fas fa-volume-down"></i>
+            <input type="range" min="0" max="100" value="40" id="lofiVolume">
+            <i class="fas fa-volume-up"></i>
+        </div>
+
+        <!-- Audio -->
+        <audio id="lofiAudio" loop>
+            <source src="lofi.mp3" type="audio/mpeg">
+        </audio>
+    </div>
+</div>
+
+            <!-- Environnement de Travail -->
+            <div class="work-environment-block hidden">Environnement de Travail</div>
+        </div>
+    </div>
+</div>
+<br><br><br>
+
+
+
+<!-- ===== NOUVELLE SECTION STATISTIQUES REMANIÉE ===== -->
+<div class="statistics-section-new">
+    <br><br><br>
+    
+    <div class="statistics-header">
+        <h2><span class="stats">Statistiques</span> <span class="gen">Générales</span></h2>
+        <p class="statistics-subtitle">Suivez vos progrès et optimisez vos sessions d'étude</p>
+    </div>
+    
+    <!-- SECTION DES KPI (Key Performance Indicators) -->
+    <div class="kpi-container">
+        <!-- KPI 1: Sessions Aujourd'hui -->
+        <div class="kpi-card today-sessions hidden">
+            <div class="kpi-icon">
+                <i class="fas fa-calendar-day"></i>
+            </div>
+            <div class="kpi-content">
+                <div class="kpi-value" id="sessions-today">X</div>
+                <div class="kpi-label">Sessions aujourd'hui</div>
+                <div class="kpi-trend">
+                    <i class="fas fa-arrow-up trend-up"></i>
+                    <span class="trend-text">+X vs hier</span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- KPI 2: Temps d'Étude -->
+        <div class="kpi-card study-time hidden">
+            <div class="kpi-icon">
+                <i class="fas fa-clock"></i>
+            </div>
+            <div class="kpi-content">
+                <div class="kpi-value" id="study-time">X</div>
+                <div class="kpi-label">Temps d'étude total</div>
+                <div class="kpi-trend">
+                    <i class="fas fa-chart-line trend-up"></i>
+                    <span class="trend-text">+X% cette semaine</span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- KPI 3: Jours Consécutifs -->
+        <div class="kpi-card consecutive-days hidden">
+            <div class="kpi-icon">
+                <i class="fas fa-fire"></i>
+            </div>
+            <div class="kpi-content">
+                <div class="kpi-value" id="consecutive-days">X</div>
+                <div class="kpi-label">Jours consécutifs</div>
+                <div class="kpi-trend">
+                    <i class="fas fa-medal trend-up"></i>
+                    <span class="trend-text">Record: X jours</span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- KPI 4: Focus Moyen -->
+        <div class="kpi-card avg-focus hidden">
+            <div class="kpi-icon">
+                <i class="fas fa-brain"></i>
+            </div>
+            <div class="kpi-content">
+                <div class="kpi-value" id="avg-focus">X%</div>
+                <div class="kpi-label">Focus moyen</div>
+                <div class="kpi-progress">
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="focus-progress"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- SECTION DES GRAPHIQUES -->
+    <div class="charts-container">
+        <!-- Graphique principal (gauche) -->
+        <div class="main-chart hidden">
+            <div class="chart-header">
+                <h3>Activité Hebdomadaire</h3>
+                <div class="chart-period">
+                    <button class="period-btn active">7j</button>
+                    <button class="period-btn">30j</button>
+                    <button class="period-btn">90j</button>
+                </div>
+            </div>
+            <div class="chart-placeholder">
+                <!-- Ici ira un vrai graphique (Chart.js ou similaire) -->
+                <div class="chart-mock">
+                    <div class="chart-bar" style="height: X % "></div>
+                    <div class="chart-bar" style="height: X %"></div>
+                    <div class="chart-bar" style="height: X %"></div>
+                    <div class="chart-bar" style="height: X%"></div>
+                    <div class="chart-bar" style="height: X%"></div>
+                    <div class="chart-bar" style="height: X%"></div>
+                    <div class="chart-bar" style="height: X%"></div>
+                </div>
+                <div class="chart-labels">
+                    <span>Lun</span><span>Mar</span><span>Mer</span><span>Jeu</span><span>Ven</span><span>Sam</span><span>Dim</span>
+                </div>
+            </div>
+            <div class="chart-footer">
+                <div class="chart-legend">
+                    <div class="legend-item">
+                        <div class="legend-color" style="background-color: #6b705c"></div>
+                        <span>Temps d'étude</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background-color: #cb997e"></div>
+                        <span>Sessions complétées</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Mini statistiques (droite) -->
+        <div class="side-stats">
+            <!-- Meilleure période -->
+            <div class="mini-stat best-period hidden">
+                <div class="mini-stat-icon">
+                    <i class="fas fa-sun"></i>
+                </div>
+                <div class="mini-stat-content">
+                    <h4>Meilleure période</h4>
+                    <div class="mini-stat-value">X - X</div>
+                    <p class="mini-stat-desc">Vous êtes plus productif le matin</p>
+                </div>
+            </div>
+            
+            <!-- Durée moyenne session -->
+            <div class="mini-stat avg-session hidden">
+                <div class="mini-stat-icon">
+                    <i class="fas fa-hourglass-half"></i>
+                </div>
+                <div class="mini-stat-content">
+                    <h4>Durée moyenne session</h4>
+                    <div class="mini-stat-value">X min</div>
+                    <p class="mini-stat-desc">+X vs semaine dernière</p>
+                </div>
+            </div>
+            
+            <!-- Taux de réussite -->
+            <div class="mini-stat success-rate hidden">
+                <div class="mini-stat-icon">
+                    <i class="fas fa-trophy"></i>
+                </div>
+                <div class="mini-stat-content">
+                    <h4>Taux de réussite</h4>
+                    <div class="mini-stat-value">X%</div>
+                    <p class="mini-stat-desc">Sessions complétées</p>
+                </div>
+            </div>
+            
+            <!-- Recommandation -->
+            <div class="mini-stat recommendation hidden">
+                <div class="mini-stat-icon">
+                    <i class="fas fa-lightbulb"></i>
+                </div>
+                <div class="mini-stat-content">
+                    <h4>Recommandation</h4>
+                    <p class="mini-stat-desc">Essayez des pauses plus courtes (Xmin) pour maintenir votre concentration</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <br><br><br><br>
+</div>
+<br>
+
+
+
+
+<!-- ===== NOUVELLE SECTION AGENDA REMANIÉE ===== -->
+<div class="agenda-section-new">
+    
+    
+    <div class="agenda-header">
+        <h2><span class="agenda">Agenda</span> <span class="calendar">& Calendrier</span></h2>
+        <p class="agenda-subtitle">Organisez votre temps et gérez vos échéances</p>
+    </div>
+    
+    <!-- SECTION PRINCIPALE AGENDA -->
+    <div class="agenda-main-container">
+        <!-- Blocs de gauche (Actions rapides) -->
+        <div class="agenda-quick-actions">
+            <!-- Ajouter un Devoir -->
+            <div class="agenda-card add-homework hidden">
+                <div class="agenda-card-icon">
+                    <i class="fas fa-book"></i>
+                </div>
+                <div class="agenda-card-content">
+                    <h3>Ajouter un Devoir</h3>
+                    <p class="agenda-card-desc">Créez une nouvelle tâche à compléter</p>
+                    <button class="agenda-action-btn">
+                        <i class="fas fa-plus"></i> Ajouter
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Ajouter une Date d'Examen -->
+            <div class="agenda-card add-exam hidden">
+                <div class="agenda-card-icon">
+                    <i class="fas fa-graduation-cap"></i>
+                </div>
+                <div class="agenda-card-content">
+                    <h3>Ajouter un Examen</h3>
+                    <p class="agenda-card-desc">Planifiez vos prochaines évaluations</p>
+                    <button class="agenda-action-btn">
+                        <i class="fas fa-calendar-plus"></i> Planifier
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Tâches à Venir -->
+            <div class="agenda-card upcoming-tasks hidden">
+                <div class="agenda-card-icon">
+                    <i class="fas fa-tasks"></i>
+                </div>
+                <div class="agenda-card-content">
+                    <h3>Tâches à Venir</h3>
+                    <div class="tasks-list">
+                        <div class="task-item">
+                            <div class="task-dot" style="background-color: #a5a58d"></div>
+                            <span class="task-text">Devoir de Mathématiques</span>
+                            <span class="task-date">Demain</span>
+                        </div>
+                        <div class="task-item">
+                            <div class="task-dot" style="background-color: #cb997e"></div>
+                            <span class="task-text">Rapport Histoire</span>
+                            <span class="task-date">3 jours</span>
+                        </div>
+                        <div class="task-item">
+                            <div class="task-dot" style="background-color: #6b705c"></div>
+                            <span class="task-text">Présentation Anglais</span>
+                            <span class="task-date">5 jours</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Calendrier à droite -->
+        <div class="agenda-calendar-container">
+            <div class="calendar-main hidden">
+                <div class="calendar-header">
+                    <h3>Calendrier</h3>
+                    <div class="calendar-nav">
+                        <button class="nav-btn"><i class="fas fa-chevron-left"></i></button>
+                        <span class="current-month">Mars 2024</span>
+                        <button class="nav-btn"><i class="fas fa-chevron-right"></i></button>
+                    </div>
+                </div>
+                
+                <!-- Jours de la semaine -->
+                <div class="calendar-weekdays">
+                    <div class="weekday">Lun</div>
+                    <div class="weekday">Mar</div>
+                    <div class="weekday">Mer</div>
+                    <div class="weekday">Jeu</div>
+                    <div class="weekday">Ven</div>
+                    <div class="weekday">Sam</div>
+                    <div class="weekday">Dim</div>
+                </div>
+                
+                <!-- Jours du mois -->
+                <div class="calendar-days">
+                    <!-- Ces divs seront générés dynamiquement en JS -->
+                    <div class="day other-month">28</div>
+                    <div class="day other-month">29</div>
+                    <div class="day">1</div>
+                    <div class="day">2</div>
+                    <div class="day today">3</div>
+                    <div class="day">4</div>
+                    <div class="day">5</div>
+                    <div class="day">6</div>
+                    <div class="day">7</div>
+                    <div class="day">8</div>
+                    <div class="day">9</div>
+                    <div class="day">10</div>
+                    <div class="day">11</div>
+                    <div class="day">12</div>
+                    <div class="day">13</div>
+                    <div class="day">14</div>
+                    <div class="day">15</div>
+                    <div class="day">16</div>
+                    <div class="day">17</div>
+                    <div class="day">18</div>
+                    <div class="day">19</div>
+                    <div class="day">20</div>
+                    <div class="day">21</div>
+                    <div class="day">22</div>
+                    <div class="day">23</div>
+                    <div class="day">24</div>
+                    <div class="day">25</div>
+                    <div class="day">26</div>
+                    <div class="day">27</div>
+                    <div class="day">28</div>
+                    <div class="day">29</div>
+                    <div class="day">30</div>
+                    <div class="day">31</div>
+                    <div class="day other-month">1</div>
+                </div>
+                
+                <!-- Événements du jour -->
+                <div class="calendar-events">
+                    <h4>Événements du jour</h4>
+                    <div class="events-list">
+                        <div class="event-item">
+                            <div class="event-time">09:00</div>
+                            <div class="event-details">
+                                <div class="event-title">Session StudyBuddy</div>
+                                <div class="event-desc">Pomodoro × 4</div>
+                            </div>
+                        </div>
+                        <div class="event-item">
+                            <div class="event-time">14:00</div>
+                            <div class="event-details">
+                                <div class="event-title">Devoir Math</div>
+                                <div class="event-desc">Exercices 1-10</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <br><br>
+</div>
+<br>
+
+
+
+<footer>
+    <div class="footer-card">
+        <div class="footer-simple">
+            <img src="LOGO-SB-TEST3.png" alt="StudyBuddy+ Logo" class="footer-logo">
+            <p class="footer-tagline">Votre compagnon d'étude intelligent</p>
+            <p class="footer-copyright">&copy; 2025 StudyBuddy+</p>
+        </div>
+    </div>
+</footer>
+
+
+
+</body>
+
+
+</html>
+
+
+
+
+

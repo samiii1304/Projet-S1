@@ -1,8 +1,3 @@
-CREATE TABLE utilisateurs (
-    pseudo VARCHAR(100) PRIMARY KEY,
-    mot_de_passe VARCHAR(255) NOT NULL
-);
-
 CREATE TABLE sessions (
     id INT AUTO_INCREMENT PRIMARY KEY,
     pseudo VARCHAR(100) NOT NULL,
@@ -25,3 +20,4 @@ CREATE TABLE environnement (
     FOREIGN KEY (idsession) REFERENCES sessions(id)
 
 );
+

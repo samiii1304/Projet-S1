@@ -15,25 +15,22 @@ GPIO.cleanup()
 
 
 
-#pir qui met en enchainé "detection mouvement" quand quelqu'un est la et si personne est la break du code
-import time
-from grovepi import motion
-# Port digital où le PIR est connecté
-pir_sensor = 2  # D2 sur Grove Hat
+#tet pir
+from grove.gpio import GPIO
+from time import sleep
+
+
+pir = GPIO(5, GPIO.IN)
+
+print("Initialisation du capteur PIR (30s)...")
+sleep(30)
+
 while True:
-    try:
-        # Lire l'état du capteur
-        pir_val = motion.read(pir_sensor)
-        if pir_val:
-            print("Mouvement détecté !")
-        else:
-            print("Rien...")
-        time.sleep(0.5)
-    except KeyboardInterrupt:
-        print("Programme arrêté")
-        break
-    except IOError:
-        print("Erreur capteur")
+    if pir.read():
+        print("Mouvement détecté !")
+    else:
+        print("Aucun mouvement")
+    sleep(1)
 
 
 #led
@@ -101,4 +98,5 @@ while True:
 
     print(f"💡 ADC: {value}, Tension: {voltage:.2f} V, Luminosité: {light_percent:.1f}%")
     time.sleep(1)
+
 

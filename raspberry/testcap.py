@@ -36,31 +36,90 @@ while True:
         print("Erreur capteur")
 
 
+#led
+from grove.grove_led import GroveLed
+from time import sleep
 
-#quand mouvement detecté, led s'allume!
-from grove.gpio import GPIO
+# Remplacez D5 par le port que vous utilisez
+led = GroveLed(5)
+
+# Allumer la LED
+led.on()
+sleep(5)  # La LED reste allumée 5 secondes
+
+# Éteindre la LED
+led.off()
+
+#sound senor
+from grove.adc import ADC
 import time
 
-PIR_PIN = 5   # D5
-LED_PIN = 4   # D4
+adc = ADC()
 
-pir = GPIO(PIR_PIN, GPIO.IN)
-led = GPIO(LED_PIN, GPIO.OUT)
+# D18 correspond au canal 2 sur le Grove Base HAT
+CHANNEL = 0
 
-print("=== Test PIR + LED (Grove HAT) ===")
-print("Attente initialisation PIR...")
-time.sleep(2)
+print("Test du Grove Sound Sensor (Ctrl+C pour arrêter)")
 
-try:
-    while True:
-        if pir.read():
-            print("MOUVEMENT DÉTECTÉ")
-            led.write(1)
-        else:
-            led.write(0)
-        time.sleep(0.1)
+while True:
+    value = adc.read(CHANNEL)
+    print("Niveau sonore :", value)
+    time.sleep(0.5)
 
-except KeyboardInterrupt:
-    print("Arrêt.")
+#gaz sensor
+from grove.adc import ADC
+import time
+
+adc = ADC()
+CHANNEL = 0  # A0
+
+print("🔥 Chauffe du capteur MQ-2 (60 secondes)...")
+time.sleep(60)
+
+print("📡 Lecture du capteur MQ-2\n")
+
+while True:
+    value = adc.read(CHANNEL)
+    print("Valeur gaz :", value)
+    time.sleep(1)
+
+#light sensor
+from grove.adc import ADC
+import time
+
+adc = ADC()
+CHANNEL = 1  # A1 pour le capteur de lumière
+
+print("💡 Lecture du capteur de lumière\n")
+
+while True:
+    value = adc.read(CHANNEL)   # 0-1023
+    voltage = value / 1023.0 * 3.3  # tension en V
+
+    # Optionnel : normaliser en pourcentage de lumière
+    light_percent = (value / 1023.0) * 100
+
+    print(f"💡 ADC: {value}, Tension: {voltage:.2f} V, Luminosité: {light_percent:.1f}%")
+    time.sleep(1)
+
+#temperature sensor
+from grove.adc import ADC
+import time
+
+adc = ADC()
+CHANNEL = 0  # A0 pour le capteur de température
+
+print("🌡 Lecture du capteur de température\n")
+
+while True:
+    value = adc.read(CHANNEL)
+    # Conversion de la valeur ADC en tension (supposons 3.3V pour le Raspberry Pi)
+    voltage = value / 1023.0 * 3.3
+
+    # TMP36 : Température en °C = (Vout - 0.5) * 100
+    temperature_c = (voltage - 0.5) * 100
+
+    print(f"🌡 Température : {temperature_c:.2f} °C")
+    time.sleep(1)
 
 

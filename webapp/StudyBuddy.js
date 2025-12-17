@@ -112,6 +112,9 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Initialiser l'environnement de travail
     initializeEnvironment();
+    
+    // Initialiser le player LOFI
+    initializeLofiPlayer();
 });
 
 // INITIALISATION DES VALEURS DES KPI
@@ -516,3 +519,83 @@ function initializeEnvironment() {
     }, 2000);
 }
 
+
+
+
+// ===== LOFI MUSIC PLAYER =====
+
+function initializeLofiPlayer() {
+    const audio = document.getElementById('lofiAudio');
+    const toggle = document.getElementById('lofiToggle');
+    const volume = document.getElementById('lofiVolume');
+    const status = document.getElementById('lofi-status');
+    const card = document.querySelector('.lofi-card');
+    
+    if (!audio || !toggle) return;
+    
+    // Initialisation du volume
+    audio.volume = 0.4;
+    
+    // Gestion du bouton play/pause
+    toggle.addEventListener('click', () => {
+        if (audio.paused) {
+            audio.play();
+            toggle.innerHTML = '<i class="fas fa-pause"></i>';
+            status.textContent = 'ON';
+            if (card) {
+                card.classList.add('lofi-playing');
+            }
+        } else {
+            audio.pause();
+            toggle.innerHTML = '<i class="fas fa-play"></i>';
+            status.textContent = 'OFF';
+            if (card) {
+                card.classList.remove('lofi-playing');
+            }
+        }
+    });
+    
+    // Gestion du volume
+    volume.addEventListener('input', () => {
+        audio.volume = volume.value / 100;
+    });
+    
+    // Gestion des boutons avant/arrière (pour une future implémentation)
+    const prevBtn = document.querySelector('.lofi-btn .fa-backward')?.closest('.lofi-btn');
+    const nextBtn = document.querySelector('.lofi-btn .fa-forward')?.closest('.lofi-btn');
+    
+    if (prevBtn) {
+        prevBtn.addEventListener('click', () => {
+            // Pour l'instant, juste réinitialiser la musique
+            audio.currentTime = 0;
+            console.log('Previous track - fonctionnalité à venir');
+        });
+    }
+    
+    if (nextBtn) {
+        nextBtn.addEventListener('click', () => {
+            // Pour l'instant, juste réinitialiser la musique
+            audio.currentTime = 0;
+            console.log('Next track - fonctionnalité à venir');
+        });
+    }
+    
+    // Gestion des erreurs audio
+    audio.addEventListener('error', (e) => {
+        console.error('Erreur de chargement audio:', e);
+        status.textContent = 'ERROR';
+        if (card) {
+            card.classList.remove('lofi-playing');
+        }
+    });
+    
+    // Mise à jour de l'interface quand la musique se termine
+    audio.addEventListener('ended', () => {
+        // Comme la musique est en loop, cela ne devrait pas arriver
+        toggle.innerHTML = '<i class="fas fa-play"></i>';
+        status.textContent = 'OFF';
+        if (card) {
+            card.classList.remove('lofi-playing');
+        }
+    });
+}

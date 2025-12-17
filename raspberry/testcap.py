@@ -102,24 +102,3 @@ while True:
     print(f"💡 ADC: {value}, Tension: {voltage:.2f} V, Luminosité: {light_percent:.1f}%")
     time.sleep(1)
 
-#temperature sensor
-from grove.adc import ADC
-import time
-
-adc = ADC()
-CHANNEL = 0  # A0 pour le capteur de température
-
-print("🌡 Lecture du capteur de température\n")
-
-while True:
-    value = adc.read(CHANNEL)
-    # Conversion de la valeur ADC en tension (supposons 3.3V pour le Raspberry Pi)
-    voltage = value / 1023.0 * 3.3
-
-    # TMP36 : Température en °C = (Vout - 0.5) * 100
-    temperature_c = (voltage - 0.5) * 100
-
-    print(f"🌡 Température : {temperature_c:.2f} °C")
-    time.sleep(1)
-
-

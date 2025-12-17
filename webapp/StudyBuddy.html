@@ -89,8 +89,59 @@
         </div>
         <!-- Rectangles à droite -->
         <div class="dashboard-right">
-            <!-- Musique LOFI (version simple comme au début) -->
-            <div class="lofi-music-block hidden">Musique LOFI</div>
+            <!-- Lofi Music Block -->
+        <div class="lofi-music-block hidden">
+            <div class="lofi-card">
+                <!-- TOUT sur la même ligne - ordre inversé -->
+                <div class="lofi-header">
+                    <!-- Animation des ondes À GAUCHE -->
+                    <div class="lofi-header-visual">
+                        <div class="lofi-header-wave"></div>
+                        <div class="lofi-header-wave"></div>
+                        <div class="lofi-header-wave"></div>
+                    </div>
+                    
+                    <!-- Partie centre : icône + titre -->
+                    <div class="lofi-header-left">
+                        <div class="lofi-icon">
+                            <i class="fas fa-music"></i>
+                        </div>
+                        <div class="lofi-title">
+                            <h4>LOFI Focus</h4>
+                            <span id="lofi-status">OFF</span>
+                        </div>
+                    </div>
+                    
+                    <!-- Contrôles À DROITE -->
+                    <div class="lofi-controls">
+                        <button class="lofi-btn">
+                            <i class="fas fa-backward"></i>
+                        </button>
+                        <button class="lofi-btn play" id="lofiToggle">
+                            <i class="fas fa-play"></i>
+                        </button>
+                        <button class="lofi-btn">
+                            <i class="fas fa-forward"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Barre de volume EN DESSOUS -->
+                <div class="lofi-volume">
+                    <i class="fas fa-volume-down"></i>
+                    <input type="range" min="0" max="100" value="40" id="lofiVolume">
+                    <i class="fas fa-volume-up"></i>
+                </div>
+
+                <!-- Audio -->
+                <audio id="lofiAudio" loop>
+                    <source src="lofi.mp3" type="audio/mpeg">
+                </audio>
+            </div>
+        </div>
+
+
+
             <!-- Environnement de Travail -->
             <div class="work-environment-block hidden">
                 <h3 class="environment-title">ENVIRONNEMENT DE TRAVAIL</h3>
@@ -427,4 +478,5 @@
 </body>
 
 </html>
+
 

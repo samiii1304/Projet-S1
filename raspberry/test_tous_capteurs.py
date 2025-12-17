@@ -1,211 +1,262 @@
 #!/usr/bin/env python3
 """
-TEST COMPLET DE TOUS LES CAPTEURS
-Détecte et teste PIR, LED, Lumière, Qualité Air, Buzzer
+TOUS LES CAPTEURS EN MÊME TEMPS
+Lit et affiche les données de tous les capteurs simultanément
 """
 import RPi.GPIO as GPIO
 import time
+import threading
 from grovepi import *
 from grove.adc import ADC
 
+print("=" * 60)
+print("TOUS LES CAPTEURS EN MÊME TEMPS")
+print("=" * 60)
+print("Lecture simultanée toutes les 2 secondes")
+print("Appuyez sur Ctrl+C pour arrêter")
+print("=" * 60)
 
-# ==================== CONFIGURATION ====================
-PIR_PIN = 2      # D2
-LED_PIN = 5      # D5
-BUZZER_PIN = 18  # GPIO18
-LIGHT_CH = 1     # A1
-AIR_CH = 0       # A0
+# Configuration
+PIR_PIN = 2       # D2 - Capteur mouvement
+LED_PIN = 5       # D5 - LED  
+BUZZER_PIN = 18   # GPIO18 - Buzzer
+LIGHT_CH = 1      # A1 - Capteur lumière
+AIR_CH = 0        # A0 - Capteur qualité air
+# SOUND_CH = 0    # A2 - Capteur son (si tu l'as)
 
-# ==================== INITIALISATION ====================
-print("Initialisation des capteurs...")
-
-# Initialiser GPIO pour buzzer
+# Initialisation
 GPIO.setmode(GPIO.BCM)
 GPIO.setup(BUZZER_PIN, GPIO.OUT)
+GPIO.output(BUZZER_PIN, 0)
 
-# Initialiser ADC pour capteurs analogiques
 adc = ADC()
 
-# Initialiser LED
+# Essayer d'importer la LED
 try:
     from grove.grove_led import GroveLed
     led = GroveLed(LED_PIN)
-    led_status = "✅"
+    LED_DISPONIBLE = True
 except:
-    led_status = "❌ (module non trouvé)"
     led = None
+    LED_DISPONIBLE = False
 
-print(f"  - PIR (D2) : ✅")
-print(f"  - LED (D5) : {led_status}")
-print(f"  - ADC (A0/A1) : ✅")
-print(f"  - Buzzer (GPIO18) : ✅")
-print()
+# Variables partagées entre les threads
+donnees_globales = {
+    'mouvement': False,
+    'lumiere': 0,
+    'lumiere_pct': 0,
+    'air': 0,
+    'air_status': "INCONNU",
+    'led_allumee': False
+}
 
-# ==================== TEST 1 : BUZZER ====================
-print("Test du buzzer...")
-try:
-    GPIO.output(BUZZER_PIN, 1)
-    time.sleep(0.3)
-    GPIO.output(BUZZER_PIN, 0)
-    print("  Buzzer fonctionnel (1 bip)")
-except Exception as e:
-    print(f"  Erreur buzzer: {e}")
+lock = threading.Lock()  # Pour synchroniser l'accès aux données
 
-time.sleep(0.5)
-
-# ==================== TEST 2 : LED ====================
-print("💡 Test de la LED...")
-try:
-    if led:
-        led.on()
-        print(" LED allumée")
-        time.sleep(1)
-        led.off()
-        print(" LED éteinte")
-    else:
-        print("  LED non testée (module manquant)")
-except Exception as e:
-    print(f"  Erreur LED: {e}")
-
-time.sleep(0.5)
-
-# ==================== TEST 3 : CAPTEURS ANALOGIQUES ====================
-print(" Test des capteurs analogiques...")
-try:
-    # Lire lumière
-    light_val = adc.read(LIGHT_CH)
-    light_percent = (light_val / 1023.0) * 100
-    print(f"  - Lumière : {light_val} (ADC) = {light_percent:.1f}%")
-    
-    # Lire qualité air
-    air_val = adc.read(AIR_CH)
-    print(f"  - Qualité air : {air_val} (ADC)")
-    
-    # Interpréter qualité air
-    if air_val < 50:
-        air_status = " Excellent"
-    elif air_val < 200:
-        air_status = " Bon"
-    elif air_val < 500:
-        air_status = " Moyen"
-    elif air_val < 800:
-        air_status = "Mauvais"
-    else:
-        air_status = "Dangereux"
-    
-    print(f"  - Statut air : {air_status}")
-    
-except Exception as e:
-    print(f" Erreur capteurs analogiques: {e}")
-
-# ==================== TEST 4 : PIR (MOUVEMENT) ====================
-print("👤 Test du capteur PIR (mouvement)...")
-print("  ⏳ Attente de détection (bouge devant le capteur)")
-print("  (Appuie sur Ctrl+C pour passer au test suivant)")
-
-detection_count = 0
-start_time = time.time()
-timeout = 10  # 10 secondes max
-
-try:
-    while time.time() - start_time < timeout:
+def lire_pir():
+    """Lit le capteur PIR (mouvement) en continu"""
+    while True:
         try:
-            pir_val = motion.read(PIR_PIN)
-            if pir_val:
-                detection_count += 1
-                print(f"  Mouvement détecté ! ({detection_count}/3)")
-                
-                # Allumer LED et bip lors de détection
-                if led:
-                    led.on()
-                GPIO.output(BUZZER_PIN, 1)
-                time.sleep(0.1)
-                GPIO.output(BUZZER_PIN, 0)
-                time.sleep(0.1)
-                if led:
-                    led.off()
-                
-                if detection_count >= 3:
-                    break
-                    
+            mouvement = motion.read(PIR_PIN)
+            with lock:
+                donnees_globales['mouvement'] = mouvement
+            time.sleep(0.1)  # Lecture rapide pour réactivité
+        except:
             time.sleep(0.5)
+
+def lire_lumiere():
+    """Lit le capteur de lumière en continu"""
+    while True:
+        try:
+            raw = adc.read(LIGHT_CH)
+            pct = (raw / 1023.0) * 100
+            with lock:
+                donnees_globales['lumiere'] = raw
+                donnees_globales['lumiere_pct'] = pct
+            time.sleep(0.5)  # Lecture moins fréquente
+        except:
+            time.sleep(1)
+
+def lire_air():
+    """Lit le capteur de qualité d'air en continu"""
+    while True:
+        try:
+            raw = adc.read(AIR_CH)
             
-        except IOError:
-            print("  Erreur de lecture PIR")
-            break
+            # Interprétation
+            if raw < 50:
+                status = "EXCELLENT"
+            elif raw < 200:
+                status = "BON"
+            elif raw < 500:
+                status = "MOYEN"
+            elif raw < 800:
+                status = "MAUVAIS"
+            else:
+                status = "DANGEREUX"
             
-    if detection_count > 0:
-        print(f" PIR fonctionnel ({detection_count} détections)")
-    else:
-        print(" Aucune détection - vérifie branchement")
-        
-except KeyboardInterrupt:
-    print("  Test PIR sauté")
-except Exception as e:
-    print(f" Erreur PIR: {e}")
+            with lock:
+                donnees_globales['air'] = raw
+                donnees_globales['air_status'] = status
+            time.sleep(0.5)
+        except:
+            time.sleep(1)
 
-# ==================== TEST 5 : SURVEILLANCE EN CONTINU ====================
-print()
-print("=" * 60)
-print("SURVEILLANCE EN TEMPS RÉEL (30 secondes)")
-print("=" * 60)
-print("Lecture toutes les 2 secondes :")
-print("  MOUV | LUMIÈRE | AIR | ACTION")
-print("-" * 60)
+def gestion_led():
+    """Gère la LED en fonction des capteurs"""
+    while True:
+        try:
+            with lock:
+                mouvement = donnees_globales['mouvement']
+                lumiere_pct = donnees_globales['lumiere_pct']
+            
+            if LED_DISPONIBLE:
+                # Allumer LED si mouvement ET lumière faible
+                if mouvement and lumiere_pct < 30:
+                    if not donnees_globales['led_allumee']:
+                        led.on()
+                        donnees_globales['led_allumee'] = True
+                        print("  -> LED allumée (mouvement + lumière faible)")
+                else:
+                    if donnees_globales['led_allumee']:
+                        led.off()
+                        donnees_globales['led_allumee'] = False
+            
+            time.sleep(0.3)
+        except:
+            time.sleep(1)
 
-end_time = time.time() + 30  # 30 secondes de surveillance
+def gestion_buzzer():
+    """Gère le buzzer en fonction des événements"""
+    dernier_mouvement_time = 0
+    
+    while True:
+        try:
+            with lock:
+                mouvement = donnees_globales['mouvement']
+                air = donnees_globales['air']
+            
+            maintenant = time.time()
+            
+            # Bip sur détection de mouvement (pas plus d'un bip toutes les 5s)
+            if mouvement and (maintenant - dernier_mouvement_time > 5):
+                GPIO.output(BUZZER_PIN, 1)
+                time.sleep(0.05)
+                GPIO.output(BUZZER_PIN, 0)
+                dernier_mouvement_time = maintenant
+                print("  -> Bip (mouvement détecté)")
+            
+            # Bip d'alerte si air mauvais (toutes les 10s)
+            if air > 500 and int(maintenant) % 10 == 0:
+                for _ in range(3):
+                    GPIO.output(BUZZER_PIN, 1)
+                    time.sleep(0.1)
+                    GPIO.output(BUZZER_PIN, 0)
+                    time.sleep(0.1)
+                print("  -> Bip d'alerte (air dégradé)")
+            
+            time.sleep(0.2)
+        except:
+            time.sleep(1)
 
+def affichage_principal():
+    """Affiche les données de tous les capteurs"""
+    compteur = 0
+    
+    print("\nDÉMARRAGE DE LA SURVEILLANCE SIMULTANÉE")
+    print("-" * 60)
+    print(" Format: [MOUV] LUMIÈRE  QUALITÉ AIR")
+    print("         OUI/NON   XX%      VALEUR (STATUT)")
+    print("-" * 60)
+    
+    # Bip de démarrage
+    for _ in range(2):
+        GPIO.output(BUZZER_PIN, 1)
+        time.sleep(0.1)
+        GPIO.output(BUZZER_PIN, 0)
+        time.sleep(0.1)
+    
+    try:
+        while True:
+            with lock:
+                mouvement = donnees_globales['mouvement']
+                lumiere_pct = donnees_globales['lumiere_pct']
+                air = donnees_globales['air']
+                air_status = donnees_globales['air_status']
+                led_allumee = donnees_globales['led_allumee']
+            
+            compteur += 1
+            
+            # Afficher les données
+            print(f"\n[{compteur}] {time.strftime('%H:%M:%S')}")
+            print(f"  Mouvement: {'OUI' if mouvement else 'NON'}")
+            print(f"  Lumière: {lumiere_pct:.1f}%")
+            print(f"  Air: {air} ({air_status})")
+            print(f"  LED: {'ALLUMÉE' if led_allumee else 'ÉTEINTE'}")
+            
+            # Afficher les alertes
+            alertes = []
+            if lumiere_pct < 30:
+                alertes.append("LUMIÈRE FAIBLE")
+            if air > 500:
+                alertes.append("AIR DÉGRADÉ")
+            
+            if alertes:
+                print(f"  ! ALERTES: {', '.join(alertes)}")
+            
+            print("-" * 40)
+            
+            time.sleep(2)  # Affichage toutes les 2 secondes
+            
+    except KeyboardInterrupt:
+        print("\nArrêt demandé...")
+
+# Démarrer tous les threads
 try:
-    while time.time() < end_time:
-        # Lire tous les capteurs
-        mouvement = "NON"
-        try:
-            if motion.read(PIR_PIN):
-                mouvement = "OUI"
-        except:
-            mouvement = "ERR"
-        
-        try:
-            lumière = adc.read(LIGHT_CH)
-            lumière_pct = (lumière / 1023.0) * 100
-        except:
-            lumière = 0
-            lumière_pct = 0
-        
-        try:
-            air = adc.read(AIR_CH)
-        except:
-            air = 0
-        
-        # Déterminer l'action
-        action = "..."
-        if mouvement == "OUI" and lumière_pct < 30:
-            action = " Allumer LED"
-            if led:
-                led.on()
-        elif led:
+    print("Démarrage des threads de lecture...")
+    
+    # Créer les threads
+    thread_pir = threading.Thread(target=lire_pir, daemon=True)
+    thread_lumiere = threading.Thread(target=lire_lumiere, daemon=True)
+    thread_air = threading.Thread(target=lire_air, daemon=True)
+    thread_led = threading.Thread(target=gestion_led, daemon=True)
+    thread_buzzer = threading.Thread(target=gestion_buzzer, daemon=True)
+    
+    # Démarrer les threads
+    thread_pir.start()
+    thread_lumiere.start()
+    thread_air.start()
+    thread_led.start()
+    thread_buzzer.start()
+    
+    print(f"Threads démarrés: 5/5")
+    print("- PIR (mouvement)")
+    print("- Lumière")
+    print("- Qualité air")
+    print("- Gestion LED")
+    print("- Gestion buzzer")
+    print()
+    
+    # Lancer l'affichage principal (bloquant)
+    affichage_principal()
+    
+except KeyboardInterrupt:
+    print("\nArrêt du programme...")
+
+except Exception as e:
+    print(f"\nErreur: {e}")
+
+finally:
+    # Nettoyage
+    print("\nNettoyage...")
+    try:
+        if LED_DISPONIBLE:
             led.off()
-            action = " LED éteinte"
-        
-        # Afficher
-        print(f"  {mouvement:3s} | {lumière_pct:6.1f}% | {air:4d} | {action}")
-        
-        time.sleep(2)
-        
-except KeyboardInterrupt:
-    print(" Surveillance arrêtée")
-except Exception as e:
-    print(f" Erreur surveillance: {e}")
-
-# ==================== FIN ====================
-
-
-# Nettoyage
-try:
-    if led:
-        led.off()
-    GPIO.output(BUZZER_PIN, 0)
-    GPIO.cleanup()
-    print(" Nettoyage GPIO effectué")
-except:
-    pass
+        GPIO.output(BUZZER_PIN, 0)
+        GPIO.cleanup()
+        print("GPIO nettoyé")
+    except:
+        pass
+    
+    print("\n" + "=" * 60)
+    print("PROGRAMME TERMINÉ")
+    print("=" * 60)

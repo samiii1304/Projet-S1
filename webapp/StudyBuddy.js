@@ -162,8 +162,10 @@ function initializePomodoroTimer() {
     const modeButtons = document.querySelectorAll('.mode-btn');
     const timerDisplay = document.getElementById('timer');
     const phaseDisplay = document.getElementById('phase');
+    const statusDot = document.getElementById('pomodoroDot');
+    const statusText = document.getElementById('pomodoroStatusText');
     
-    if (!toggleBtn || !resetBtn) return;
+    if (!toggleBtn || !resetBtn || !statusDot) return;
     
     let timerInterval = null;
     let isRunning = false;
@@ -195,6 +197,23 @@ function initializePomodoroTimer() {
         
         // Mettre à jour la phase
         phaseDisplay.textContent = isWorkPhase ? 'TRAVAIL' : 'PAUSE';
+    }
+    
+    // Mettre à jour l'indicateur d'état
+    function updateStatusIndicator() {
+        if (isRunning) {
+            // Session en cours - point VERT
+            statusDot.classList.add('active');
+            statusDot.style.backgroundColor = '#10b981';
+            statusText.textContent = isWorkPhase ? 'En session' : 'En pause';
+            statusText.style.color = '#10b981';
+        } else {
+            // Session arrêtée - point ROUGE
+            statusDot.classList.remove('active');
+            statusDot.style.backgroundColor = '#ef4444';
+            statusText.textContent = 'Arrêté';
+            statusText.style.color = '#ef4444';
+        }
     }
     
     // Démarrer/arrêter le timer
@@ -235,6 +254,7 @@ function initializePomodoroTimer() {
                     }
                     
                     updateTimerDisplay();
+                    updateStatusIndicator();
                     
                     // Redémarrer automatiquement
                     if (isRunning) {
@@ -255,6 +275,7 @@ function initializePomodoroTimer() {
         }
         
         isRunning = !isRunning;
+        updateStatusIndicator();
     }
     
     // Réinitialiser le timer
@@ -265,6 +286,7 @@ function initializePomodoroTimer() {
         currentCycle = 1;
         timeLeft = modes[currentMode].work;
         updateTimerDisplay();
+        updateStatusIndicator();
         toggleBtn.innerHTML = '<span class="btn-icon">▶</span><span class="btn-text">Démarrer</span>';
     }
     
@@ -319,15 +341,8 @@ function initializePomodoroTimer() {
     
     // Initialiser l'affichage
     updateTimerDisplay();
+    updateStatusIndicator();
 }
-
-
-
-
-
-
-
-
 
 // ===== ENVIRONNEMENT DE TRAVAIL =====
 
@@ -424,9 +439,6 @@ function initializeEnvironment() {
         setInterval(getEnvData, 3000);
     }, 2000);
 }
-
-
-
 
 // ===== LOFI MUSIC PLAYER =====
 

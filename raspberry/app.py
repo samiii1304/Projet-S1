@@ -33,12 +33,15 @@ def environment():
         actuators.beep()
 
     data = {
-        "luminosite": light,
-        "light_percent": light_percent,
-        "niveau_sonore": sound,
-        "qualite_air": air_quality,
-        "presence": bool(presence)
-    }
+    "luminosite": light,
+    "light_percent": light_percent,
+    "niveau_sonore": sound,
+
+    "air_quality": air_quality,     # texte
+    "air_percent": air_percent,     # 🔥 NOMBRE (0–100)
+
+    "presence": bool(presence)
+}
 
     return jsonify(data)
 

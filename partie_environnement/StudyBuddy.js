@@ -1,4 +1,6 @@
 // TRANSITION DU HEADER
+const RASPBERRY_IP = "192.168.1.2";
+const API_URL = `http://${RASPBERRY_IP}:5000/api/environment`;
 
 let ticking = false;
 
@@ -430,3 +432,4 @@ document.addEventListener('DOMContentLoaded', () => {
 
     audio.volume = 0.4;
 });
+

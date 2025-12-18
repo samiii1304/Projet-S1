@@ -1,7 +1,4 @@
 // TRANSITION DU HEADER
-// ===== CONFIG RASPBERRY =====
-const RASPBERRY_IP = "192.168.1.2";
-const API_URL = `http://${RASPBERRY_IP}:5000/api/environment`;
 
 
 let ticking = false;
@@ -346,14 +343,12 @@ function initializePomodoroTimer() {
 
 // ===== ENVIRONNEMENT DE TRAVAIL =====
 function initializeEnvironment() {
-    const RASPBERRY_IP = '192.168.1.2'; // Remplace par l'IP exacte de ton Raspberry
+    const RASPBERRY_IP = '192.168.1.2';
     const API_URL = `http://${RASPBERRY_IP}:5000/api/environment`;
 
-    // Convertir la valeur brute du capteur gaz en pourcentage
     function airPercentFromSensor(rawValue) {
         if (typeof rawValue === 'number' && !isNaN(rawValue)) {
-            const min = 200;
-            const max = 700;
+            const min = 200, max = 700;
             let percent = ((rawValue - min) / (max - min)) * 100;
             percent = Math.min(Math.max(percent, 0), 100);
             return Math.round(percent);
@@ -361,53 +356,47 @@ function initializeEnvironment() {
         return 0;
     }
 
-    // Mettre à jour l'affichage
     function updateEnv(data) {
-        // Luminosité
         const lightValue = Math.round(data.luminosite || 0);
         document.getElementById('light-value').textContent = lightValue;
         const lightPercent = data.light_percent ?? Math.min(lightValue / 10, 100);
         document.getElementById('light-bar').style.width = lightPercent + '%';
 
-        // Qualité de l'air
-        let airPercent = 0;
-        if (typeof data.qualite_air === 'number') {
-            airPercent = airPercentFromSensor(data.qualite_air);
-        } else if (!isNaN(parseInt(data.qualite_air))) {
-            airPercent = parseInt(data.qualite_air);
+        let airPercent = data.qualite_air;
+        if (typeof airPercent === "string") {
+            switch (airPercent.toLowerCase()) {
+                case "excellent": airPercent = 90; break;
+                case "bonne": airPercent = 75; break;
+                case "moyenne": airPercent = 55; break;
+                case "mauvaise": airPercent = 30; break;
+                case "dangereux": airPercent = 10; break;
+                default: airPercent = 0;
+            }
         }
         document.getElementById('air-quality-value').textContent = airPercent;
         document.getElementById('air-bar').style.width = airPercent + '%';
-        let airStatus = airPercent > 85 ? "Excellent" :
-                        airPercent > 70 ? "Bonne" :
-                        airPercent > 50 ? "Moyenne" :
-                        airPercent > 25 ? "Mauvaise" : "Dangereux";
+        let airStatus = airPercent > 85 ? "Excellent" : airPercent > 70 ? "Bonne" : airPercent > 50 ? "Moyenne" : airPercent > 25 ? "Mauvaise" : "Dangereux";
         document.getElementById('air-quality-status').textContent = airStatus;
 
-        // Niveau sonore
         const soundValue = Math.round(data.niveau_sonore || 0);
         document.getElementById('sound-value').textContent = soundValue;
         document.getElementById('sound-bar').style.width = Math.min(soundValue, 100) + '%';
 
-        // LOG pour chaque changement
         console.log("Nouvelle valeur environnement :", data);
     }
 
-    // Récupérer les données depuis le Raspberry
     async function getEnvData() {
         try {
             const response = await fetch(API_URL);
             const data = await response.json();
-
             if (!data || Object.keys(data).length === 0) {
                 updateEnv({ luminosite: 0, qualite_air: 0, niveau_sonore: 0 });
                 return;
             }
-
             updateEnv({
                 luminosite: data.luminosite || 0,
                 light_percent: data.light_percent || 0,
-                qualite_air: data.qualite_air || 0,
+                qualite_air: data.qualite_air,
                 niveau_sonore: data.niveau_sonore || 0
             });
         } catch (error) {
@@ -416,17 +405,9 @@ function initializeEnvironment() {
         }
     }
 
-    // Initialisation à 0 au départ
     updateEnv({ luminosite: 0, qualite_air: 0, niveau_sonore: 0 });
-
-    // Lancer la récupération toutes les 3 secondes
-    setTimeout(() => {
-        getEnvData();
-        setInterval(getEnvData, 3000);
-    }, 2000);
+    setTimeout(() => { getEnvData(); setInterval(getEnvData, 3000); }, 2000);
 }
-
-
 // ===== LOFI MUSIC PLAYER =====
 
 function initializeLofiPlayer() {
@@ -504,3 +485,4 @@ function initializeLofiPlayer() {
         }
     });
 }
+

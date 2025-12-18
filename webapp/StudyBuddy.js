@@ -345,100 +345,87 @@ function initializePomodoroTimer() {
 }
 
 // ===== ENVIRONNEMENT DE TRAVAIL =====
-
 function initializeEnvironment() {
-    let isDemoMode = true; // Mode simulation par défaut
+    const RASPBERRY_IP = '192.168.1.2'; // Remplace par l'IP exacte de ton Raspberry
+    const API_URL = `http://${RASPBERRY_IP}:5000/api/environment`;
 
-    // 1. Récupère les données de l'API Raspberry Pi
+    // Convertir la valeur brute du capteur gaz en pourcentage
+    function airPercentFromSensor(rawValue) {
+        if (typeof rawValue === 'number' && !isNaN(rawValue)) {
+            const min = 200;
+            const max = 700;
+            let percent = ((rawValue - min) / (max - min)) * 100;
+            percent = Math.min(Math.max(percent, 0), 100);
+            return Math.round(percent);
+        }
+        return 0;
+    }
+
+    // Mettre à jour l'affichage
+    function updateEnv(data) {
+        // Luminosité
+        const lightValue = Math.round(data.luminosite || 0);
+        document.getElementById('light-value').textContent = lightValue;
+        const lightPercent = data.light_percent ?? Math.min(lightValue / 10, 100);
+        document.getElementById('light-bar').style.width = lightPercent + '%';
+
+        // Qualité de l'air
+        let airPercent = 0;
+        if (typeof data.qualite_air === 'number') {
+            airPercent = airPercentFromSensor(data.qualite_air);
+        } else if (!isNaN(parseInt(data.qualite_air))) {
+            airPercent = parseInt(data.qualite_air);
+        }
+        document.getElementById('air-quality-value').textContent = airPercent;
+        document.getElementById('air-bar').style.width = airPercent + '%';
+        let airStatus = airPercent > 85 ? "Excellent" :
+                        airPercent > 70 ? "Bonne" :
+                        airPercent > 50 ? "Moyenne" :
+                        airPercent > 25 ? "Mauvaise" : "Dangereux";
+        document.getElementById('air-quality-status').textContent = airStatus;
+
+        // Niveau sonore
+        const soundValue = Math.round(data.niveau_sonore || 0);
+        document.getElementById('sound-value').textContent = soundValue;
+        document.getElementById('sound-bar').style.width = Math.min(soundValue, 100) + '%';
+
+        // LOG pour chaque changement
+        console.log("Nouvelle valeur environnement :", data);
+    }
+
+    // Récupérer les données depuis le Raspberry
     async function getEnvData() {
         try {
-            const response = await fetch(API_URL, { timeout: 3000 });
+            const response = await fetch(API_URL);
             const data = await response.json();
-            
-            // Mode réel activé
-            isDemoMode = false;
-            
-            // Mettre à jour l'affichage avec les VRAIES données
-            updateEnv({
-                luminosite: data.luminosite,        // Valeur brute (ex: 408)
-                light_percent: data.light_percent,  // Pourcentage (ex: 40%)
-                qualite_air: data.qualite_air,      // "Bon", "Moyen", etc.
-                mouvement: data.mouvement,          // true/false
-                // Pour le son : simulation car pas de capteur dans phase2_environment.py
-                niveau_sonore: 25 + Math.random() * 10
-            });
-            
-        } catch (error) {
-            // Si l'API ne répond pas, on reste en mode simulation
-            console.log('Raspberry Pi non connecté, mode simulation activé');
-            isDemoMode = true;
-            
-            // DONNÉES SIMULÉES
-            updateEnv({
-                luminosite: 400 + Math.random() * 50,
-                qualite_air: "Bonne",
-                niveau_sonore: 30 + Math.random() * 10
-            });
-        }
-    }
 
-    // 2. Mettre à jour l'affichage (modifié pour gérer le pourcentage)
-    function updateEnv(data) {
-        // Luminosité - Affiche la valeur brute ET le pourcentage
-        if (document.getElementById('light-value')) {
-            document.getElementById('light-value').textContent = Math.round(data.luminosite);
-            
-            // La barre utilise le pourcentage (0-100%)
-            const lightPercent = data.light_percent || (data.luminosite / 10);
-            document.getElementById('light-bar').style.width = lightPercent + '%';
-        }
-        
-        // Qualité air
-        if (document.getElementById('air-quality-value')) {
-            document.getElementById('air-quality-value').textContent = Math.round(data.qualite_air || 85);
-            
-            // Mapping qualité -> largeur barre
-            const airWidths = {
-                "Excellent": "90%",
-                "Bon": "75%",
-                "Bonne": "75%",
-                "Moyen": "50%",
-                "Mauvais": "25%",
-                "Dangereux": "10%"
-            };
-            document.getElementById('air-bar').style.width = 
-                airWidths[data.qualite_air] || "75%";
-                
-            // Mettre à jour le statut
-            if (document.getElementById('air-quality-status')) {
-                document.getElementById('air-quality-status').textContent = data.qualite_air || "Bonne";
+            if (!data || Object.keys(data).length === 0) {
+                updateEnv({ luminosite: 0, qualite_air: 0, niveau_sonore: 0 });
+                return;
             }
-        }
 
-        // Niveau sonore (simulé pour l'instant)
-        if (document.getElementById('sound-value')) {
-            const soundValue = Math.round(data.niveau_sonore || 0);
-            document.getElementById('sound-value').textContent = soundValue;
-            document.getElementById('sound-bar').style.width = Math.min(soundValue, 0) + '%';
+            updateEnv({
+                luminosite: data.luminosite || 0,
+                light_percent: data.light_percent || 0,
+                qualite_air: data.qualite_air || 0,
+                niveau_sonore: data.niveau_sonore || 0
+            });
+        } catch (error) {
+            console.log('Raspberry Pi non connecté, initialisation à 0');
+            updateEnv({ luminosite: 0, qualite_air: 0, niveau_sonore: 0 });
         }
-        
-        // Optionnel : afficher un indicateur mode réel/simulation
-        console.log(isDemoMode ? "Mode: Simulation" : "Mode: Raspberry Pi");
     }
 
-    // Initialiser avec des valeurs par défaut
-    updateEnv({
-        luminosite: 0,
-        qualite_air: "Très Mauvaise",
-        niveau_sonore: 0
-    });
-    
-    // Lance au bout de 2 secondes, puis toutes les 3 secondes
+    // Initialisation à 0 au départ
+    updateEnv({ luminosite: 0, qualite_air: 0, niveau_sonore: 0 });
+
+    // Lancer la récupération toutes les 3 secondes
     setTimeout(() => {
         getEnvData();
         setInterval(getEnvData, 3000);
     }, 2000);
 }
+
 
 // ===== LOFI MUSIC PLAYER =====
 

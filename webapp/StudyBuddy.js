@@ -52,8 +52,8 @@ document.addEventListener('DOMContentLoaded', function() {
     // Sélectionner tous les blocs à animer
     const allBlocksToReveal = [
         ...document.querySelectorAll('.session-status-block, .lofi-music-block, .work-environment-block'),
-        ...document.querySelectorAll('.kpi-card, .main-chart, .mini-stat'),
-        ...document.querySelectorAll('.agenda-card, .calendar-main')
+        ...document.querySelectorAll('.kpi-card, .main-chart-full'),
+        ...document.querySelectorAll('.agenda-simple-block')
     ];
     
     // Fonction pour vérifier si un élément est dans le viewport
@@ -77,7 +77,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     setTimeout(() => {
                         const progressFill = document.getElementById('focus-progress');
                         if (progressFill) {
-                            progressFill.style.width = '78%';
+                            progressFill.style.width = '0%';
                         }
                     }, 300);
                 }
@@ -108,9 +108,6 @@ document.addEventListener('DOMContentLoaded', function() {
     // Initialiser les données des KPI
     initializeKPIValues();
     
-    // Initialiser le calendrier
-    initializeCalendar();
-    
     // Initialiser le timer Pomodoro
     initializePomodoroTimer();
     
@@ -123,32 +120,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // INITIALISATION DES VALEURS DES KPI
 function initializeKPIValues() {
-    // Simuler des valeurs pour démonstration
-    setTimeout(() => {
-        // Sessions aujourd'hui
-        const sessionsToday = document.getElementById('sessions-today');
-        if (sessionsToday) {
-            sessionsToday.textContent = '3';
-        }
-        
-        // Temps d'étude
-        const studyTime = document.getElementById('study-time');
-        if (studyTime) {
-            studyTime.textContent = '2h 45min';
-        }
-        
-        // Jours consécutifs
-        const consecutiveDays = document.getElementById('consecutive-days');
-        if (consecutiveDays) {
-            consecutiveDays.textContent = '14';
-        }
-        
-        // Focus moyen
-        const avgFocus = document.getElementById('avg-focus');
-        if (avgFocus) {
-            avgFocus.textContent = '78%';
-        }
-    }, 1000);
+    // Déjà à 0 dans le HTML, donc pas besoin de mise à jour
+    // Les valeurs sont déjà : 0 sessions, 00h 00min, 0 jours, 0%
+    console.log('Statistiques initialisées à 0');
 }
 
 // INTERACTIVITÉ DES BOUTONS DE PÉRIODE
@@ -167,7 +141,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const period = this.textContent;
             console.log(`Changement de période: ${period}`);
             
-            // Animation des barres du graphique
+            // Animation des barres du graphique (reste à 0%)
             animateChartBars();
         });
     });
@@ -175,47 +149,11 @@ document.addEventListener('DOMContentLoaded', function() {
     function animateChartBars() {
         const chartBars = document.querySelectorAll('.chart-bar');
         chartBars.forEach(bar => {
-            // Réinitialiser l'animation
+            // Les barres restent à 0%
             bar.style.height = '0%';
-            
-            // Obtenir la hauteur d'origine depuis l'attribut style
-            const originalHeight = bar.getAttribute('style')?.match(/height:\s*(\d+)%/);
-            if (originalHeight) {
-                setTimeout(() => {
-                    bar.style.height = originalHeight[1] + '%';
-                }, 100);
-            }
         });
     }
 });
-
-// INITIALISATION DU CALENDRIER
-function initializeCalendar() {
-    const navButtons = document.querySelectorAll('.nav-btn');
-    const currentMonthElement = document.querySelector('.current-month');
-    
-    if (navButtons.length > 0 && currentMonthElement) {
-        // Ajouter des événements aux boutons de navigation
-        navButtons.forEach(button => {
-            button.addEventListener('click', function() {
-                // Logique de navigation du calendrier
-                console.log('Navigation du calendrier cliquée');
-                // Ici, vous implémenteriez la logique pour changer de mois
-            });
-        });
-        
-        // Marquer les jours avec des événements
-        const daysWithEvents = [5, 10, 15, 20, 25];
-        const dayElements = document.querySelectorAll('.day:not(.other-month)');
-        
-        dayElements.forEach((day, index) => {
-            const dayNumber = parseInt(day.textContent);
-            if (daysWithEvents.includes(dayNumber)) {
-                day.classList.add('has-event');
-            }
-        });
-    }
-}
 
 // GESTIONNAIRE DU TIMER POMODORO
 function initializePomodoroTimer() {
@@ -391,45 +329,9 @@ function initializePomodoroTimer() {
 
 
 
-// GESTIONNAIRE DES BOUTONS D'ACTION DE L'AGENDA
-function initializeAgendaButtons() {
-    const agendaActionButtons = document.querySelectorAll('.agenda-action-btn');
-    
-    agendaActionButtons.forEach(button => {
-        button.addEventListener('click', function() {
-            const card = this.closest('.agenda-card');
-            const cardType = card.classList.contains('add-homework') ? 'devoir' : 
-                           card.classList.contains('add-exam') ? 'examen' : 'tâche';
-            
-            // Simuler l'ajout d'un élément
-            alert(`Ajout d'un ${cardType} - Cette fonctionnalité sera implémentée prochainement !`);
-            
-            // Animation de confirmation
-            const originalHTML = this.innerHTML;
-            const originalBgColor = this.style.backgroundColor;
-            
-            this.innerHTML = '<i class="fas fa-check"></i> Ajouté !';
-            this.style.backgroundColor = '#6b705c';
-            
-            setTimeout(() => {
-                this.innerHTML = originalHTML;
-                this.style.backgroundColor = originalBgColor || '';
-            }, 2000);
-        });
-    });
-}
-
-
-
-
-
-
 // ===== ENVIRONNEMENT DE TRAVAIL =====
 
 function initializeEnvironment() {
-    // Configuration
-    const RASPBERRY_IP = '192.168.1.XXX'; 
-    const API_URL = `http://${RASPBERRY_IP}:5000/api/environment`;
     let isDemoMode = true; // Mode simulation par défaut
 
     // 1. Récupère les données de l'API Raspberry Pi
@@ -500,9 +402,9 @@ function initializeEnvironment() {
 
         // Niveau sonore (simulé pour l'instant)
         if (document.getElementById('sound-value')) {
-            const soundValue = Math.round(data.niveau_sonore || 31);
+            const soundValue = Math.round(data.niveau_sonore || 0);
             document.getElementById('sound-value').textContent = soundValue;
-            document.getElementById('sound-bar').style.width = Math.min(soundValue, 100) + '%';
+            document.getElementById('sound-bar').style.width = Math.min(soundValue, 0) + '%';
         }
         
         // Optionnel : afficher un indicateur mode réel/simulation
@@ -511,9 +413,9 @@ function initializeEnvironment() {
 
     // Initialiser avec des valeurs par défaut
     updateEnv({
-        luminosite: 408,
-        qualite_air: "Bonne",
-        niveau_sonore: 31
+        luminosite: 0,
+        qualite_air: "Très Mauvaise",
+        niveau_sonore: 0
     });
     
     // Lance au bout de 2 secondes, puis toutes les 3 secondes
@@ -603,4 +505,3 @@ function initializeLofiPlayer() {
         }
     });
 }
-

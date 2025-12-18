@@ -3,10 +3,22 @@ from flask import Flask, jsonify
 from flask_cors import CORS
 import sensors
 import actuators
+import json
 
 app = Flask(__name__)
 CORS(app)
+    
+try:
+    with open("config/config.json", "r") as f:
+        config = json.load(f)
+except FileNotFoundError:
+    print("Erreur : config.json introuvable")
+    exit(1)
 
+SOUND_ALERT = config["thresholds"]["sound_alert"]
+GAS_GOOD = config["thresholds"]["gas"]["good"]
+GAS_MEDIUM = config["thresholds"]["gas"]["medium"]
+BUZZER_ENABLED = config["hardware"]["buzzer_enabled"]
 
 @app.route("/api/environment")
 def environment():
@@ -16,15 +28,15 @@ def environment():
     presence = sensors.read_pir()
 
     # Interprétation simple du gaz
-    if gas < 300:
+    if gas < GAS_GOOD:
         air_quality = "Bonne"
-    elif gas < 600:
+    elif gas < GAS_MEDIUM:
         air_quality = "Moyenne"
     else:
         air_quality = "Mauvaise"
 
     # Exemple d’alerte
-    if sound > 600:
+    if sound > SOUND_ALERT and BUZZER_ENABLED:
         actuators.beep()
 
     data = {
@@ -40,5 +52,8 @@ def environment():
 
 if __name__ == "__main__":
     print("API StudyBuddy lancée")
-    app.run(host="0.0.0.0", port=5000)
-
+    app.run(
+        host=config["app"]["host"],
+        port=config["app"]["port"],
+        debug=config["app"]["debug"]
+    )

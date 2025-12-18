@@ -1,4 +1,8 @@
 // TRANSITION DU HEADER
+// ===== CONFIG RASPBERRY =====
+const RASPBERRY_IP = "192.168.1.2";
+const API_URL = `http://${RASPBERRY_IP}:5000/api/environment`;
+
 
 let ticking = false;
 
@@ -599,3 +603,4 @@ function initializeLofiPlayer() {
         }
     });
 }
+

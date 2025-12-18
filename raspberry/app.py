@@ -8,12 +8,12 @@ CORS(app)
 
 @app.route("/api/environment")
 def environment():
-    light_raw, light_percent = sensors.read_light()
+    light, light_percent = sensors.read_light()
     sound = sensors.read_sound()
     gas = sensors.read_gas()
     presence = sensors.read_pir()
 
-    # AIR QUALITY (conversion claire)
+    # Interprétation du capteur de gaz
     if gas < 300:
         air_quality = "Bonne"
         air_percent = 85
@@ -24,20 +24,18 @@ def environment():
         air_quality = "Mauvaise"
         air_percent = 20
 
-    # Alerte sonore
-    if sound > 500:
-        actuators.beep()
-
-    return jsonify({
-        "light_lux": light_raw,
+    data = {
+        "luminosite": light,
         "light_percent": light_percent,
-        "sound_db": sound,
+        "niveau_sonore": sound,
+        "presence": bool(presence),
 
+        # 🔥 AJOUTS ESSENTIELS
         "air_quality": air_quality,
-        "air_percent": air_percent,
+        "air_percent": air_percent
+    }
 
-        "presence": bool(presence)
-    })
+    return jsonify(data)
 
 if __name__ == "__main__":
     print("✅ API StudyBuddy lancée")

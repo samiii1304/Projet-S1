@@ -334,7 +334,7 @@ h3 {
     gap: 10px;
 }
 
-/* Header avec pour ordrre: titre | animation | ronds */
+/* Header avec pour ordrre: titre*/
 .lofi-header {
     display: flex;
     align-items: center;
@@ -387,7 +387,7 @@ h3 {
     height: 28px;
     flex-grow: 1; 
     justify-content: center;
-    order: 2; /* Position AU MILIEU */
+    order: 2; 
 }
 
 .lofi-header-wave {
@@ -413,7 +413,7 @@ h3 {
     align-items: center;
     gap: 8px;
     flex-shrink: 0;
-    order: 3; /* Position 3À DROITE */
+    order: 3; 
 }
 
 .lofi-btn {
@@ -445,7 +445,7 @@ h3 {
     font-size: 14px;
 }
 
-/* Barre de volume  EN DESSOUS */
+/* Barre de volume S */
 .lofi-volume {
     display: flex;
     align-items: center;
@@ -720,7 +720,7 @@ h3 {
     margin-bottom: 15px;
 }
 
-/* Indicateur d'état Pomodoro */
+/* Indicateur d'état sessionn */
 .pomodoro-status-indicator {
     display: flex;
     align-items: center;
@@ -733,7 +733,7 @@ h3 {
     width: 12px;
     height: 12px;
     border-radius: 50%;
-    background-color: #ef4444; /* Rouge par défaut (arrêté) */
+    background-color: #ef4444; /* Rouge par défaut  */
     transition: all 0.3s ease;
     box-shadow: 0 0 8px currentColor;
 }
@@ -812,7 +812,7 @@ h3 {
 
 
 
-/* SECTION STATISTIQUES : STATS - DDD */
+/* SECTION STATISTIQUES :  - DDD */
 /* ça c'est les staaats */
 
 /* En-tête Statistiques D */
@@ -994,7 +994,7 @@ h3 {
     width: 0%;
     transition: width 1.5s ease;
 }
-/* Conteneur KPI Fin */
+/* Conteneur KPI - F */
 
 
 
@@ -1005,7 +1005,7 @@ h3 {
     margin-bottom: 50px;
 }
 
-/* Graphique principal (pleine largeur) */
+/* Graphique d*/
 .main-chart-full {
     background-color: #3a3a3a;
     border-radius: 15px;
@@ -1121,12 +1121,12 @@ h3 {
     color: #b7b7a4;
     font-size: 14px;
 }
-/* Conteneur Graphiques Fin */
+/* Conteneur Graphiques F */
 
 
 
-/* Responsive Statistiques Début */
-/* Adaptations pour les petits écrans */
+/* Responsive Statistiques D */
+
 @media (max-width: 1200px) {
     .kpi-container {
         grid-template-columns: repeat(2, 1fr);
@@ -1160,15 +1160,11 @@ h3 {
         align-self: flex-end;
     }
 }
-/* Responsive Statistiques Fin */
+/* Responsive Stat F */
 
 
 
-/* SECTION STATISTIQUES : STATISTIQUES - F */
-
-
-
-
+/* SECTION STATISTIQUES  - Fff */
 
 
 
@@ -1184,9 +1180,13 @@ h3 {
 
 
 
-/* SECTION AGENDA : AGENDA - DDD */
 
-/* ça c'est l'agendar avec nouvelle DA */
+
+
+
+/* SECTION AGENDA bineot dispo - DDD */
+
+/* ça c'est l'agendar av */
 .agenda-section{
     padding: 10px 75px;
     border-radius: 20px;
@@ -1233,7 +1233,7 @@ h3 {
     font-style: italic;
 }
 
-/* Container principal de l'agenda  */
+/* seul conteneur /case  de l'agenda  */
 .agenda-simple-container {
     display: flex;
     justify-content: center;
@@ -1241,7 +1241,7 @@ h3 {
     min-height: 300px;
 }
 
-/* Bloc moyen unique */
+
 .agenda-simple-block {
     background: #ffe8d6;
     border-radius: 15px;
@@ -1436,3 +1436,4 @@ footer {
     opacity: 1;
     transform: translateY(0);
 }
+

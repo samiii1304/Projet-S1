@@ -196,7 +196,7 @@
 
 
 
-<!-- ===== NOUVELLE SECTION STATISTIQUES REMANIÉE ===== -->
+<!-- ===== SECTION STATISTIQUES ===== -->
 <div class="statistics-section-new">
     <br><br><br>
     
@@ -205,7 +205,7 @@
         <p class="statistics-subtitle">Suivez vos progrès et optimisez vos sessions d'étude</p>
     </div>
     
-    <!-- SECTION DES KPI (Key Performance Indicators) -->
+    <!-- SECTION DES KPI  -->
     <div class="kpi-container">
         <!-- KPI 1: Sessions Aujourd'hui -->
         <div class="kpi-card today-sessions hidden">
@@ -213,11 +213,11 @@
                 <i class="fas fa-calendar-day"></i>
             </div>
             <div class="kpi-content">
-                <div class="kpi-value" id="sessions-today">X</div>
+                <div class="kpi-value" id="sessions-today">0</div>
                 <div class="kpi-label">Sessions aujourd'hui</div>
                 <div class="kpi-trend">
-                    <i class="fas fa-arrow-up trend-up"></i>
-                    <span class="trend-text">+X vs hier</span>
+                    <i class="fas fa-minus trend-neutral"></i>
+                    <span class="trend-text">vs hier</span>
                 </div>
             </div>
         </div>
@@ -228,11 +228,11 @@
                 <i class="fas fa-clock"></i>
             </div>
             <div class="kpi-content">
-                <div class="kpi-value" id="study-time">X</div>
+                <div class="kpi-value" id="study-time">00h 00min</div>
                 <div class="kpi-label">Temps d'étude total</div>
                 <div class="kpi-trend">
-                    <i class="fas fa-chart-line trend-up"></i>
-                    <span class="trend-text">+X% cette semaine</span>
+                    <i class="fas fa-minus trend-neutral"></i>
+                    <span class="trend-text">cette semaine</span>
                 </div>
             </div>
         </div>
@@ -243,11 +243,11 @@
                 <i class="fas fa-fire"></i>
             </div>
             <div class="kpi-content">
-                <div class="kpi-value" id="consecutive-days">X</div>
+                <div class="kpi-value" id="consecutive-days">0</div>
                 <div class="kpi-label">Jours consécutifs</div>
                 <div class="kpi-trend">
-                    <i class="fas fa-medal trend-up"></i>
-                    <span class="trend-text">Record: X jours</span>
+                    <i class="fas fa-medal trend-neutral"></i>
+                    <span class="trend-text">Record: 0 jours</span>
                 </div>
             </div>
         </div>
@@ -258,7 +258,7 @@
                 <i class="fas fa-brain"></i>
             </div>
             <div class="kpi-content">
-                <div class="kpi-value" id="avg-focus">X%</div>
+                <div class="kpi-value" id="avg-focus">0%</div>
                 <div class="kpi-label">Focus moyen</div>
                 <div class="kpi-progress">
                     <div class="progress-bar">
@@ -269,10 +269,10 @@
         </div>
     </div>
     
-    <!-- SECTION DES GRAPHIQUES -->
+    <!-- SECTION DES GRAPHIQUES R -->
     <div class="charts-container">
-        <!-- Graphique principal (gauche) -->
-        <div class="main-chart hidden">
+        <!-- Graphique principal (pleine largeur) -->
+        <div class="main-chart-full hidden">
             <div class="chart-header">
                 <h3>Activité Hebdomadaire</h3>
                 <div class="chart-period">
@@ -282,15 +282,15 @@
                 </div>
             </div>
             <div class="chart-placeholder">
-                <!-- Ici graphiUe -->
+                <!-- Ici graphique -->
                 <div class="chart-mock">
-                    <div class="chart-bar" style="height: X% "></div>
-                    <div class="chart-bar" style="height: X%"></div>
-                    <div class="chart-bar" style="height: X%"></div>
-                    <div class="chart-bar" style="height: X%"></div>
-                    <div class="chart-bar" style="height: X%"></div>
-                    <div class="chart-bar" style="height: X%"></div>
-                    <div class="chart-bar" style="height: X%"></div>
+                    <div class="chart-bar" style="height: 0%"></div>
+                    <div class="chart-bar" style="height: 0%"></div>
+                    <div class="chart-bar" style="height: 0%"></div>
+                    <div class="chart-bar" style="height: 0%"></div>
+                    <div class="chart-bar" style="height: 0%"></div>
+                    <div class="chart-bar" style="height: 0%"></div>
+                    <div class="chart-bar" style="height: 0%"></div>
                 </div>
                 <div class="chart-labels">
                     <span>Lun</span><span>Mar</span><span>Mer</span><span>Jeu</span><span>Ven</span><span>Sam</span><span>Dim</span>
@@ -306,56 +306,6 @@
                         <div class="legend-color" style="background-color: #cb997e"></div>
                         <span>Sessions complétées</span>
                     </div>
-                </div>
-            </div>
-        </div>
-        
-        <!-- Mini statistiques (droite) -->
-        <div class="side-stats">
-            <!-- Meilleure période -->
-            <div class="mini-stat best-period hidden">
-                <div class="mini-stat-icon">
-                    <i class="fas fa-sun"></i>
-                </div>
-                <div class="mini-stat-content">
-                    <h4>Meilleure période</h4>
-                    <div class="mini-stat-value">X - X</div>
-                    <p class="mini-stat-desc">Vous êtes plus productif le matin</p>
-                </div>
-            </div>
-            
-            <!-- Durée moyenne session -->
-            <div class="mini-stat avg-session hidden">
-                <div class="mini-stat-icon">
-                    <i class="fas fa-hourglass-half"></i>
-                </div>
-                <div class="mini-stat-content">
-                    <h4>Durée moyenne session</h4>
-                    <div class="mini-stat-value">X min</div>
-                    <p class="mini-stat-desc">+X vs semaine dernière</p>
-                </div>
-            </div>
-            
-            <!-- Taux de réussite -->
-            <div class="mini-stat success-rate hidden">
-                <div class="mini-stat-icon">
-                    <i class="fas fa-trophy"></i>
-                </div>
-                <div class="mini-stat-content">
-                    <h4>Taux de réussite</h4>
-                    <div class="mini-stat-value">X%</div>
-                    <p class="mini-stat-desc">Sessions complétées</p>
-                </div>
-            </div>
-            
-            <!-- Recommandation -->
-            <div class="mini-stat recommendation hidden">
-                <div class="mini-stat-icon">
-                    <i class="fas fa-lightbulb"></i>
-                </div>
-                <div class="mini-stat-content">
-                    <h4>Recommandation</h4>
-                    <p class="mini-stat-desc">Essayez des pauses plus courtes (Xmin) pour maintenir votre concentration</p>
                 </div>
             </div>
         </div>
@@ -377,83 +327,18 @@
         <p class="agenda-subtitle">Organisez votre temps et gérez vos échéances</p>
     </div>
     
-    <!-- SECTION PRINCIPALE AGENDA -->
-    <div class="agenda-main-container">
-        <!-- Blocs de gauche (Actions rapides) -->
-        <div class="agenda-quick-actions">
-            <!-- Ajouter un Devoir -->
-            <div class="agenda-card add-homework hidden">
-                <div class="agenda-card-icon">
-                    <i class="fas fa-book"></i>
-                </div>
-                <div class="agenda-card-content">
-                    <h3>Ajouter un Devoir</h3>
-                    <p class="agenda-card-desc">Créez une nouvelle tâche à compléter</p>
-                    <button class="agenda-action-btn">
-                        <i class="fas fa-plus"></i> Ajouter
-                    </button>
-                </div>
+    <!-- SECTION AGENDA  -->
+    <div class="agenda-simple-container">
+        <!-- Un seul bloc moyen -->
+        <div class="agenda-simple-block hidden">
+            <div class="agenda-simple-icon">
+                <i class="fas fa-calendar-alt"></i>
             </div>
-            
-            <!-- Ajouter une Date d'Examen -->
-            <div class="agenda-card add-exam hidden">
-                <div class="agenda-card-icon">
-                    <i class="fas fa-graduation-cap"></i>
-                </div>
-                <div class="agenda-card-content">
-                    <h3>Ajouter un Examen</h3>
-                    <p class="agenda-card-desc">Planifiez vos prochaines évaluations</p>
-                    <button class="agenda-action-btn">
-                        <i class="fas fa-calendar-plus"></i> Planifier
-                    </button>
-                </div>
-            </div>
-        </div>
-        
-        <!-- Tâches à Venir à droite -->
-        <div class="agenda-tasks-container">
-            <div class="agenda-card upcoming-tasks visible">
-                <div class="agenda-card-icon">
-                    <i class="fas fa-tasks"></i>
-                </div>
-                <div class="agenda-card-content">
-                    <h3>Tâches à Venir</h3>
-                    <div class="tasks-list">
-                        <div class="task-item">
-                            <div class="task-dot" style="background-color: #a5a58d"></div>
-                            <span class="task-text">Devoir de Mathématiques</span>
-                            <span class="task-date">Demain</span>
-                        </div>
-                        <div class="task-item">
-                            <div class="task-dot" style="background-color: #cb997e"></div>
-                            <span class="task-text">Rapport Histoire</span>
-                            <span class="task-date">3 jours</span>
-                        </div>
-                        <div class="task-item">
-                            <div class="task-dot" style="background-color: #6b705c"></div>
-                            <span class="task-text">Présentation Anglais</span>
-                            <span class="task-date">5 jours</span>
-                        </div>
-                        <div class="task-item">
-                            <div class="task-dot" style="background-color: #ddbea9"></div>
-                            <span class="task-text">Révision Physique</span>
-                            <span class="task-date">7 jours</span>
-                        </div>
-                        <div class="task-item">
-                            <div class="task-dot" style="background-color: #a5a58d"></div>
-                            <span class="task-text">Projet Informatique</span>
-                            <span class="task-date">10 jours</span>
-                        </div>
-                        <div class="task-item">
-                            <div class="task-dot" style="background-color: #cb997e"></div>
-                            <span class="task-text">Examen Chimie</span>
-                            <span class="task-date">14 jours</span>
-                        </div>
-                    </div>
-                    <button class="agenda-action-btn view-all-btn">
-                        <i class="fas fa-list"></i> Voir toutes les tâches
-                    </button>
-                </div>
+            <div class="agenda-simple-content">
+                <h3>Fonctionnalité à venir</h3>
+                <p class="agenda-simple-text">
+                    Fonctionnalité prochainement disponible... A suivre !
+                </p>
             </div>
         </div>
     </div>
@@ -478,6 +363,7 @@
 </body>
 
 </html>
+
 
 
 

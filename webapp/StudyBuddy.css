@@ -700,6 +700,7 @@ h3 {
 .timer-display {
     text-align: center;
     margin-bottom: -10px;
+    position: relative;
 }
 
 .timer-time {
@@ -716,7 +717,39 @@ h3 {
     color: #6b705c;
     text-transform: uppercase;
     letter-spacing: 3px;
+    margin-bottom: 15px;
 }
+
+/* Indicateur d'état Pomodoro */
+.pomodoro-status-indicator {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.status-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background-color: #ef4444; /* Rouge par défaut (arrêté) */
+    transition: all 0.3s ease;
+    box-shadow: 0 0 8px currentColor;
+}
+
+.status-dot.active {
+    background-color: #10b981; /* Vert quand actif */
+    animation: pulse 2s infinite;
+}
+
+.status-text {
+    font-size: 14px;
+    color: #6b705c;
+    font-weight: 600;
+    font-family: 'Inter', sans-serif;
+}
+
 
 .timer-controls {
     display: flex;
@@ -1403,6 +1436,3 @@ footer {
     opacity: 1;
     transform: translateY(0);
 }
-
-
-

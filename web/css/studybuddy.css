@@ -1487,3 +1487,6 @@ footer {
 .logout-btn:hover {
     background-color: #d32f2f; /* rouge plus foncé au survol */
 }
+.metric-fill.alert {
+    background-color: #e63946 !important;
+}

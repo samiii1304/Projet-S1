@@ -48,6 +48,22 @@ def environment():
     }
 
     return jsonify(data)
+@app.route("/api/led/on")
+def led_on():
+    actuators.led_on()
+    return jsonify({"led": "on"})
+
+
+@app.route("/api/led/off")
+def led_off():
+    actuators.led_off()
+    return jsonify({"led": "off"})
+
+
+@app.route("/api/buzzer/beep")
+def buzzer_beep():
+    actuators.beep()
+    return jsonify({"buzzer": "beep"})
 
 
 if __name__ == "__main__":

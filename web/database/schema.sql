@@ -1,11 +1,12 @@
 -- Table utilisateurs
 CREATE TABLE utilisateurs (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    nom VARCHAR(100) NOT NULL,
-    prenom VARCHAR(100) NOT NULL,
-    email VARCHAR(255) UNIQUE NOT NULL,
-    mot_de_passe_hash VARCHAR(255) NOT NULL
+    username VARCHAR(255) UNIQUE NOT NULL,
+    password VARCHAR(255) NOT NULL
 );
+
+INSERT INTO utilisateurs (username, password)
+VALUES ('admin', 'admin');
 
 -- Table methodes_travail
 CREATE TABLE methodes_travail (

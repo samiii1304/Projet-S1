@@ -1,3 +1,23 @@
+fetch("http://127.0.0.1:5000/me", {
+    method: "GET",
+    credentials: "include"
+})
+    .then(res => {
+        if (!res.ok) throw new Error("Non autorisé");
+        return res.json();
+    })
+    .then(data => {
+        const btns = document.getElementById("boutons-accueils");
+        console.log(btns);
+        if (!btns) return; // sécurité si l'élément n'existe pas
+        if (data.user) {
+            // connecté → afficher
+            btns.style.display = "none";
+        } else {
+            // non connecté → cacher
+            btns.style.display = "flex";
+        }
+    });
 // Gestion du header qui change quand on scroll 
 let ticking = false;
 

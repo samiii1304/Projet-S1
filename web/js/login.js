@@ -1,5 +1,17 @@
-// Gestion de la page de connexion/inscription StudyBuddy+
-
+fetch("http://127.0.0.1:5000/me", {
+    method: "GET",
+    credentials: "include"
+})
+.then(res => {
+    if (!res.ok) throw new Error("Non autorisé");
+    return res.json();
+})
+.then(data => {
+    console.log(data);
+    if (data.user) {
+        window.location.href = "studybuddy.html";
+    }
+});
 let ticking = false;
 
 // TRANSITION DU HEADER (comme la page d'accueil)
@@ -65,60 +77,47 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Initialiser les formulaires
     initForms();
-
-    // Initialiser les effets d'entrée
-    initInputEffects();
 });
 
 // GESTION DES FORMULAIRES
 function initForms() {
-    // Formulaire de connexion
     const loginForm = document.getElementById('loginForm');
     if (loginForm) {
         loginForm.addEventListener('submit', handleLogin);
     }
-
-    // Formulaire d'inscription
     const signupForm = document.getElementById('signupForm');
     if (signupForm) {
         signupForm.addEventListener('submit', handleSignup);
     }
-
-    // Validation en temps réel
-    initRealTimeValidation();
 }
 
 // TRAITEMENT DE LA CONNEXION
 function handleLogin(e) {
     e.preventDefault();
-
     const username = document.getElementById('loginUsername').value.trim();
     const password = document.getElementById('loginPassword').value;
-
     // Validation simple
     if (!validateLoginForm(username, password)) {
         return;
     }
-
     // Désactiver le bouton pendant le traitement
     const button = e.target.querySelector('.auth-btn');
     const originalHTML = button.innerHTML;
     button.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Connexion...';
     button.disabled = true;
-
-    // Simuler une requête serveur
-    setTimeout(() => {
-        showMessage(`Bienvenue, ${username} !`, 'success');
-
-        // Réactiver le bouton
-        setTimeout(() => {
-            button.innerHTML = originalHTML;
-            button.disabled = false;
-
-            // Redirection vers la page principale
-            window.location.href = 'home.html';
-        }, 1000);
-    }, 1500);
+    fetch("http://127.0.0.1:5000/login", {
+        method: "POST",
+        credentials: "include",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+            username: username,
+            password: password
+        })
+    })
+        .then(res => {
+            if (res.ok) window.location.href = "studybuddy.html";
+            else alert("Login incorrect");
+        });
 }
 
 // TRAITEMENT DE L'INSCRIPTION
@@ -164,22 +163,18 @@ function handleSignup(e) {
 function validateLoginForm(username, password) {
     let isValid = true;
 
-    // Réinitialiser les erreurs
-    clearErrors('loginUsername');
-    clearErrors('loginPassword');
-
     // Validation du pseudo
     if (!username) {
-        showError('loginUsername', 'Le pseudo est requis');
+        alert('loginUsername', 'Le pseudo est requis');
         isValid = false;
     } else if (username.length < 3) {
-        showError('loginUsername', 'Le pseudo doit contenir au moins 3 caractères');
+        alert('loginUsername', 'Le pseudo doit contenir au moins 3 caractères');
         isValid = false;
     }
 
     // Validation du mot de passe
     if (!password) {
-        showError('loginPassword', 'Le mot de passe est requis');
+        alert('loginPassword', 'Le mot de passe est requis');
         isValid = false;
     }
 
@@ -190,35 +185,30 @@ function validateLoginForm(username, password) {
 function validateSignupForm(username, password, confirmPassword) {
     let isValid = true;
 
-    // Réinitialiser les erreurs
-    clearErrors('signupUsername');
-    clearErrors('signupPassword');
-    clearErrors('confirmPassword');
-
     // Validation du pseudo
     if (!username) {
-        showError('signupUsername', 'Le pseudo est requis');
+        alert('signupUsername', 'Le pseudo est requis');
         isValid = false;
     } else if (username.length < 3) {
-        showError('signupUsername', 'Le pseudo doit contenir au moins 3 caractères');
+        alert('signupUsername', 'Le pseudo doit contenir au moins 3 caractères');
         isValid = false;
     }
 
     // Validation du mot de passe
     if (!password) {
-        showError('signupPassword', 'Le mot de passe est requis');
+        alert('signupPassword', 'Le mot de passe est requis');
         isValid = false;
     } else if (password.length < 6) {
-        showError('signupPassword', 'Le mot de passe doit contenir au moins 6 caractères');
+        alert('signupPassword', 'Le mot de passe doit contenir au moins 6 caractères');
         isValid = false;
     }
 
     // Validation de la confirmation
     if (!confirmPassword) {
-        showError('confirmPassword', 'Veuillez confirmer votre mot de passe');
+        alert('confirmPassword', 'Veuillez confirmer votre mot de passe');
         isValid = false;
     } else if (password !== confirmPassword) {
-        showError('confirmPassword', 'Les mots de passe ne correspondent pas');
+        alert('confirmPassword', 'Les mots de passe ne correspondent pas');
         isValid
     }
 }

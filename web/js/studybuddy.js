@@ -1,6 +1,36 @@
-// TRANSITION DU HEADER
+// vérification de la session
+fetch("http://127.0.0.1:5000/me", {
+    method: "GET",
+    credentials: "include"
+})
+    .then(res => {
+        if (!res.ok) throw new Error("Session expirée ou non autorisée");
+        return res.json();  // retourne la promesse JSON
+    })
+    .then(data => {
+        if (!data.user) {
+            // rediriger si pas connecté
+            window.location.href = "login.html";
+            return;
+        }
+        // afficher le username
+        document.getElementById("username").textContent = "Bienvenue " + data.user;
+    })
+    .catch(err => {
+        console.error(err);
+        window.location.href = "login.html";
+    });
 
-
+// Déconnexion
+document.getElementById("logoutBtn").addEventListener("click", () => {
+    fetch("http://127.0.0.1:5000/logout", {
+        method: "GET",
+        credentials: "include"
+    })
+        .then(() => {
+            window.location.href = "login.html";
+        });
+});
 let ticking = false;
 
 function updateHeader() {
@@ -485,4 +515,3 @@ function initializeLofiPlayer() {
         }
     });
 }
-

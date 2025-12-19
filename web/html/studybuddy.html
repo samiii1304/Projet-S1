@@ -21,12 +21,9 @@
     <header>
         <img src="../assets/img/LOGO-SB-TEST3.png" alt="StudyBuddy+ Logo" class="logo">
         <div class="header-right">
-            <div class="round-icon"></div>
-            <div class="menu-bars">
-                <div class="bar"></div>
-                <div class="bar"></div>
-                <div class="bar"></div>
-            </div>
+            <button id="logoutBtn" class="logout-btn">
+                <i class="fas fa-sign-out-alt"></i>
+            </button>
         </div>
     </header>
     <!-- header - FFF -->
@@ -39,7 +36,7 @@
         <div class="carousel-slide slide-3"></div>
         <div class="carousel-slide slide-4"></div>
 
-        <h1>Bienvenue *Insert le pseudo*</h1>
+        <h1 id="username"></h1>
     </div>
     <!-- Slides qui défilent avec un bienvenue - FFF -->
 
@@ -148,7 +145,7 @@
 
                         <!-- Audio -->
                         <audio id="lofiAudio" loop>
-                            <source src="lofi.mp3" type="audio/mpeg">
+                            <source src="../assets/music/lofi.mp3" type="audio/mpeg">
                         </audio>
                     </div>
                 </div>
@@ -376,4 +373,5 @@
     </footer>
     <!-- FOOTER - FFF -->
 </body>
+
 </html>

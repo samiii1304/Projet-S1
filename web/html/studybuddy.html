@@ -67,7 +67,7 @@
                             <button class="mode-btn active" data-mode="classic" disabled>
                                 Pomodoro Classique
                             </button>
-                        
+
                         </div>
 
                         <!-- Afichage timer avec point d état -->
@@ -227,7 +227,7 @@
                     <div class="kpi-label">Sessions aujourd'hui</div>
                     <div class="kpi-trend">
                         <i class="fas fa-minus trend-neutral"></i>
-                        <span class="trend-text">vs hier</span>
+                        <span class="trend-text" id="sessions-yesterday"></span>
                     </div>
                 </div>
             </div>
@@ -257,7 +257,7 @@
                     <div class="kpi-label">Jours consécutifs</div>
                     <div class="kpi-trend">
                         <i class="fas fa-medal trend-neutral"></i>
-                        <span class="trend-text">Record: 0 jours</span>
+                        <span class="trend-text" id="record-streak"></span>
                     </div>
                 </div>
             </div>
@@ -272,7 +272,7 @@
                     <div class="kpi-label">Focus moyen</div>
                     <div class="kpi-progress">
                         <div class="progress-bar">
-                            <div class="progress-fill" id="focus-progress"></div>
+                            <div class="progress-fill" id="focus-progress" style="width: 10%"></div>
                         </div>
                     </div>
                 </div>
@@ -285,22 +285,17 @@
             <div class="main-chart-full hidden">
                 <div class="chart-header">
                     <h3>Activité Hebdomadaire</h3>
-                    <div class="chart-period">
-                        <button class="period-btn active">7j</button>
-                        <button class="period-btn">30j</button>
-                        <button class="period-btn">90j</button>
-                    </div>
                 </div>
                 <div class="chart-placeholder">
                     <!-- Ici graphique -->
                     <div class="chart-mock">
-                        <div class="chart-bar" style="height: 0%"></div>
-                        <div class="chart-bar" style="height: 0%"></div>
-                        <div class="chart-bar" style="height: 0%"></div>
-                        <div class="chart-bar" style="height: 0%"></div>
-                        <div class="chart-bar" style="height: 0%"></div>
-                        <div class="chart-bar" style="height: 0%"></div>
-                        <div class="chart-bar" style="height: 0%"></div>
+                        <div class="chart-bar"></div>
+                        <div class="chart-bar"></div>
+                        <div class="chart-bar"></div>
+                        <div class="chart-bar"></div>
+                        <div class="chart-bar"></div>
+                        <div class="chart-bar"></div>
+                        <div class="chart-bar"></div>
                     </div>
                     <div class="chart-labels">
                         <span>Lun</span><span>Mar</span><span>Mer</span><span>Jeu</span><span>Ven</span><span>Sam</span><span>Dim</span>
@@ -310,10 +305,6 @@
                     <div class="chart-legend">
                         <div class="legend-item">
                             <div class="legend-color" style="background-color: #6b705c"></div>
-                            <span>Temps d'étude</span>
-                        </div>
-                        <div class="legend-item">
-                            <div class="legend-color" style="background-color: #cb997e"></div>
                             <span>Sessions complétées</span>
                         </div>
                     </div>

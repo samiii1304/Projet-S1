@@ -1,9 +1,10 @@
 from flask import Flask, request, jsonify, session
 from flask_cors import CORS
 import sqlite3
-from datetime import datetime, date
+from datetime import datetime, date, timedelta
 import json
 import os
+import stats_study
 
 config_path = os.path.join(os.path.dirname(__file__), "config/config.json")
 try:
@@ -139,6 +140,63 @@ def create_pomodoro():
     db.commit()
     db.close()
     return jsonify({"status": "ok"})
+
+@app.route("/stats")
+def stats():
+    if "user_id" not in session:
+        return jsonify({"error": "Non autorisé"}), 401
+    db = get_db()
+    user_id = session["user_id"]
+    stats_data = stats_study.get_user_stats(user_id, db)
+    db.close()
+    return jsonify(stats_data)
+
+@app.route("/weekly_activity")
+def weekly_activity():
+    if "user_id" not in session:
+        return jsonify({"error": "Non autorisé"}), 401
+    days = ["Lun", "Mar", "Mer", "Jeu", "Ven", "Sam", "Dim"]
+    weekly_data = {
+        day: {
+            "day": day,
+            "sessions": 0,
+            "pomodoros": 0
+        }
+        for day in days
+    }
+
+    user_id = session["user_id"]
+    db = get_db()
+    cur = db.cursor()
+    
+    today = datetime.today().date()
+    week_start = today - timedelta(days=today.weekday())  # lundi
+    
+    # Sessions et Pomodoros par jour
+    cur.execute("""
+        SELECT strftime('%w', date) as weekday, 
+               COUNT(DISTINCT s.id) as sessions,
+               COUNT(p.id) as pomodoros
+        FROM sessions s
+        LEFT JOIN pomodoros p ON s.id = p.session_id
+        WHERE s.user_id = ? AND date(s.started_at) >= ?
+        AND s.ended_at IS NOT NULL
+        GROUP BY weekday
+        ORDER BY weekday
+    """, (user_id, week_start))
+    for row in cur.fetchall():
+        print(row)
+        day_idx = sqlite_to_monday_index(row[0])
+        day_name = days[day_idx]
+        weekly_data[day_name]["sessions"] = row[1]
+        weekly_data[day_name]["pomodoros"] = row[2]
+
+    db.close()
+    result = list(weekly_data.values())
+    return jsonify(result)
+
+def sqlite_to_monday_index(sqlite_day):
+    return (int(sqlite_day) - 1) % 7
 
 if __name__ == "__main__":
     app.run(

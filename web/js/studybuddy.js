@@ -1,44 +1,12 @@
 //Variables
-const TEST_MODE = false;
+const TEST_MODE = true;
 const backendurl = "http://127.0.0.1:5000";
 let currentSessionId = null;
 let sessionStarted = false;
-
-// vérification de la session
-fetch(backendurl + "/me", {
-    method: "GET",
-    credentials: "include"
-})
-    .then(res => {
-        if (!res.ok) throw new Error("Session expirée ou non autorisée");
-        return res.json();  // retourne la promesse JSON
-    })
-    .then(data => {
-        if (!data.user) {
-            // rediriger si pas connecté
-            window.location.href = "login.html";
-            return;
-        }
-        // afficher le username
-        document.getElementById("username").textContent = "Bienvenue " + data.user;
-    })
-    .catch(err => {
-        console.error(err);
-        window.location.href = "login.html";
-    });
-
-// Déconnexion
-document.getElementById("logoutBtn").addEventListener("click", () => {
-    fetch(backendurl + "/logout", {
-        method: "GET",
-        credentials: "include"
-    })
-        .then(() => {
-            window.location.href = "login.html";
-        });
-});
 let ticking = false;
 
+// vérification de la session
+checkSession();
 function updateHeader() {
     const header = document.querySelector('header');
     const banner = document.querySelector('.banner');
@@ -109,8 +77,8 @@ document.addEventListener('DOMContentLoaded', function () {
                 if (block.classList.contains('avg-focus')) {
                     setTimeout(() => {
                         const progressFill = document.getElementById('focus-progress');
-                        if (progressFill) {
-                            progressFill.style.width = '0%';
+                        if (progressFill && document.getElementById("avg-focus").textContent) {
+                            progressFill.style.width = document.getElementById("avg-focus").textContent;
                         }
                     }, 300);
                 }
@@ -153,9 +121,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 // INITIALISATION DES VALEURS DES KPI
 function initializeKPIValues() {
-    // Déjà à 0 dans le HTML, donc pas besoin de mise à jour
-    // Les valeurs sont déjà : 0 sessions, 00h 00min, 0 jours, 0%
-    console.log('Statistiques initialisées à 0');
+    fetchUserStats();
 }
 
 // INTERACTIVITÉ DES BOUTONS DE PÉRIODE
@@ -183,7 +149,7 @@ document.addEventListener('DOMContentLoaded', function () {
         const chartBars = document.querySelectorAll('.chart-bar');
         chartBars.forEach(bar => {
             // Les barres restent à 0%
-            bar.style.height = '0%';
+            bar.style.height = '100%';
         });
     }
 });
@@ -245,17 +211,18 @@ function initializePomodoroTimer() {
     function updateStatusIndicator() {
         let cycleStr = null;
         if (sessionStarted && isWorkPhase) {
-            cycleStr = ' cycle N°' + (completedCycles + 1) + '/' + modes[currentMode].cycles;
+            cycleStr = ' cycle n°' + (completedCycles + 1) + '/' + modes[currentMode].cycles;
         }
         if (sessionStarted && !isWorkPhase) {
-            cycleStr = ' cycle N°' + (completedCycles) + '/' + modes[currentMode].cycles;
+            cycleStr = ' cycle n°' + completedCycles + '/' + modes[currentMode].cycles;
         }
         if (isRunning) {
             // Session en cours - point VERT
             statusDot.classList.add('active');
             statusDot.style.backgroundColor = '#10b981';
             statusText.textContent = isWorkPhase ? 'En session' : 'En pause';
-            statusText.textContent = statusText.textContent + cycleStr;
+            let tempVal = ' cycle n°' + (completedCycles+1) + '/' + modes[currentMode].cycles;
+            statusText.textContent = statusText.textContent + tempVal;
             statusText.style.color = '#10b981';
         } else {
             // Session arrêtée - point ROUGE
@@ -522,7 +489,7 @@ function initializeLofiPlayer() {
 function sendPomodoro() {
     if (!currentSessionId) return;
 
-    fetch(backendurl + "pomodoros", {
+    fetch(backendurl + "/pomodoros", {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
@@ -535,7 +502,7 @@ function sendPomodoro() {
 }
 
 function startSession() {
-    fetch(backendurl + "sessions/start", {
+    fetch(backendurl + "/sessions/start", {
         method: "POST",
         credentials: "include"
     })
@@ -550,8 +517,8 @@ function startSession() {
 
 function endSession() {
     if (!currentSessionId) return;
-
-    fetch(backendurl + "sessions/end", {
+    fetchUserStats();//Update stats
+    fetch(backendurl + "/sessions/end", {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
@@ -565,3 +532,108 @@ function endSession() {
         sessionStarted = false;
     });
 }
+
+// Déconnexion
+document.getElementById("logoutBtn").addEventListener("click", () => {
+    fetch(backendurl + "/logout", {
+        method: "GET",
+        credentials: "include"
+    })
+        .then(() => {
+            window.location.href = "login.html";
+        });
+});
+
+function checkSession() {
+    fetch(backendurl + "/me", {
+        method: "GET",
+        credentials: "include"
+    })
+        .then(res => {
+            if (!res.ok) throw new Error("Session expirée ou non autorisée");
+            return res.json();  // retourne la promesse JSON
+        })
+        .then(data => {
+            if (!data.user) {
+                // rediriger si pas connecté
+                window.location.href = "login.html";
+                return;
+            }
+            // afficher le username
+            document.getElementById("username").textContent = "Bienvenue " + data.user;
+        })
+        .catch(err => {
+            console.error(err);
+            window.location.href = "login.html";
+        });
+}
+
+function fetchUserStats() {
+    fetch(backendurl + "/stats", {
+        method: "GET",
+        credentials: "include"  // nécessaire pour envoyer le cookie de session
+    })
+        .then(res => {
+            if (!res.ok) throw new Error("Non autorisé");
+            return res.json();
+        })
+        .then(data => {
+            console.log("Stats utilisateur :", data);
+            // Exemple : affichage dans le DOM
+            document.getElementById("sessions-today").textContent = data.sessions_today;
+            document.getElementById("sessions-yesterday").textContent = "vs " + data.sessions_yesterday + " hier";
+            document.getElementById("study-time").textContent = data.total_week;
+            document.getElementById("study-time").textContent = data.total_week_hours + "h" + data.total_week_minutes;
+            document.getElementById("consecutive-days").textContent = data.consecutive_days;
+            document.getElementById("record-streak").textContent = "Record : " + data.record_streak + " jours";
+            document.getElementById("avg-focus").textContent = `${data.avg_focus.toFixed(1)}%`;
+        })
+        .catch(err => {
+            console.error("Erreur fetch stats :", err);
+        });
+    fetch(backendurl + "/weekly_activity", { credentials: "include" })
+        .then(res => res.json())
+        .then(data => updateWeeklyChart(data))
+        .catch(err => console.error(err));
+}
+
+function updateWeeklyChart(weeklyData) {
+    // weeklyData = [{day: 'Mon', pomodoros: 4, sessions: 1}, ...]
+    const chartBars = document.querySelectorAll('.chart-mock .chart-bar');
+    // Normaliser les valeurs pour le pourcentage de hauteur
+    const maxPomodoros = Math.max(...weeklyData.map(d => d.pomodoros));
+    //const maxSessions = Math.max(...weeklyData.map(d => d.sessions));
+    chartBars.forEach((bar, i) => {
+        if (!weeklyData[i]) return;
+        const pomodoroPercent = maxPomodoros ? (weeklyData[i].pomodoros / maxPomodoros) * 100 : 0;
+        //const sessionPercent = maxSessions ? (weeklyData[i].sessions / maxSessions) * 100 : 0;
+
+        bar.style.height = `${pomodoroPercent}%`;
+        bar.style.backgroundColor = '#6b705c'; // temps d'étude
+    });
+}
+
+
+
+// Données fictives pour tester l'affichage
+const testweeklyData = [
+    { day: "Lun", pomodoros: 3, sessions: 1 },
+    { day: "Mar", pomodoros: 4, sessions: 2 },
+    { day: "Mer", pomodoros: 2, sessions: 1 },
+    { day: "Jeu", pomodoros: 5, sessions: 2 },
+    { day: "Ven", pomodoros: 6, sessions: 3 },
+    { day: "Sam", pomodoros: 1, sessions: 1 },
+    { day: "Dim", pomodoros: 0, sessions: 0 }
+];
+
+function testupdateWeeklyChart(data) {
+    const bars = document.querySelectorAll('.chart-bar');
+    const maxPomodoros = Math.max(...data.map(d => d.pomodoros));
+
+    bars.forEach((bar, i) => {
+        if (!data[i]) return;
+        const height = maxPomodoros ? (data[i].pomodoros / maxPomodoros) * 100 : 0;
+        bar.style.height = height + '%';
+    });
+}
+testupdateWeeklyChart(testweeklyData);

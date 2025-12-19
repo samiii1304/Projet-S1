@@ -2,8 +2,7 @@
 CREATE TABLE utilisateurs (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     username VARCHAR(255) UNIQUE NOT NULL,
-    password VARCHAR(255) NOT NULL,
-    record_streak INTEGER DEFAULT 0
+    password VARCHAR(255) NOT NULL
 );
 
 INSERT INTO utilisateurs (username, password)
@@ -18,6 +17,32 @@ CREATE TABLE pomodoros (
     FOREIGN KEY (session_id) REFERENCES sessions(id),
     FOREIGN KEY (user_id) REFERENCES utilisateurs(id)
 );
+-- Pomodoros correspondants
+INSERT INTO pomodoros (session_id, user_id, date) VALUES
+(1, 1, '2025-12-16'),
+(1, 1, '2025-12-16'),
+(1, 1, '2025-12-16'),
+(1, 1, '2025-12-16'),
+
+(2, 1, '2025-12-17'),
+(2, 1, '2025-12-17'),
+(2, 1, '2025-12-17'),
+(2, 1, '2025-12-17'),
+
+(3, 1, '2025-12-18'),
+(3, 1, '2025-12-18'),
+(3, 1, '2025-12-18'),
+(3, 1, '2025-12-18'),
+
+(4, 1, '2025-12-18'),
+(4, 1, '2025-12-18'),
+(4, 1, '2025-12-18'),
+(4, 1, '2025-12-18'),
+
+(5, 1, '2025-12-18'),
+(5, 1, '2025-12-18'),
+(5, 1, '2025-12-18'),
+(5, 1, '2025-12-18');
 
 CREATE TABLE sessions (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -26,6 +51,14 @@ CREATE TABLE sessions (
     ended_at DATETIME,
     FOREIGN KEY (user_id) REFERENCES utilisateurs(id)
 );
+-- Sessions semaine en cours
+INSERT INTO sessions (user_id, started_at, ended_at) VALUES
+(1, '2025-12-16 09:00:00', '2025-12-16 11:00:00'), -- 4 Pomodoros
+(1, '2025-12-17 14:00:00', '2025-12-17 16:00:00'),
+(1, '2025-12-18 10:00:00', '2025-12-18 12:00:00'),
+(1, '2025-12-18 12:00:00', '2025-12-18 14:00:00'),
+(1, '2025-12-18 14:00:00', '2025-12-18 16:00:00');
+
 
 -- Table mesures_environnement
 CREATE TABLE mesures_environnement (

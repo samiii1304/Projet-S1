@@ -1,4 +1,6 @@
 const backendurl = "http://127.0.0.1:5000";
+// Gestion du header qui change quand on scroll 
+let ticking = false;
 
 fetch(backendurl + "/me", {
     method: "GET",
@@ -19,8 +21,6 @@ fetch(backendurl + "/me", {
             btns.style.display = "flex";
         }
     });
-// Gestion du header qui change quand on scroll 
-let ticking = false;
 
 function updateHeader() {
     const header = document.querySelector('header');

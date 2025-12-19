@@ -103,7 +103,6 @@ def get_total_week_time(cur, user_id, pomodoro_minutes=25):
     total_minutes = total_pomodoros * pomodoro_minutes
     hours = total_minutes // 60
     minutes = total_minutes % 60
-    print(hours)
     return hours, minutes
 
 def get_user_stats(user_id, db):

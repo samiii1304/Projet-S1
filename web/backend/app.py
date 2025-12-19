@@ -185,7 +185,6 @@ def weekly_activity():
         ORDER BY weekday
     """, (user_id, week_start))
     for row in cur.fetchall():
-        print(row)
         day_idx = sqlite_to_monday_index(row[0])
         day_name = days[day_idx]
         weekly_data[day_name]["sessions"] = row[1]

@@ -1,5 +1,5 @@
 //Variables
-const TEST_MODE = true;
+const TEST_MODE = false;
 const backendurl = "http://127.0.0.1:5000";
 let currentSessionId = null;
 let sessionStarted = false;
@@ -571,15 +571,13 @@ function checkSession() {
 function fetchUserStats() {
     fetch(backendurl + "/stats", {
         method: "GET",
-        credentials: "include"  // nécessaire pour envoyer le cookie de session
+        credentials: "include"
     })
         .then(res => {
             if (!res.ok) throw new Error("Non autorisé");
             return res.json();
         })
         .then(data => {
-            console.log("Stats utilisateur :", data);
-            // Exemple : affichage dans le DOM
             document.getElementById("sessions-today").textContent = data.sessions_today;
             document.getElementById("sessions-yesterday").textContent = "vs " + data.sessions_yesterday + " hier";
             document.getElementById("study-time").textContent = data.total_week;
@@ -598,42 +596,14 @@ function fetchUserStats() {
 }
 
 function updateWeeklyChart(weeklyData) {
-    // weeklyData = [{day: 'Mon', pomodoros: 4, sessions: 1}, ...]
     const chartBars = document.querySelectorAll('.chart-mock .chart-bar');
-    // Normaliser les valeurs pour le pourcentage de hauteur
     const maxPomodoros = Math.max(...weeklyData.map(d => d.pomodoros));
     //const maxSessions = Math.max(...weeklyData.map(d => d.sessions));
     chartBars.forEach((bar, i) => {
         if (!weeklyData[i]) return;
         const pomodoroPercent = maxPomodoros ? (weeklyData[i].pomodoros / maxPomodoros) * 100 : 0;
         //const sessionPercent = maxSessions ? (weeklyData[i].sessions / maxSessions) * 100 : 0;
-
         bar.style.height = `${pomodoroPercent}%`;
         bar.style.backgroundColor = '#6b705c'; // temps d'étude
     });
 }
-
-
-
-// Données fictives pour tester l'affichage
-const testweeklyData = [
-    { day: "Lun", pomodoros: 3, sessions: 1 },
-    { day: "Mar", pomodoros: 4, sessions: 2 },
-    { day: "Mer", pomodoros: 2, sessions: 1 },
-    { day: "Jeu", pomodoros: 5, sessions: 2 },
-    { day: "Ven", pomodoros: 6, sessions: 3 },
-    { day: "Sam", pomodoros: 1, sessions: 1 },
-    { day: "Dim", pomodoros: 0, sessions: 0 }
-];
-
-function testupdateWeeklyChart(data) {
-    const bars = document.querySelectorAll('.chart-bar');
-    const maxPomodoros = Math.max(...data.map(d => d.pomodoros));
-
-    bars.forEach((bar, i) => {
-        if (!data[i]) return;
-        const height = maxPomodoros ? (data[i].pomodoros / maxPomodoros) * 100 : 0;
-        bar.style.height = height + '%';
-    });
-}
-testupdateWeeklyChart(testweeklyData);

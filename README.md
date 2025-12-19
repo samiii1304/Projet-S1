@@ -33,6 +33,7 @@
     python.exe ./web/backend/app.py
     ```
 2. **Frontend (HTML/JS)**
+    Commande à lancer à la racine du projet :
     ```sh
     python -m http.server 5500
     ```

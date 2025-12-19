@@ -1,17 +1,26 @@
-fetch("http://127.0.0.1:5000/me", {
+const backendurl = "http://127.0.0.1:5000";
+// Vérifie si l'utilisateur est déjà connecté
+fetch(backendurl + "/me", {
     method: "GET",
     credentials: "include"
 })
-.then(res => {
-    if (!res.ok) throw new Error("Non autorisé");
-    return res.json();
-})
-.then(data => {
-    console.log(data);
-    if (data.user) {
-        window.location.href = "studybuddy.html";
-    }
-});
+    .then(res => {
+        if (!res.ok) {
+            // Pas connecté => rester sur login
+            return null;
+        }
+        return res.json();
+    })
+    .then(data => {
+        if (data && data.user) {
+            // Déjà connecté => redirection
+            window.location.href = "studybuddy.html";
+        }
+    })
+    .catch(err => {
+        console.warn("Impossible de vérifier la session :", err);
+    });
+
 let ticking = false;
 
 // TRANSITION DU HEADER (comme la page d'accueil)
@@ -105,7 +114,7 @@ function handleLogin(e) {
     const originalHTML = button.innerHTML;
     button.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Connexion...';
     button.disabled = true;
-    fetch("http://127.0.0.1:5000/login", {
+    fetch(backendurl + "/login", {
         method: "POST",
         credentials: "include",
         headers: { "Content-Type": "application/json" },

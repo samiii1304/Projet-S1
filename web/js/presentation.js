@@ -1,4 +1,6 @@
-fetch("http://127.0.0.1:5000/me", {
+const backendurl = "http://127.0.0.1:5000";
+
+fetch(backendurl + "/me", {
     method: "GET",
     credentials: "include"
 })
@@ -8,7 +10,6 @@ fetch("http://127.0.0.1:5000/me", {
     })
     .then(data => {
         const btns = document.getElementById("boutons-accueils");
-        console.log(btns);
         if (!btns) return; // sécurité si l'élément n'existe pas
         if (data.user) {
             // connecté → afficher

@@ -1,0 +1,13 @@
+{
+  "app": {
+    "name": "StudyBuddy API",
+    "host": "127.0.0.1",
+    "port": 5000,
+    "debug": true,
+    "cross_site_origins": "http://127.0.0.1:5500"
+  },
+  "database": {
+    "path": "database.db",
+    "schema_path": "./web/database/schema.sql"
+  }
+}

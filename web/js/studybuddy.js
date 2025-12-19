@@ -1,5 +1,11 @@
+//Variables
+const TEST_MODE = false;
+const backendurl = "http://127.0.0.1:5000";
+let currentSessionId = null;
+let sessionStarted = false;
+
 // vérification de la session
-fetch("http://127.0.0.1:5000/me", {
+fetch(backendurl + "/me", {
     method: "GET",
     credentials: "include"
 })
@@ -23,7 +29,7 @@ fetch("http://127.0.0.1:5000/me", {
 
 // Déconnexion
 document.getElementById("logoutBtn").addEventListener("click", () => {
-    fetch("http://127.0.0.1:5000/logout", {
+    fetch(backendurl + "/logout", {
         method: "GET",
         credentials: "include"
     })
@@ -196,24 +202,33 @@ function initializePomodoroTimer() {
 
     let timerInterval = null;
     let isRunning = false;
-    let timeLeft = 25 * 60; // 25 minutes en secondes
+    // 10s ou 25min
+    let pomodoroClassic = TEST_MODE ? 10 : 25 * 60;
+    // 5s ou 5min
+    let breakClassic = TEST_MODE ? 5 : 5 * 60;
+    let cycleClassic = TEST_MODE ? 2 : 4;
+
+    let pomodoroLong = TEST_MODE ? 15 : 50 * 60;
+    let breakLong = TEST_MODE ? 5 : 10 * 60;
+    let cycleLong = 2;
     let currentMode = 'classic'; // classic, long
 
     // Configurations des modes
     const modes = {
         classic: {
-            work: 25 * 60,
-            break: 5 * 60,
-            cycles: 4
+            work: pomodoroClassic,
+            break: breakClassic,
+            cycles: cycleClassic
         },
         long: {
-            work: 50 * 60,
-            break: 10 * 60,
-            cycles: 2
+            work: pomodoroLong,
+            break: breakLong,
+            cycles: cycleLong
         }
     };
+    let timeLeft = modes[currentMode].work;
 
-    let currentCycle = 1;
+    let completedCycles = 0;
     let isWorkPhase = true;
 
     // Mettre à jour l'affichage du timer
@@ -228,11 +243,19 @@ function initializePomodoroTimer() {
 
     // Mettre à jour l'indicateur d'état
     function updateStatusIndicator() {
+        let cycleStr = null;
+        if (sessionStarted && isWorkPhase) {
+            cycleStr = ' cycle N°' + (completedCycles + 1) + '/' + modes[currentMode].cycles;
+        }
+        if (sessionStarted && !isWorkPhase) {
+            cycleStr = ' cycle N°' + (completedCycles) + '/' + modes[currentMode].cycles;
+        }
         if (isRunning) {
             // Session en cours - point VERT
             statusDot.classList.add('active');
             statusDot.style.backgroundColor = '#10b981';
             statusText.textContent = isWorkPhase ? 'En session' : 'En pause';
+            statusText.textContent = statusText.textContent + cycleStr;
             statusText.style.color = '#10b981';
         } else {
             // Session arrêtée - point ROUGE
@@ -243,66 +266,45 @@ function initializePomodoroTimer() {
         }
     }
 
-    // Démarrer/arrêter le timer
     function toggleTimer() {
+        if (!sessionStarted) startSession(); // démarre la session si ce n'est pas fait
         if (isRunning) {
             clearInterval(timerInterval);
             toggleBtn.innerHTML = '<span class="btn-icon">▶</span><span class="btn-text">Démarrer</span>';
-        } else {
-            timerInterval = setInterval(() => {
-                timeLeft--;
-                updateTimerDisplay();
-
-                if (timeLeft <= 0) {
-                    clearInterval(timerInterval);
-
-                    // Jouer un son de notification
-                    playNotificationSound();
-
-                    // Changer de phase
-                    if (isWorkPhase) {
-                        // Fin de la phase travail
-                        if (currentCycle < modes[currentMode].cycles) {
-                            // Passer à la pause
-                            isWorkPhase = false;
-                            timeLeft = modes[currentMode].break;
-                            currentCycle++;
-                        } else {
-                            // Fin de tous les cycles
-                            isWorkPhase = true;
-                            currentCycle = 1;
-                            timeLeft = modes[currentMode].work;
-                            alert('Session Pomodoro terminée ! Bon travail !');
-                        }
-                    } else {
-                        // Fin de la pause, retour au travail
-                        isWorkPhase = true;
-                        timeLeft = modes[currentMode].work;
-                    }
-
-                    updateTimerDisplay();
-                    updateStatusIndicator();
-
-                    // Redémarrer automatiquement
-                    if (isRunning) {
-                        timerInterval = setInterval(() => {
-                            timeLeft--;
-                            updateTimerDisplay();
-
-                            if (timeLeft <= 0) {
-                                clearInterval(timerInterval);
-                                toggleTimer();
-                            }
-                        }, 1000);
-                    }
-                }
-            }, 1000);
-
-            toggleBtn.innerHTML = '<span class="btn-icon">⏸</span><span class="btn-text">Pause</span>';
+            isRunning = false;
+            updateStatusIndicator();
+            return;
         }
-
-        isRunning = !isRunning;
+        isRunning = true;
+        toggleBtn.innerHTML = '<span class="btn-icon">⏸</span><span class="btn-text">Pause</span>';
         updateStatusIndicator();
+        tick();
+        timerInterval = setInterval(tick, 1000);
+    }
+
+    function tick() {
+        timeLeft--;
+        if (timeLeft <= 0) {
+            playNotificationSound();
+            if (isWorkPhase) {
+                completedCycles++;
+                console.log(`Pomodoro terminé ! (${completedCycles})`);
+                sendPomodoro();
+                isWorkPhase = false;
+                timeLeft = modes[currentMode].break;
+            } else {
+                isWorkPhase = true;
+                timeLeft = modes[currentMode].work;
+            }
+            updateStatusIndicator();
+            if (completedCycles >= modes[currentMode].cycles) {
+                alert("Session terminée");
+                endSession();
+                resetTimer();
+                return;
+            }
+        }
+        updateTimerDisplay();
     }
 
     // Réinitialiser le timer
@@ -310,7 +312,8 @@ function initializePomodoroTimer() {
         clearInterval(timerInterval);
         isRunning = false;
         isWorkPhase = true;
-        currentCycle = 1;
+        completedCycles = 0;
+        sessionStarted = false;
         timeLeft = modes[currentMode].work;
         updateTimerDisplay();
         updateStatusIndicator();
@@ -321,7 +324,6 @@ function initializePomodoroTimer() {
     function changeMode(mode) {
         currentMode = mode;
         resetTimer();
-
         // Mettre à jour les boutons de mode
         modeButtons.forEach(btn => {
             if (btn.dataset.mode === mode) {
@@ -436,7 +438,8 @@ function initializeEnvironment() {
     }
 
     updateEnv({ luminosite: 0, qualite_air: 0, niveau_sonore: 0 });
-    setTimeout(() => { getEnvData(); setInterval(getEnvData, 3000); }, 2000);
+    if (!TEST_MODE)
+        setTimeout(() => { getEnvData(); setInterval(getEnvData, 3000); }, 2000);
 }
 // ===== LOFI MUSIC PLAYER =====
 
@@ -513,5 +516,52 @@ function initializeLofiPlayer() {
         if (card) {
             card.classList.remove('lofi-playing');
         }
+    });
+}
+
+function sendPomodoro() {
+    if (!currentSessionId) return;
+
+    fetch(backendurl + "pomodoros", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        credentials: "include",
+        body: JSON.stringify({
+            session_id: currentSessionId
+        })
+    }).catch(err => console.error("Erreur pomodoro", err));
+}
+
+function startSession() {
+    fetch(backendurl + "sessions/start", {
+        method: "POST",
+        credentials: "include"
+    })
+        .then(res => res.json())
+        .then(data => {
+            currentSessionId = data.session_id;
+            sessionStarted = true;
+            console.log("Session démarrée:", currentSessionId);
+        })
+        .catch(err => console.error("Erreur start session", err));
+}
+
+function endSession() {
+    if (!currentSessionId) return;
+
+    fetch(backendurl + "sessions/end", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        credentials: "include",
+        body: JSON.stringify({
+            session_id: currentSessionId
+        })
+    }).finally(() => {
+        currentSessionId = null;
+        sessionStarted = false;
     });
 }

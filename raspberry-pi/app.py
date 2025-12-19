@@ -7,9 +7,9 @@ import json
 
 app = Flask(__name__)
 CORS(app)
-    
+config_path = os.path.join(os.path.dirname(__file__), "config/config.json")
 try:
-    with open("config/config.json", "r") as f:
+    with open(config_path, "r") as f:
         config = json.load(f)
 except FileNotFoundError:
     print("Erreur : config.json introuvable")
